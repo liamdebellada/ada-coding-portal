@@ -7,9 +7,6 @@ html, body {
   font-family: 'Heebo', sans-serif
 }
 
-.test {
-  color: blue;
-}
 
 a {
   color: inherit;
@@ -20,3 +17,18 @@ a {
   box-sizing: border-box;
 }
 
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.bold {
+  font-weight: 500;
+}
+
+.welcome-text {
+  font-size: 2rem;
+  font-weight: 400;
+}
