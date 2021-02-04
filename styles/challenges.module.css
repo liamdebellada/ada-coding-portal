@@ -1,0 +1,28 @@
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col {
+    flex: 0 0 33.3333333333%;
+    max-width: 33.3333333333%;
+    text-align: center;
+}
+
+@media (min-width: 576px) { 
+    
+ }
+
+@media (min-width: 768px) { 
+    
+ }
+
+
+@media (min-width: 992px) { 
+    
+ }
+
+
+@media (min-width: 1200px) { 
+    
+ }

@@ -2,7 +2,10 @@ import styles from '../styles/navbar.module.css'
 import {signIn, signOut} from 'next-auth/client'
 import Link from 'next/link'
 
+import { useRouter } from 'next/router'
+
 function navbar(props) {
+    console.log(props)
     if (!props.session) {
         return (
             <div className={`${styles.nav} ${styles.sticky}`}>
@@ -56,5 +59,6 @@ function navbar(props) {
         )
     }
 }
+ 
 
 export default navbar
