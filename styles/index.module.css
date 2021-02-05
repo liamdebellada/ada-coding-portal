@@ -3,9 +3,9 @@
     background-color: #f7f7f7;
     min-height: 10rem;
     height: auto;
-    -webkit-box-shadow: -2px 27px 22px -19px rgba(0,0,0,0.24);
-    -moz-box-shadow: -2px 27px 22px -19px rgba(0,0,0,0.24);
-    box-shadow: -2px 27px 22px -19px rgba(0,0,0,0.24);;
+    -webkit-box-shadow: 0 6px 16px 0 rgba(0,0,0,.2);
+    -moz-box-shadow: 0 6px 16px 0 rgba(0,0,0,.2);
+    box-shadow: 0 6px 16px 0 rgba(0,0,0,.2);
     margin-top: 2rem;
 }
 
@@ -93,3 +93,90 @@
     margin-right: 0.4rem;
     font-size: 0.8rem;
 }
+
+
+.cr {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.half {
+    width: 50%;
+}
+
+.firstColumn {
+    margin-right: 2rem;
+}
+
+.profileContainer {
+    height: 100%;
+    margin-top: 0 !important;
+    padding: 1rem;
+}
+
+.rightHalf {
+    margin-top: 2rem;
+}
+
+@media only screen and (max-width: 1000px) {
+    .cr {
+        flex-direction: column;
+    }
+    .half {
+        width: 100%;
+    }
+}
+
+
+.profileContent {
+    padding-top: 1rem;
+    display: flex;
+}
+
+.homeProfilePicture {
+    height: 80px;
+    width: 80px;
+    border-radius: 3px;
+}
+
+.nameContainer {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.profileName {
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.profileTag {
+    color: rgb(69, 69, 69);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.editIcon {
+    height: 20px;
+    width: 20px;
+    margin-left: auto;
+}
+
+.userInfo {
+    margin-top: 1rem;
+}
+
+.rankTitle {
+    font-size: 1.5rem;
+}
+
+.skillContainer {
+    margin-top: 1rem;
+}
+
+
+.skillTitle {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
+

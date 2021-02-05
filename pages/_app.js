@@ -11,9 +11,8 @@ export default class MyApp extends App {
       ctx.res.writeHead(302, {location: '/'})
       ctx.res.end()
     }
-    return {}
+    return {"test": "done"}
   }
-
   render() {
     const { Component, pageProps } = this.props
     return (

@@ -1,19 +1,15 @@
 import styles from '../styles/navbar.module.css'
 import {signIn, signOut} from 'next-auth/client'
-import Link from 'next/link'
-
-import { useRouter } from 'next/router'
 
 function navbar(props) {
-    console.log(props)
     if (!props.session) {
         return (
             <div className={`${styles.nav} ${styles.sticky}`}>
-                <Link href="/">
+                <a onClick={() => router.push('/')}>
                     <div className={`${styles['d-flex']} ${styles['align-items-center']}`}>
                         <img width="25px"src='/icons/ada-logo.svg' className={styles['mr-0-5']}/><text> | Coding Portal</text>
                     </div>
-                </Link>
+                </a>
                 <div className={`${styles['ml-auto']} ${styles.spacedOutOptions}`}>
                     <a className={styles.links}>Showcase</a>
                     <a className={styles.links} onClick={() => signIn('google')}>Sign In</a>
@@ -23,10 +19,11 @@ function navbar(props) {
     } else {
         return (
             <div className={`${styles.nav} ${styles.fixed}`}>
-                <div className={`${styles['d-flex']} ${styles['c-pointer']} ${styles['align-items-center']}`}>
-                    <img width="25px"src='/icons/ada-logo.svg' className={styles['mr-0-5']}/><text> | Coding Portal</text>
-                </div>
-
+                <a href="/">
+                    <div className={`${styles['d-flex']} ${styles['c-pointer']} ${styles['align-items-center']}`}>
+                        <img width="25px"src='/icons/ada-logo.svg' className={styles['mr-0-5']}/><text> | Coding Portal</text>
+                    </div>
+                </a>
                 <div className={styles['ml-auto']}>
                     <div className={`${styles['d-flex']} ${styles['align-items-center']}`}>
                         
