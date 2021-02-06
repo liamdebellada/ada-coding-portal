@@ -44,4 +44,28 @@ router.route('/profiles')
     res.send({})
 })
 
+router.post('/registerCheck', async (req, res) => {
+    await models.profilesModel.find({account: req.body})
+    .then(async (data) => {
+        if (data.length == 0) {
+            await models.profilesModel.create({
+                account: req.body,
+                rankData: {},
+                Submissions: {},
+                url: `/${req.body.name.toLowerCase().replace(" ", "_")}`
+            })
+        }
+    })
+    res.status(200).end()
+})
+
+router.post('/isUser', async (req,res) => {
+    await models.profilesModel.find({url: `/${req.body.tag}`}).then(data => {
+        if (data.length > 0) {
+            return res.send(true)
+        } else {
+            return res.send(false)
+        }
+    }).catch(() => res.status(404).end())
+})
 module.exports = router

@@ -1,12 +1,21 @@
 import {getSession, session} from 'next-auth/client'
 import styles from '../styles/index.module.css'
 import axios from 'axios'
+import { useEffect, useState } from 'react'
+import io from 'socket.io-client'
 
-const challenges = [{title : "Do something", lang: "c"}, {title: "Maybe another thing", lang: "any"}]
 const users = [{name: 'David Jones', votes: 3, views: 100, creationDate: '10/12/20'}, {name: 'Liam Debell', votes: 3, views: 100, creationDate: '29/02/18'}, {name: 'Liam Debell', votes: 3, views: 100, creationDate: '29/02/18'},{name: 'David Jones', votes: 3, views: 100, creationDate: '10/12/20'}]
-
 function Home(props) {
-  if (props.session) {
+  if (props.session) {    
+    const socket = io.connect('http://fbbsvr.ddns.net:5192', { transports: ['websocket', 'polling', 'flashsocket'] })
+    const [votes, setVotes] = useState("loading")
+
+    useEffect(() => {
+      socket.on('data', (data) => {
+        setVotes(data["test"])
+      })
+    }, [])
+
   return (
        <div className={"container"}>
          
@@ -36,8 +45,8 @@ function Home(props) {
                 </div>
               </div>
               <div className={styles.users}>
-                {users.map((user) => (
-                  <div className={styles.user}>
+                {users.map((user, i) => (
+                  <div key={i} className={styles.user}>
                     <text className={styles.date}>{user.creationDate}</text>
                     <text className="bold">{user.name}</text>
                     <div className={styles['user-info']}>
@@ -77,9 +86,8 @@ function Home(props) {
                 <div className={styles.userInfo}>
                   <text className={styles.rankTitle}>Rank</text>
                   <div className={"progressBar"}>
-                    <div style={{height: '100%', width: '10%', backgroundColor: '#a378ce'}}></div>
+                    <div style={{height: '100%', width: `${parseInt(votes.toString()[2]) * 10}%`, backgroundColor: '#a378ce', transition: 'width 0.5s'}}></div>
                   </div>
-
                   <div className={styles.skillContainer}>
                     <text className={styles.skillTitle}>Submissions</text>
                   </div>

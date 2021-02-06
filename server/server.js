@@ -1,8 +1,14 @@
 const mongoose = require('mongoose')
 const express = require('express')
+const bodyparser = require('body-parser')
+const cors = require('cors')
+
+var jsonParser = bodyparser.json()
 
 const app = express()
 const api = require('./api')
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
 
 mongoose.connect('mongodb://localhost:27017/',{
     useNewUrlParser: true,
@@ -12,6 +18,14 @@ mongoose.connect('mongodb://localhost:27017/',{
 }).then(() => console.log("connected"))
 .catch(err => console.log(err))
 
+app.use(cors())
+io.on('connection', (socket) => {
+    setInterval(() => {
+        socket.emit('data', {
+            test: Math.random()
+        })
+    }, 1000)
+})
 
-app.use('/api', api)
-app.listen('5192')
+app.use('/api', jsonParser, api)
+server.listen('5192')

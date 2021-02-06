@@ -4,6 +4,7 @@ import NavBar from '../components/navbar'
 import App from 'next/app'
 import { getSession } from 'next-auth/client'
 
+
 export default class MyApp extends App {
   static async getInitialProps({ctx}) {
     var s = await getSession(ctx)
@@ -13,6 +14,7 @@ export default class MyApp extends App {
     }
     return {"test": "done"}
   }
+
   render() {
     const { Component, pageProps } = this.props
     return (

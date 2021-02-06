@@ -57,6 +57,10 @@ const profiles = new mongoose.Schema({
     Submissions: {
         type: Object,
         required: true
+    },
+    url: {
+        type: String,
+        required: true
     }
 })
 
