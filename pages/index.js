@@ -18,7 +18,6 @@ function Home(props) {
 
   return (
        <div className={"container"}>
-         
             <text className="welcome-text">Welcome {props.session.name.split(" ")[0]}</text>
          <div className={`${styles.cr}`}>
            <div className={`${styles.half} ${styles.firstColumn}`}> 
@@ -109,7 +108,7 @@ export async function getServerSideProps(context) {
   let challenges = await axios.get('http://fbbsvr.ddns.net:5192/api/challenges').then(response => response.data).catch(error => console.log(error))
   return {
     props: {
-      title : "Ada Coding Home",
+      title : "Ada Nucleas",
       session: s,
       challenges: challenges
     }

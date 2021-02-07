@@ -40,7 +40,7 @@ function navbar(props) {
 
 
                                 <div className={styles['dropdown-items']}>
-                                    <a className={styles.links}>Profile</a>
+                                    <a className={styles.links} href={`/profiles/${props.session.name.toLowerCase().replace(" ", "_")}`}>Profile</a>
                                     <a className={`${styles.links} ${styles['dropdown-showcase']}`}>Showcase</a>
                                     <a className={styles.links}  onClick={() => signOut('google')}>Sign Out</a>
                                 </div>
