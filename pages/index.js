@@ -3,6 +3,7 @@ import styles from '../styles/index.module.css'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
+import Router from 'next/router'
 
 const users = [{name: 'David Jones', votes: 3, views: 100, creationDate: '10/12/20'}, {name: 'Liam Debell', votes: 3, views: 100, creationDate: '29/02/18'}, {name: 'Liam Debell', votes: 3, views: 100, creationDate: '29/02/18'},{name: 'David Jones', votes: 3, views: 100, creationDate: '10/12/20'}]
 function Home(props) {
@@ -28,7 +29,7 @@ function Home(props) {
                   <text className={styles['challenge-container-title']}>Challenges</text>
                 </div>
                 {props.challenges.map((challenge, i) => (
-                  <div key={i} className={styles['challenge']}>
+                  <div key={i} className={styles['challenge']} onClick={() => Router.push(`/challenges/${challenge._id}`)}>
                     <img src={challenge.icon} className={styles['languages']}/>
                     <text className={styles['challenge-title']}>{challenge.title}</text>
                     <img src="/click-icon.svg" className={styles['click-icon']}/>

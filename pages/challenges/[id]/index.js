@@ -1,27 +1,55 @@
-import { useRouter } from 'next/router'
 import {getSession, session} from 'next-auth/client'
-
 import styles from '../../../styles/challenge.id.module.css'
+import axios from 'axios'
+import io from 'socket.io-client'
+import {useEffect, useState, useReducer} from 'react'
+
+const createChallenge = (props) => {
+    axios.post('http://fbbsvr.ddns.net:5192/api/submissions', {
+        date: 'date',
+        user: props.session.name,
+        for: props.id,
+        views: 0,
+        votes: 0
+    }).then(() => {}).catch(error => {
+        console.log(error)
+    })
+}
 
 export default function Challenge(props) {
+    const socket = io.connect('http://fbbsvr.ddns.net:5192', { transports: ['websocket', 'polling', 'flashsocket'] })
+    const [submissions, setSubmissions] = useState(props.data.submissions)
+
+
+    
+
+
+    useEffect(() => {
+        socket.on('submissionChange', (data) => {
+            if (data.id == props.id) {
+                setSubmissions(submissions => submissions + data.data)
+            }
+        })
+    }, [])
+
     return (
         <div className="container">
             <div className={styles['challenge-container']}>
                 <div className={styles['challenge-header']}>
-                    <text className={styles['challenge-title']}>Create your own encryption algorithm</text>
+                    <text className={styles['challenge-title']}>{props.data.title}</text>
 
                     <div className={styles['challenge-languages']}>
                         <text className={styles['challenges-languages-header']}>Supported Languages:</text>
                         <div>
-                            <img className={styles['challenge-languages-icon']} src="http://fbbsvr.ddns.net:3000/icons/python.svg" />
-                            <img className={styles['challenge-languages-icon']} src="http://fbbsvr.ddns.net:3000/icons/php.svg" />
-                            <img className={styles['challenge-languages-icon']} src="http://fbbsvr.ddns.net:3000/icons/cpp.svg" />
+                            <img className={styles['challenge-languages-icon']} src="/icons/python.svg" />
+                            <img className={styles['challenge-languages-icon']} src="/icons/php.svg" />
+                            <img className={styles['challenge-languages-icon']} src="/icons/cpp.svg" />
                         </div>
                     </div>
-
                 </div>
-
+                <button onClick={() => createChallenge(props)}>Button</button>
                 <div className={styles['challenge-body']}>
+                    <text>Current Submissions: {submissions}</text>
                     <div className={styles['challenge-description']}>
                         <text>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rutrum arcu vel laoreet pulvinar. Aliquam sollicitudin nulla odio. Ut lacinia vestibulum euismod. Curabitur malesuada sem massa, at semper erat mattis eget. Aliquam erat volutpat. Sed venenatis blandit varius. Maecenas sit amet volutpat justo. Pellentesque ipsum ex, aliquet vitae mi et, vehicula mollis dolor.
@@ -37,16 +65,22 @@ Proin et lorem sed lorem elementum sagittis. Curabitur vel arcu mattis, placerat
             </div>
         </div>
     )
-
 }
 
 export async function getServerSideProps(context) {
     var s = await getSession(context)
+    var challengeData = await axios.get(`http://fbbsvr.ddns.net:5192/api/getChallenges/${context.query.id}`)
+    if (challengeData.code || !challengeData.data._id) {
+        context.res.writeHead(302, {location: '/'})
+        context.res.end()
+    }
     return {
         props: {
             id: context.query.id,
             session: s,
-            title: "Create your own encryption algorithm"
+            title: "Create your own encryption algorithm",
+            data: challengeData.data
         }
     }
+    
 }

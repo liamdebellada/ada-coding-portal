@@ -6,9 +6,11 @@ const cors = require('cors')
 var jsonParser = bodyparser.json()
 
 const app = express()
-const api = require('./api')
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
+const api = require('./api')
+
+app.set('socket', io)
 
 mongoose.connect('mongodb://localhost:27017/',{
     useNewUrlParser: true,
@@ -22,6 +24,8 @@ app.use(cors())
 io.on('connection', (socket) => {
     //create socket events here (these are global)
 })
+
+module.exports = io
 
 app.use('/api', jsonParser, api)
 server.listen('5192')

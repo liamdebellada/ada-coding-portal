@@ -10,23 +10,30 @@ const findall = async (model) => {
 }
 
 const createDoc = async (model, object) => {
-    let data = await model.create(object).then(() => true).catch(() => false)
+    let data = await model.create(object).then(() => true).catch(error => console.log(error))
     return data
 }
+
+router.get('/getChallenges/:id', async (req, res) => {
+    // console.log(req.params)
+    let data = await models.challengeModel.findOne({_id: req.params.id}).then(data => data).catch(error => error)
+    res.send(data)
+})
+
 
 router.route('/challenges')
 .get(async (req, res) => {
     res.send(await findall(models.challengeModel))
 }).post(async (req,res) => {
-    if (!keys.includes(req.body.key)) {
-        return res.status(404).end()
-    }
     var success = await createDoc(models.challengeModel, {
         icon: req.body.icon,
         title: req.body.title,
         description: req.body.description,
-        url: req.body.url
+        difficulty: req.body.difficulty,
+        due: req.body.due,
+        submissions: req.body.submissions
     })
+
     res.send(success).end()
 })
 
@@ -34,15 +41,20 @@ router.route('/submissions')
 .get(async (req, res) => {
     res.send(await findall(models.submissionsModel))
 }).post(async (req, res) => {
-    if (!keys.includes(req.body.key)) {
-        return res.status(404).end()
-    }
     var success = await createDoc(models.submissionsModel, {
         date: req.body.date,
         user: req.body.user,
+        for: req.body.for,
         views: 0,
         votes: 0
     })
+
+
+    req.app.get('socket').emit('submissionChange', {
+        data:  1,
+        id: req.body.for
+    })
+
     res.send(success).end()
 })
 

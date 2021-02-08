@@ -13,8 +13,16 @@ const challenges = new mongoose.Schema({
         type: String,
         required: true
     },
-    url: {
-        type: String,
+    difficulty: {
+        type: Number,
+        required: true
+    },
+    due: {
+        type: Date,
+        required: true
+    },
+    submissions: {
+        type: Number,
         required: true
     }
 })
@@ -34,6 +42,10 @@ const submissions = new mongoose.Schema({
     },
     votes: {
         type: Number,
+        required: true
+    },
+    for: {
+        type: String,
         required: true
     }
 })
