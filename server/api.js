@@ -1,7 +1,7 @@
 const express = require('express')
 var router = express.Router()
-
 const models = require('./schemas')
+const keys = require('./keys.json')
 
 //mongo timesaving
 const findall = async (model) => {
@@ -9,39 +9,60 @@ const findall = async (model) => {
     return data
 }
 
+const createDoc = async (model, object) => {
+    let data = await model.create(object).then(() => true).catch(() => false)
+    return data
+}
+
 router.route('/challenges')
 .get(async (req, res) => {
-    // var creation = await models.challengeModel.create({
-    //     icon: "/icons/any.svg",
-    //     title: "ApiCall",
-    //     description: "THis is a description with lots and lots of content",
-    //     url: "http://fbbsvr.ddns.net/challenge/1"
-    // }).then(done => done).catch(error => error)
-    // console.log(creation)
     res.send(await findall(models.challengeModel))
-}).post((req,res) => {
-    res.json({})    
+}).post(async (req,res) => {
+    if (!keys.includes(req.body.key)) {
+        return res.status(404).end()
+    }
+    var success = await createDoc(models.challengeModel, {
+        icon: req.body.icon,
+        title: req.body.title,
+        description: req.body.description,
+        url: req.body.url
+    })
+    res.send(success).end()
 })
 
 router.route('/submissions')
 .get(async (req, res) => {
     res.send(await findall(models.submissionsModel))
-}).post((req, res) => {
-    res.json({})
+}).post(async (req, res) => {
+    if (!keys.includes(req.body.key)) {
+        return res.status(404).end()
+    }
+    var success = await createDoc(models.submissionsModel, {
+        date: req.body.date,
+        user: req.body.user,
+        views: 0,
+        votes: 0
+    })
+    res.send(success).end()
 })
 
 router.route('/upcoming')
 .get(async (req, res) => {
     res.send(await findall(models.upcomingModel))
-}).post((req, res) => {
-    res.json({})
+}).post(async (req, res) => {
+    if (!keys.includes(req.body.key)) {
+        return res.status(404).end()
+    }
+    var success = await createDoc(models.upcomingModel, {
+        title: req.body.title,
+        image: req.body.image
+    })
+    res.send(success).end()
 })
 
 router.route('/profiles')
 .get(async (req, res) => {
     res.send(await findall(models.profilesModel))
-}).post((req, res) => {
-    res.send({})
 })
 
 router.post('/registerCheck', async (req, res) => {
@@ -68,4 +89,14 @@ router.post('/isUser', async (req,res) => {
         }
     }).catch(() => res.status(404).end())
 })
+
+//user interaction routes
+router.post('/createUpvote', async (req, res) => {
+
+})
+
+router.post('/createView', async (req, res) => {
+    
+})
+
 module.exports = router

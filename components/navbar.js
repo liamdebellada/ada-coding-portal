@@ -1,5 +1,6 @@
 import styles from '../styles/navbar.module.css'
 import {signIn, signOut} from 'next-auth/client'
+import router from 'next/router'
 
 function navbar(props) {
     if (!props.session) {
@@ -7,7 +8,7 @@ function navbar(props) {
             <div className={`${styles.nav} ${styles.sticky}`}>
                 <a onClick={() => router.push('/')}>
                     <div className={`${styles['d-flex']} ${styles['align-items-center']}`}>
-                        <img width="25px"src='/icons/ada-logo.svg' className={styles['mr-0-5']}/><text> | Coding Portal</text>
+                        <img width="25px"src='/icons/ada-logo.svg' className={styles['mr-0-5']}/><text> | Nucleus</text>
                     </div>
                 </a>
                 <div className={`${styles['ml-auto']} ${styles.spacedOutOptions}`}>
@@ -19,9 +20,9 @@ function navbar(props) {
     } else {
         return (
             <div className={`${styles.nav} ${styles.fixed}`}>
-                <a href="/">
+                <a onClick={() => router.push('/')}>
                     <div className={`${styles['d-flex']} ${styles['c-pointer']} ${styles['align-items-center']}`}>
-                        <img width="25px"src='/icons/ada-logo.svg' className={styles['mr-0-5']}/><text> | Coding Portal</text>
+                        <img width="25px"src='/icons/ada-logo.svg' className={styles['mr-0-5']}/><text> | Nucleus</text>
                     </div>
                 </a>
                 <div className={styles['ml-auto']}>
@@ -37,15 +38,12 @@ function navbar(props) {
                             </div>
                         
                             <div className={styles['dropdown-content']}>
-
-
                                 <div className={styles['dropdown-items']}>
-                                    <a className={styles.links} href={`/profiles/${props.session.name.toLowerCase().replace(" ", "_")}`}>Profile</a>
+                                    <a className={styles.links} onClick={() => router.push(`/profiles/${props.session.name.toLowerCase().replace(" ", "_")}`)}>Profile</a>
                                     <a className={`${styles.links} ${styles['dropdown-showcase']}`}>Showcase</a>
                                     <a className={styles.links}  onClick={() => signOut('google')}>Sign Out</a>
                                 </div>
                                 
-
                             </div>
                         </div>
                         

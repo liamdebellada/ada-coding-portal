@@ -20,11 +20,7 @@ mongoose.connect('mongodb://localhost:27017/',{
 
 app.use(cors())
 io.on('connection', (socket) => {
-    setInterval(() => {
-        socket.emit('data', {
-            test: Math.random()
-        })
-    }, 1000)
+    //create socket events here (these are global)
 })
 
 app.use('/api', jsonParser, api)

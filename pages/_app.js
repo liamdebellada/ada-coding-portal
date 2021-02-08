@@ -3,6 +3,7 @@ import Layout from '../components/layout'
 import NavBar from '../components/navbar'
 import App from 'next/app'
 import { getSession } from 'next-auth/client'
+import { AnimatePresence, motion } from "framer-motion"
 
 
 export default class MyApp extends App {
@@ -16,11 +17,16 @@ export default class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props
+    const { Component, pageProps, router } = this.props
     return (
       <Layout>
         <NavBar {...pageProps}/>
-        <Component {...pageProps}/>
+        <AnimatePresence key={router.route}>
+          <motion.div exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
+            <Component {...pageProps} key={router.route}/>
+          </motion.div>        
+        </AnimatePresence>
+          
       </Layout>
     ) 
   }

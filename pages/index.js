@@ -8,7 +8,7 @@ const users = [{name: 'David Jones', votes: 3, views: 100, creationDate: '10/12/
 function Home(props) {
   if (props.session) {    
     const socket = io.connect('http://fbbsvr.ddns.net:5192', { transports: ['websocket', 'polling', 'flashsocket'] })
-    const [votes, setVotes] = useState("loading")
+    const [votes, setVotes] = useState("0")
 
     useEffect(() => {
       socket.on('data', (data) => {
@@ -105,12 +105,12 @@ function Home(props) {
 
 export async function getServerSideProps(context) {
   var s = await getSession(context)
-  let challenges = await axios.get('http://fbbsvr.ddns.net:5192/api/challenges').then(response => response.data).catch(error => console.log(error))
+  let challenges = await axios.get('http://fbbsvr.ddns.net:5192/api/challenges').then(response => response.data).catch(error => error)
   return {
     props: {
       title : "Ada Nucleas",
       session: s,
-      challenges: challenges
+      challenges: !challenges.code ? challenges : []
     }
   }
 }
