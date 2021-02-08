@@ -92,11 +92,13 @@ router.post('/isUser', async (req,res) => {
 
 //user interaction routes
 router.post('/createUpvote', async (req, res) => {
-
+    var response = await models.submissionsModel.updateOne({_id: req.body.id}, {$inc: {votes: 1}}).then(res => res).catch(err => err)
+    res.send(response)
 })
 
 router.post('/createView', async (req, res) => {
-    
+    var response = await models.submissionsModel.updateOne({_id: req.body.id}, {$inc: {views: 1}}).then(res => res).catch(err => err)
+    res.send(response)
 })
 
 module.exports = router
