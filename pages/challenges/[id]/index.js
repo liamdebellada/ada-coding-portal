@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import {getSession, session} from 'next-auth/client'
 
-import styles from '../../styles/challenge.id.module.css'
+import styles from '../../../styles/challenge.id.module.css'
 
 export default function Challenge(props) {
     return (
