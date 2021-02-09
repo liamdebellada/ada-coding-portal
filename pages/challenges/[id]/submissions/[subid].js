@@ -3,3 +3,11 @@ export default function submission() {
         <text>sumbission standalone</text>
     )
 }
+
+
+export async function getServerSideProps(context) {
+    console.log(context.query)
+    return {
+        props: {}
+    }
+}

@@ -19,11 +19,16 @@ router.get('/getChallenges/:id', async (req, res) => {
     let data = await models.challengeModel.findOne({_id: req.params.id}).then(data => data).catch(error => error)
     let submissionCount = await models.submissionsModel.countDocuments({for: req.params.id}).then(data => data).catch(error => false)
     res.send({
-        data: data,
+        challenge: data,
         submissions: submissionCount
     })
 })
 
+
+router.get('/getSubmissions/:id', async (req, res) => {
+    let submissions = await models.submissionsModel.find({for: req.params.id}).then(data => data).catch(() => false)
+    res.send(submissions)
+})
 
 router.route('/challenges')
 .get(async (req, res) => {
@@ -53,7 +58,7 @@ router.route('/submissions')
 
 
     req.app.get('socket').emit('submissionChange', {
-        data:  1,
+        data: 1,
         id: req.body.for
     })
 
