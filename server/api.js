@@ -17,7 +17,11 @@ const createDoc = async (model, object) => {
 router.get('/getChallenges/:id', async (req, res) => {
     // console.log(req.params)
     let data = await models.challengeModel.findOne({_id: req.params.id}).then(data => data).catch(error => error)
-    res.send(data)
+    let submissionCount = await models.submissionsModel.countDocuments({for: req.params.id}).then(data => data).catch(error => false)
+    res.send({
+        data: data,
+        submissions: submissionCount
+    })
 })
 
 
@@ -29,9 +33,7 @@ router.route('/challenges')
         icon: req.body.icon,
         title: req.body.title,
         description: req.body.description,
-        difficulty: req.body.difficulty,
-        due: req.body.due,
-        submissions: req.body.submissions
+        difficulty: req.body.difficulty
     })
 
     res.send(success).end()

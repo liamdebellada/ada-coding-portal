@@ -20,10 +20,6 @@ export default function Challenge(props) {
     const socket = io.connect('http://fbbsvr.ddns.net:5192', { transports: ['websocket', 'polling', 'flashsocket'] })
     const [submissions, setSubmissions] = useState(props.data.submissions)
 
-
-    
-
-
     useEffect(() => {
         socket.on('submissionChange', (data) => {
             if (data.id == props.id) {
@@ -36,7 +32,7 @@ export default function Challenge(props) {
         <div className="container">
             <div className={styles['challenge-container']}>
                 <div className={styles['challenge-header']}>
-                    <text className={styles['challenge-title']}>{props.data.title}</text>
+                    <text className={styles['challenge-title']}>{props.data.data.title}</text>
 
                     <div className={styles['challenge-languages']}>
                         <text className={styles['challenges-languages-header']}>Supported Languages:</text>
@@ -70,7 +66,7 @@ Proin et lorem sed lorem elementum sagittis. Curabitur vel arcu mattis, placerat
 export async function getServerSideProps(context) {
     var s = await getSession(context)
     var challengeData = await axios.get(`http://fbbsvr.ddns.net:5192/api/getChallenges/${context.query.id}`)
-    if (challengeData.code || !challengeData.data._id) {
+    if (challengeData.code || !challengeData.data.data._id) {
         context.res.writeHead(302, {location: '/'})
         context.res.end()
     }

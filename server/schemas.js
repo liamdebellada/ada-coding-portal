@@ -20,10 +20,6 @@ const challenges = new mongoose.Schema({
     due: {
         type: Date,
         required: true
-    },
-    submissions: {
-        type: Number,
-        required: true
     }
 })
 
