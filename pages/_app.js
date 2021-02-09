@@ -13,7 +13,7 @@ export default class MyApp extends App {
       ctx.res.writeHead(302, {location: '/'})
       ctx.res.end()
     }
-    return {"test": "done"}
+    return {}
   }
 
   render() {

@@ -24,10 +24,14 @@ router.get('/getChallenges/:id', async (req, res) => {
     })
 })
 
-
 router.get('/getSubmissions/:id', async (req, res) => {
     let submissions = await models.submissionsModel.find({for: req.params.id}).then(data => data).catch(() => false)
     res.send(submissions)
+})
+
+router.get('/getSubmission/:id', async (req, res) => {
+    let submission = await models.submissionsModel.findOne({_id: req.params.id}).then(data => data).catch(() => false)
+    res.send(submission)
 })
 
 router.route('/challenges')
