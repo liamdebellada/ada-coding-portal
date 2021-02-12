@@ -10,8 +10,15 @@
 
 .innerRing {
     display: flex;
+    align-items: center;
+    justify-content: center;
     height: 14rem;
     width: 14rem;
     border-radius: 50%;
     border: 3px solid white;
+}
+
+.adaLogo {
+    height: 10rem;
+    width: 10rem;
 }
