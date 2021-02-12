@@ -9,7 +9,6 @@
     margin-top: 2rem;
 }
 
-
 .challenge-container {
     display: flex;
     flex-direction: column;
@@ -181,3 +180,13 @@
   font-size: 1.5rem;
 }
 
+.container {
+    padding: 10rem;
+}
+
+
+.subContainer {
+    background-color: red;
+    height: 100%;
+    width: 100%;
+}

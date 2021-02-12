@@ -81,4 +81,17 @@ const submissionsModel = mongoose.model('submissions', submissions)
 const upcomingModel = mongoose.model('upcoming', upcoming)
 const profilesModel = mongoose.model('profiles', profiles)
 
-module.exports = {challengeModel, submissionsModel, upcomingModel, profilesModel}
+module.exports = {
+    "challenges" : {
+        model: challengeModel
+    },
+    "submissions" : {
+        model: submissionsModel
+    },
+    "upcoming" : {
+        model: upcomingModel
+    },
+    "profiles" : {
+        model: profilesModel
+    }
+}

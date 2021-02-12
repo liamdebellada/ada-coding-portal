@@ -8,8 +8,9 @@ html, body {
 }
 
 body {
-  background-image: url('/ada-coding-background.svg');
+  /* background-image: url('/ada-coding-background.svg'); */
   background-size: cover;
+  background-color: #221f2e;
 }
 
 

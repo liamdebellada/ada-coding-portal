@@ -99,19 +99,38 @@ function Home(props) {
   )
   } else {
     return (
-      <text>not logged in</text>
+      <div className={styles.container}>
+        <div className={styles.subContainer}> 
+          <text>{JSON.stringify(props.challenges)}</text>
+        </div>
+      </div>
     )
   }
 }
 
 export async function getServerSideProps(context) {
   var s = await getSession(context)
-  let challenges = await axios.get('http://fbbsvr.ddns.net:5192/api/challenges').then(response => response.data).catch(error => error)
+  if (s) {
+    var challenges = await axios.get('http://fbbsvr.ddns.net:5192/api/content/data/challenges')
+    .then(response => {
+        if (response.status != 200 ||  response.data.length == 0) {
+          return []
+        } else {
+          return response.data
+        }
+    })
+    .catch(() => {
+      return []
+    })
+  } else {
+    var challenges = []
+  }
+
   return {
     props: {
       title : "Ada Nucleas",
       session: s,
-      challenges: !challenges.code ? challenges : []
+      challenges: challenges
     }
   }
 }

@@ -4,17 +4,6 @@ import axios from 'axios'
 import io from 'socket.io-client'
 import {useEffect, useState, useReducer} from 'react'
 
-const createChallenge = (props) => {
-    axios.post('http://fbbsvr.ddns.net:5192/api/submissions', {
-        date: 'date',
-        user: props.session.name,
-        for: props.id,
-        views: 0,
-        votes: 0
-    }).then(() => {}).catch(error => {
-        console.log(error)
-    })
-}
 
 export default function Challenge(props) {
     const socket = io.connect('http://fbbsvr.ddns.net:5192', { transports: ['websocket', 'polling', 'flashsocket'] })
@@ -42,7 +31,6 @@ export default function Challenge(props) {
                         </div>
                     </div>
                 </div>
-                <button onClick={() => createChallenge(props)}>Button</button>
                 <div className={styles['challenge-body']}>
                     <text>Current Submissions: {submissions}</text>
                     <div className={styles['challenge-description']}>
