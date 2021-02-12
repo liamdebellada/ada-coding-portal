@@ -1,0 +1,114 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14rem;
+    color: white;
+    height: 100%;
+}
+
+.firstContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.childContainer {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+
+    width: 40%;
+}
+
+.contentContainer {
+    display: flex;
+    flex-direction: column;
+
+    width: 60%;
+    padding: 3rem;
+}
+
+
+.topContent {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bottomContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.8rem;
+}
+
+.titleText {
+    color: white;
+    font-size: 2.5rem;
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.smallDot {
+    height: 0.5rem;
+    width: 0.5rem;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.dotContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 70%;
+    padding-right: 0.8rem;
+}
+
+.signInButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    border-radius: 0.6rem;
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    width: 6.5rem;
+    height: 2.2rem;
+}
+
+.smallGoogle {
+    height: 1.2rem;
+    width: 1.2rem;
+}
+
+.signInText {
+    font-size: 1.2rem;
+}
+
+.questionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 50%;
+    height: 2.2rem;
+    width: 2.2rem;
+}
+
+.questionText {
+    font-size: 1.2rem;
+}

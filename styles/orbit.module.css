@@ -1,0 +1,17 @@
+.outerRing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20rem;
+    width: 20rem;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
+.innerRing {
+    display: flex;
+    height: 14rem;
+    width: 14rem;
+    border-radius: 50%;
+    border: 3px solid white;
+}

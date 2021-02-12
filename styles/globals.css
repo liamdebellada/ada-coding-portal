@@ -5,12 +5,20 @@ html, body {
   padding: 0;
   margin: 0;
   font-family: 'Heebo', sans-serif;
+  height: 100%;
 }
 
 body {
-  /* background-image: url('/ada-coding-background.svg'); */
-  background-size: cover;
-  background-color: #221f2e;
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background: rgb(43,39,59);
+  background: radial-gradient(circle, rgba(43,39,59,1) 0%, rgba(34,31,46,1) 100%);;
+}
+
+#__next {
+  height: 100%;
 }
 
 
@@ -21,6 +29,10 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.maxH {
+  height: 100% !important;
 }
 
 .d-flex {

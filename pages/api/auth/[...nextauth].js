@@ -14,8 +14,14 @@ export default NextAuth({
         return user
     },
     async signIn(user, account, profile) {
-        console.log("firing")
-        await axios.post('http://fbbsvr.ddns.net:5192/api/registerCheck', user).then(response => response).catch(error => error)
+        await axios.post('http://fbbsvr.ddns.net:5192/api/registerCheck', user)
+        .then(response => {
+          if (response.status == 200) {
+            return true
+          } else {
+            return false
+          }
+        }).catch(() => false)
     },
   }
 })
