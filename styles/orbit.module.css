@@ -9,16 +9,78 @@
 }
 
 .innerRing {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute;
     height: 14rem;
     width: 14rem;
     border-radius: 50%;
     border: 3px solid white;
 }
 
+.dot {
+    height: 16rem;
+    width: 40px;
+    position: absolute;
+}
+.dot:before {
+    display: block;
+    content: '';
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+}
+
+.dot-outer {
+    height: 22rem !important;
+    width: 40px !important;
+    position: absolute;
+}
+
+.dot-1:before {
+    background: #a190ff;
+}
+
+.dot-2:before {
+    background: #a190ff;
+}
+
+.dot-3:before {
+    background: #a190ff;
+}
+
+.dot-4:before {
+    background: #a190ff;
+}
+
 .adaLogo {
     height: 10rem;
     width: 10rem;
+}
+
+
+.dot-1 {
+    animation: rotateClockwise 10s linear infinite;
+}
+
+.dot-2 {
+    animation: rotateCounterClockwise 15s linear infinite;
+}
+
+.dot-3 {
+    animation: rotateCounterClockwise 10s linear infinite;
+}
+
+.dot-4 {
+    animation: rotateClockwise 15s linear infinite;
+}
+
+@keyframes rotateClockwise {
+    100% {
+        transform: rotate(360deg);
+   }
+}
+@keyframes rotateCounterClockwise {
+    100% {
+        transform: rotate(-360deg);
+   }
 }
