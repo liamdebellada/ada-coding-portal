@@ -77,6 +77,7 @@
 }
 
 .signInButton {
+    transition: all 0.3s ease-out;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -89,6 +90,12 @@
     height: 2.2rem;
 }
 
+.signInButton:hover {
+    transition: all 0.3s ease-out;
+    background-color: white;
+    color: black
+}
+
 .smallGoogle {
     height: 1.2rem;
     width: 1.2rem;
@@ -99,6 +106,7 @@
 }
 
 .questionButton {
+    transition: all 0.3s ease-out;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,6 +115,12 @@
     border-radius: 50%;
     height: 2.2rem;
     width: 2.2rem;
+}
+
+.questionButton:hover {
+    transition: all 0.3s ease-out;
+    color: black;
+    background-color: white;
 }
 
 .questionText {
