@@ -1,5 +1,6 @@
 import {getSession, session} from 'next-auth/client'
 import axios from 'axios'
+import getDataFromUrl from '../utils/apiHandler'
 
 import AuthIndex from '../components/auth-index'
 import Index from '../components/index'
@@ -19,26 +20,16 @@ function Home(props) {
 export async function getServerSideProps(context) {
   var s = await getSession(context)
   if (s) {
-    var challenges = await axios.get('http://fbbsvr.ddns.net:5192/api/content/data/challenges')
-    .then(response => {
-        if (response.status != 200 ||  response.data.length == 0) {
-          return []
-        } else {
-          return response.data
-        }
-    })
-    .catch(() => {
-      return []
-    })
+    var staticContent = await getDataFromUrl('http://fbbsvr.ddns.net:5192/api/content/data/challenges')
   } else {
-    var challenges = []
+    var staticContent = []
   }
 
   return {
     props: {
       title : "Ada Nucleas",
       session: s,
-      challenges: challenges
+      challenges: staticContent
     }
   }
 }

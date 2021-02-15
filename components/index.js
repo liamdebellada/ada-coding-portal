@@ -1,6 +1,6 @@
 import styles from '../styles/landing.module.css'
 import OrbitAda from './orbit-logo'
-import {signIn, signOut} from 'next-auth/client'
+import {signIn} from 'next-auth/client'
 export default function index(props) {
     return (
         <div className={styles.container}>
@@ -15,7 +15,7 @@ export default function index(props) {
                             <text className={styles.titleText}>a place for all</text>
                         </div>
                         <div className={styles.dotContainer}>
-                            <div className={styles.smallDot}/>
+                            <div className={styles.smallDot} style={{background: '#a190ff'}}/>
                             <div className={styles.smallDot}/>
                             <div className={styles.smallDot}/>
                             <div className={styles.smallDot}/>
@@ -24,10 +24,10 @@ export default function index(props) {
                     <div className={styles.bottomContent}>
                         <div className={styles.signInButton} onClick={() => signIn('google')}>
                             <img className={styles.smallGoogle} src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1004px-Google_%22G%22_Logo.svg.png"/>
-                            <text className={styles.signInText}>sign in</text>
+                            <text className={`noselect ${styles.signInText}`}>sign in</text>
                         </div>
                         <div className={styles.questionButton}>
-                            <text className={styles.questionText}>?</text>
+                            <text className={`noselect ${styles.questionText}`}>?</text>
                         </div>
                     </div>
                 </div>
