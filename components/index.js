@@ -1,5 +1,6 @@
 import styles from '../styles/landing.module.css'
 import OrbitAda from './orbit-logo'
+import {signIn, signOut} from 'next-auth/client'
 export default function index(props) {
     return (
         <div className={styles.container}>
@@ -21,7 +22,7 @@ export default function index(props) {
                         </div>
                     </div>
                     <div className={styles.bottomContent}>
-                        <div className={styles.signInButton}>
+                        <div className={styles.signInButton} onClick={() => signIn('google')}>
                             <img className={styles.smallGoogle} src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1004px-Google_%22G%22_Logo.svg.png"/>
                             <text className={styles.signInText}>sign in</text>
                         </div>

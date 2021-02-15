@@ -59,19 +59,19 @@
 
 
 .dot-1 {
-    animation: rotateClockwise 10s linear infinite;
+    animation: rotateClockwise 20s linear infinite;
 }
 
 .dot-2 {
-    animation: rotateCounterClockwise 15s linear infinite;
+    animation: rotateCounterClockwise 20s linear infinite;
 }
 
 .dot-3 {
-    animation: rotateCounterClockwise 10s linear infinite;
+    animation: rotateCounterClockwise 24s linear infinite;
 }
 
 .dot-4 {
-    animation: rotateClockwise 15s linear infinite;
+    animation: rotateClockwise 24s linear infinite;
 }
 
 @keyframes rotateClockwise {
