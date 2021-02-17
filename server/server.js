@@ -11,6 +11,8 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 const api = require('./routing/api')
 const contentApi = require('./routing/contentApi')
+const admin = require('./routing/admin')
+const auth = require('./auth')
 
 app.set('socket', io)
 
@@ -33,5 +35,7 @@ app.all('*', ApiRL)
 app.use(cors())
 app.use('/api', jsonParser, api)
 app.use('/api/content', jsonParser, contentApi)
+
+app.use('/api/admin', [jsonParser, auth], admin)
 
 server.listen('5192')
