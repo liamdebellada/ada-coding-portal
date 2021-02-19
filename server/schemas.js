@@ -77,10 +77,6 @@ const profiles = new mongoose.Schema({
     admin: {
         type: Boolean,
         required: true
-    },
-    authToken: {
-        type: String,
-        required: true
     }
 })
 

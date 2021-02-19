@@ -1,7 +1,6 @@
 const express = require('express')
 var router = express.Router()
 const models = require('../schemas')
-const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 
 router.get('/getChallenges/:id', async (req, res) => {
@@ -30,33 +29,17 @@ router.post('/registerCheck', async (req, res) => {
     if (!!exists.length) {
         return res.send('done')
     } else {
-        var authToken = crypto.randomBytes(24).toString('hex')
         await models.profiles.model.create({
             account: req.body,
             rankData: {},
             Submissions: {},
             url: `/${req.body.name.toLowerCase().replace(" ", "_")}`,
-            admin: false,
-            authToken: authToken
+            admin: false
         }).then(() => {
             return res.send('done')
         }).catch(() => {
             return res.status(500).send('error')
         })
-    }
-})
-
-router.post('/retrieveToken', async (req, res) => {
-    if (req.body) {
-       await models.profiles.model.find({"account.email" : req.body.email})
-        .then(data => {
-            return res.status(200).send(data[0].authToken)
-        }).catch((error) => {
-            console.log(error)
-            return res.status(500).send("No token")
-        })
-    } else {
-        return res.status(500).send("No request body")
     }
 })
 
