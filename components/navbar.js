@@ -11,15 +11,15 @@ function navbar(props) {
             </div>
             <div className={styles.middleNav}>
                 <div className={styles.middleOptions}>
-                    <div className={`${styles.middleOption} ${styles.selectedOption}`} onClick={() => Router.push('/')}>
+                    <div className={`${styles.middleOption} ${styles.selectedOption} noselect`} onClick={() => Router.push('/')}>
                         <span className="material-icons">home</span>
                         Home
                     </div>
-                    <div className={styles.middleOption}>
+                    <div className={`${styles.middleOption} noselect`}>
                         <span className="material-icons">school</span>
                         Submissions
                     </div>
-                    <div className={styles.middleOption}>
+                    <div className={`${styles.middleOption} noselect`}>
                         <span className="material-icons">help_outline</span>
                         Help
                     </div>

@@ -30,12 +30,28 @@ export default function authIndex(props) {
               <button className={styles.rightHeaderButton}><span className="material-icons">add</span> Join Challenge</button>
             </div>
             <div className={styles.challenges}>
-              <div className={`${styles.iChallenge} ${styles.myChallenge}`}>
+              {[1,2].map((c,k) => (
+              <div key={k} className={`${styles.iChallenge} ${styles.myChallenge}`}>
+                <div className={styles.cardHeader}>
+                  <img className={styles.languageIcon} src="/icons/swift.svg"/>
+                  <div className={`${styles.dateContainer} ${styles.colouredDate}`}>
+                      <span className="material-icons">date_range</span>
+                      <text>10/11/22</text>
+                  </div>
+                </div>
+                <div className={styles.cardBody}>
+                  <text className={styles.challengeTitle}>Unit 4 - Test content longer and longer</text>
+                  <div className={styles.publisher}>
+                    <span className="material-icons">history_edu</span>
+                    Steve Rich
+                  </div>
+                  <div className={styles.horizontalProfileContainer}>
+                    <img className={styles.iProfilePic} src="/profile.svg"/>
+                    <img className={styles.iProfilePic} src="/profile.svg"/>
+                  </div>
+                </div>
               </div>
-              <div className={`${styles.iChallenge} ${styles.myChallenge}`}>
-              </div>
-              {/* <div className={styles.iChallenge}>
-              </div> */}
+              ))}
             </div>
 
             <div className={styles.rightHeader}>
@@ -43,7 +59,6 @@ export default function authIndex(props) {
             </div>
             <div className={styles.challenges}>
               <div className={`${styles.iChallenge} ${styles.upcomingChallenge}`}>
-
               </div>
             </div>
           </div>
