@@ -22,7 +22,6 @@ export async function getServerSideProps(context) {
   } else {
     var staticContent = []
   }
-
   return {
     props: {
       title : "Ada Nucleas",

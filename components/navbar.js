@@ -1,59 +1,34 @@
 import styles from '../styles/navbar.module.css'
 import {signIn, signOut} from 'next-auth/client'
-import router from 'next/router'
+import Router from 'next/router'
 
 function navbar(props) {
-    if (!props.session) {
-        return (
-            <div className={`${styles.nav} ${styles.sticky}`}>
-                <a onClick={() => router.push('/')}>
-                    <div className={`${styles['d-flex']} ${styles['align-items-center']}`}>
-                        <img width="25px"src='/icons/ada-logo.svg' className={styles['mr-0-5']}/><text> | Nucleus</text>
-                    </div>
-                </a>
-                <div className={`${styles['ml-auto']} ${styles.spacedOutOptions}`}>
-                    <a className={styles.links}>Showcase</a>
-                    <a className={styles.links} onClick={() => signIn('google')}>Sign In</a>
+    if (props.session) {
+    return (
+        <div className={`${styles.nav} ${styles.sticky}`}>
+            <div className={styles.leftNav}>
+                <img className={styles.adaLogo} src="/adaText.svg"/>
+            </div>
+            <div className={styles.middleNav}>
+                <div className={styles.middleOptions}>
+                    <div className={`${styles.middleOption} ${styles.selectedOption}`} onClick={() => Router.push('/')}>Home</div>
+                    <div className={styles.middleOption}>Submissions</div>
+                    <div className={styles.middleOption}>Help</div>
                 </div>
             </div>
-        )
+            <div className={styles.rightNav}>
+                <div className={`${styles.rightNavContainer}`}>
+                    <img className={styles.navProfilePic} src={props.session.picture}/>
+                    <text className={styles.navUserNameText}>{props.session.name}</text>
+                </div>
+            </div>
+        </div>
+    )
     } else {
         return (
-            <div className={`${styles.nav} ${styles.fixed}`}>
-                <a onClick={() => router.push('/')}>
-                    <div className={`${styles['d-flex']} ${styles['c-pointer']} ${styles['align-items-center']}`}>
-                        <img width="25px"src='/icons/ada-logo.svg' className={styles['mr-0-5']}/><text> | Nucleus</text>
-                    </div>
-                </a>
-                <div className={styles['ml-auto']}>
-                    <div className={`${styles['d-flex']} ${styles['align-items-center']}`}>
-                        
-                        <a className={`${styles['mr-1']} ${styles['hide-showcase']} ${styles.links}`}>Showcase</a>
-                        
-
-                        <div className={styles.dropdown}>
-                            <div className={`${styles['d-flex']} ${styles['align-items-center']}`}>
-                                <text className={styles['mr-1']}>{props.session.name}</text>
-                                <img className={styles.image}src={props.session.picture}></img>
-                            </div>
-                        
-                            <div className={styles['dropdown-content']}>
-                                <div className={styles['dropdown-items']}>
-                                    <a className={styles.links} onClick={() => router.push(`/profiles/${props.session.name.toLowerCase().replace(" ", "_")}`)}>Profile</a>
-                                    <a className={`${styles.links} ${styles['dropdown-showcase']}`}>Showcase</a>
-                                    <a className={styles.links}  onClick={() => signOut('google')}>Sign Out</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        
-                    
-                    </div>
-                </div>
-            </div>
+            <div></div>
         )
     }
 }
- 
 
 export default navbar

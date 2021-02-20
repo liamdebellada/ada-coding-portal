@@ -1,0 +1,74 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-radius: 1.3rem;
+    background-color: white;
+    height: 20rem;
+    padding: 1rem;
+    gap: 0.5rem;
+}
+
+.codeContainer {
+    overflow:hidden;
+    scrollbar-color: red transparent;
+    background-color: blue;
+    height: 80%;
+    width: 100%;
+    border-radius: 1.3rem;
+}
+
+.scroll {
+    overflow-y: scroll;
+    height: 100%;
+    padding: 1rem;
+    padding-top: 0.5rem;
+}
+
+.userInfoContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    height: 3rem;
+}
+
+.profilePic {
+    height: 3rem;
+    width: 3rem;
+}
+
+.languageIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.heartContainer {
+    display: flex;
+    margin-left: auto;
+}
+
+.heartIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.codePreserve {
+    counter-reset: line;
+}
+
+.codePreserve code {
+    font-size: 1.1rem;
+    display: block;
+}
+
+.codePreserve code::before {
+    display: inline-block;
+    counter-increment: line;
+    content: counter(line);
+    color: white;
+    width: 1rem; /* Fixed width */
+    border-right: 1px solid #ddd;
+    padding: 0 .5em;
+    margin-right: .5em;
+    color: white;
+}
