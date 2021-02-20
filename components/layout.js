@@ -9,7 +9,7 @@ export default class layout extends React.Component {
                 <Head>
                     <title>{children[0].props.title}</title>
                 </Head>
-                {/* <div>{children[0]}</div> */}
+                <div>{children[0]}</div>
                 <div className="maxH">{children[1]}</div>
             </div>
         )

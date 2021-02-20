@@ -10,11 +10,11 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async session(session, user) {  
+    async session(session, user) {
         return user
     },
     async signIn(user, account, profile) {
-        await axios.post('http://fbbsvr.ddns.net:5192/api/registerCheck', user)
+        var state = await axios.post('http://fbbsvr.ddns.net:5192/api/registerCheck', user)
         .then(response => {
           if (response.status == 200) {
             return true
@@ -22,6 +22,14 @@ export default NextAuth({
             return false
           }
         }).catch(() => false)
+        user.accessToken = account.accessToken
+        return state
     },
+    async jwt(token, user) {
+      if (user) {
+        token.accessToken = user.accessToken
+      }
+      return token
+    }
   }
 })

@@ -73,6 +73,10 @@ const profiles = new mongoose.Schema({
     url: {
         type: String,
         required: true
+    },
+    admin: {
+        type: Boolean,
+        required: true
     }
 })
 

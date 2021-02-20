@@ -23,7 +23,7 @@ export default function index(props) {
                     </div>
                     <div className={styles.bottomContent}>
                         <div className={styles.signInButton} onClick={() => signIn('google')}>
-                            <img className={styles.smallGoogle} src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1004px-Google_%22G%22_Logo.svg.png"/>
+                            <img className={`noselect ${styles.smallGoogle}`} src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1004px-Google_%22G%22_Logo.svg.png"/>
                             <text className={`noselect ${styles.signInText}`}>sign in</text>
                         </div>
                         <div className={styles.questionButton}>

@@ -1,7 +1,5 @@
-import {getSession, session} from 'next-auth/client'
-import axios from 'axios'
+import {getSession} from 'next-auth/client'
 import getDataFromUrl from '../utils/apiHandler'
-
 import AuthIndex from '../components/auth-index'
 import Index from '../components/index'
 

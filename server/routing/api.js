@@ -1,6 +1,7 @@
 const express = require('express')
 var router = express.Router()
 const models = require('../schemas')
+const crypto = require('crypto')
 
 router.get('/getChallenges/:id', async (req, res) => {
     // console.log(req.params)
@@ -24,18 +25,22 @@ router.get('/getSubmission/:id', async (req, res) => {
 
 
 router.post('/registerCheck', async (req, res) => {
-    await models.profiles.model.find({account: req.body})
-    .then(async (data) => {
-        if (data.length == 0) {
-            await models.profiles.model.create({
-                account: req.body,
-                rankData: {},
-                Submissions: {},
-                url: `/${req.body.name.toLowerCase().replace(" ", "_")}`
-            })
-        }
-    }).catch(error => console.log(error))
-    res.status(200).end()
+    var exists = await models.profiles.model.find({"account.email" : req.body.email})
+    if (!!exists.length) {
+        return res.send('done')
+    } else {
+        await models.profiles.model.create({
+            account: req.body,
+            rankData: {},
+            Submissions: {},
+            url: `/${req.body.name.toLowerCase().replace(" ", "_")}`,
+            admin: false
+        }).then(() => {
+            return res.send('done')
+        }).catch(() => {
+            return res.status(500).send('error')
+        })
+    }
 })
 
 router.post('/isUser', async (req,res) => {
