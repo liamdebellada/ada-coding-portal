@@ -11,9 +11,18 @@ function navbar(props) {
             </div>
             <div className={styles.middleNav}>
                 <div className={styles.middleOptions}>
-                    <div className={`${styles.middleOption} ${styles.selectedOption}`} onClick={() => Router.push('/')}>Home</div>
-                    <div className={styles.middleOption}>Submissions</div>
-                    <div className={styles.middleOption}>Help</div>
+                    <div className={`${styles.middleOption} ${styles.selectedOption}`} onClick={() => Router.push('/')}>
+                        <span className="material-icons">home</span>
+                        Home
+                    </div>
+                    <div className={styles.middleOption}>
+                        <span className="material-icons">school</span>
+                        Submissions
+                    </div>
+                    <div className={styles.middleOption}>
+                        <span className="material-icons">help_outline</span>
+                        Help
+                    </div>
                 </div>
             </div>
             <div className={styles.rightNav}>

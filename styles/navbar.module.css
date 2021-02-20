@@ -52,6 +52,9 @@
 .middleOption {
     border-radius: 1.3rem;
     padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
 }
 
 .navProfilePic {

@@ -1,24 +1,10 @@
 import styles from '../styles/submission-preview.module.css'
 
-const code = `line1
-line2
-line3
-line3
-line3
-line3
-line3
-line3
-line3
-line3
-line3
-line3
-line3
-line3
-line3
-line3
-line3
-line3
-line3`
+const code = `print("hello")
+def main():
+    print("hi")
+    return 'done'
+main()`
 
 export default function submission() {
     return (
@@ -35,9 +21,9 @@ export default function submission() {
             <div className={styles.userInfoContainer}>
                 <img src="/profile.svg" className={styles.profilePic}/>
                 <text>Eitan Abelman</text>
-                <img src="/icons/c.svg" className={styles.languageIcon}/>
+                <img src="/icons/git.svg" className={styles.languageIcon}/>
                 <div className={styles.heartContainer}>
-                    <img src="/like.svg" className={styles.heartIcon}/>
+                    <span className="material-icons">favorite_border</span>
                 </div>
             </div>
         </div>
