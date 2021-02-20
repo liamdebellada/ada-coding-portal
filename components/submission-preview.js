@@ -26,8 +26,8 @@ export default function submission() {
             <div className={styles.codeContainer}>
                 <div className={styles.scroll}>
                     <pre className={styles.codePreserve}>
-                        {code.split("\n").map(l => (
-                            <code>{l}</code>
+                        {code.split("\n").map((l, k) => (
+                            <code key={k}>{l}</code>
                         ))}
                     </pre>
                 </div>
