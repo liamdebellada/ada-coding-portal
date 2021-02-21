@@ -98,6 +98,7 @@
 
 .upcomingChallenge {
     background-color: #262333;
+    min-height: 15rem !important;
     border-radius: 1.6rem;
     border: 2px solid white;
 }
@@ -160,4 +161,22 @@
 
 .challengeTitle {
     margin-top: 0.5rem;
+}
+
+.upcomingTitle {
+    font-size: 1.4rem;
+    margin-top: 1.6rem;
+}
+
+.upcomingWidgets {
+    display: flex;
+    justify-content: space-between;
+    height: 2.5rem;
+}
+
+.addWidget {
+    border-radius: 50%;
+    border: none;
+    background-color: #342e49;
+    color: white;
 }

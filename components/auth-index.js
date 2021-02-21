@@ -59,6 +59,23 @@ export default function authIndex(props) {
             </div>
             <div className={styles.challenges}>
               <div className={`${styles.iChallenge} ${styles.upcomingChallenge}`}>
+                <div className={styles.cardHeader}>
+                  <img className={styles.languageIcon} src="/icons/swift.svg"/>
+                  <div className={`${styles.dateContainer} ${styles.colouredDate}`} style={{background: 'transparent'}}>
+                      <span className="material-icons">date_range</span>
+                      <text>10/11/22</text>
+                  </div>
+                </div>
+                <div className={`${styles.cardBody}`} style={{gap: '0.7rem'}}>
+                  <text className={styles.upcomingTitle}>Google Api Implementation</text>
+                  <div className={styles.upcomingWidgets}>
+                    <div className={styles.publisher}>
+                      <span className="material-icons">history_edu</span>
+                      Steve Rich
+                    </div>
+                    <button className={`${styles.addWidget} material-icons`}>add</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
