@@ -1,0 +1,61 @@
+.settingsContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 46rem;
+    padding: 0 3rem 0 3rem;
+}
+
+.leftSide {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 15rem;
+    margin-top: 3rem;
+    height: fit-content;
+}
+
+.rightSide {
+    width: 65rem;
+    height: 100%;
+    border-radius: 1.6rem;
+    padding: 1.6rem;
+    background-color: #3d3756;
+}
+
+.rightInternal {
+    height: 100%;
+    width: 100%;
+    background-color: #342e49;
+    border-radius: 1.6rem;
+    padding: 1rem;
+    color: white;
+}
+
+.tab {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    gap: 1rem;
+    color: white;
+    width: 100%;
+    z-index: 1;
+}
+
+.tabIcon {
+    font-size: 2.2rem;
+}
+
+.tabText {
+    font-size: 1.3rem;
+}
+
+.backSlider {
+    transition: all 0.3s;
+    width: 100%;
+    background: #3d3756;
+    height: 4rem;
+    position: absolute;
+    border-radius: 1.6rem 0 0 1.6rem;
+}

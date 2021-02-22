@@ -15,7 +15,7 @@ function navbar(props) {
                         <span className="material-icons">home</span>
                         Home
                     </div>
-                    <div className={`${styles.middleOption} noselect`}>
+                    <div className={`${styles.middleOption} noselect`} onClick={() => Router.push('/submission')}>
                         <span className="material-icons">school</span>
                         Submissions
                     </div>

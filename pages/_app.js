@@ -22,7 +22,7 @@ export default class MyApp extends App {
       <Layout>
         <NavBar {...pageProps}/>
         <AnimatePresence key={router.route}>
-          <motion.div className="maxH" exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
+          <motion.div exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
             <Component {...pageProps} key={router.route}/>
           </motion.div>        
         </AnimatePresence>
