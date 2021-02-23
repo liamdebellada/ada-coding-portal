@@ -24,7 +24,7 @@ export async function getServerSideProps(context) {
   }
   return {
     props: {
-      title : "Ada Nucleas",
+      title : "Ada Nucleus",
       session: s,
       challenges: staticContent
     }
