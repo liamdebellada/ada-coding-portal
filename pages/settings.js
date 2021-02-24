@@ -3,15 +3,13 @@ import { useState } from 'react'
 import styles from '../styles/settings.module.css'
 import {ProfileTab, NotificationsTab, ContentTab, HelpTab} from '../components/settings-views'
 
-const tabIndex = [
-    {adjustment: 0, component: <ProfileTab/>}, 
-    {adjustment: 4, component: <NotificationsTab/>},
-    {adjustment: 8, component: <ContentTab/>},
-    {adjustment: 12, component: <HelpTab/>}
-]
-
-
-export default function settings() {
+export default function settings(props) {
+    const tabIndex = [
+        {adjustment: 0, component: <ProfileTab {...props}/>}, 
+        {adjustment: 4, component: <NotificationsTab {...props}/>},
+        {adjustment: 8, component: <ContentTab {...props}/>},
+        {adjustment: 12, component: <HelpTab {...props}/>}
+    ]
     const [activeTab, setActiveTab] = useState(tabIndex[0])
     const [sliderPos, setSliderPos] = useState(0)
     function handleTabChange(t) {

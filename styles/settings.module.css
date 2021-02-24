@@ -28,7 +28,7 @@
     width: 100%;
     background-color: #342e49;
     border-radius: 1.6rem;
-    padding: 1rem;
+    padding: 3rem;
     color: white;
 }
 
@@ -58,4 +58,37 @@
     height: 4rem;
     position: absolute;
     border-radius: 1.6rem 0 0 1.6rem;
+}
+
+.componentContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.pictureContainer {
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.profileBasic {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.userName {
+    font-size: 1.5rem;
+}
+
+.lineSep {
+    display: flex;
+    border-bottom: 1px solid #6d6a7a;
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.lineLabel {
+    margin-left: auto;
+    color: #6d6a7a;
+    font-size: 0.8rem;
 }
