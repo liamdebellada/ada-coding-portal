@@ -26,9 +26,16 @@ function ProfileTab(props) {
                 <input placeholder="Search language tags..." className={styles.tagSearch}/>
             </div>
 
-            <button className={styles.profileSave}>
-                Save
-            </button>
+            <div className={styles.profileBottom}>
+                <button className={`${styles.profileButton} ${styles.signOutButton}`}>
+                    <span className="material-icons">exit_to_app</span>
+                    Sign out
+                </button>
+
+                <button className={styles.profileButton}>
+                    Save
+                </button>
+            </div>
         </div>
     )
 }

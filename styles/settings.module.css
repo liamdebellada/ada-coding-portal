@@ -203,14 +203,27 @@
 }
 
 
-.profileSave {
+.signOutButton {
+    width: 8rem !important;
+}
+
+.profileButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
     width: 5rem;
-    margin-left: auto;
-    align-self: flex-end;
-    margin-top: auto;
     border: none;
     color: white;
     border-radius: 1.6rem;
     padding: 0.5rem;
     background: #7663c2;
+}
+
+.profileBottom {
+    align-self: flex-end;
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
