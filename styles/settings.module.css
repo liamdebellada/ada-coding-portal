@@ -92,3 +92,111 @@
     color: #6d6a7a;
     font-size: 0.8rem;
 }
+
+.settingsArea {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
+}
+
+.bioArea {
+    border: none;
+    resize: none;
+    width: 100%;
+    background: #2e2940;
+    color: white;
+    padding: 1rem;
+    border-radius: 1.6rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.labelText{
+    font-size: 1.3rem;
+}
+
+.tagSearch {
+    margin-top: 1rem;
+    min-width: 15rem;
+    max-width: 20rem;
+    background: #2e2940;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 1.6rem;
+    color: white;
+}
+
+.tagContainer {
+    height: 100%;
+    width: 15rem;
+    flex-wrap: wrap;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.contentListContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contentTitle {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.contentList {
+    width: 100%;
+    background-color: #2e2940;
+    overflow: hidden;
+    border-radius: 1.6rem;
+}
+
+.contentItem {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+    width: 100%;
+}
+
+.contentItemOptions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    width: 5rem;
+}
+
+.contentItemTitle {
+    font-size: 1.3rem;
+}
+
+.helpContainer {
+    color: white;
+}
+
+
+.bugSection {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.githubLogo {
+    height: 5rem;
+}
+
+.githubIssueBtn {
+    border: none;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 1.6rem;
+    background: #594d95;
+}
