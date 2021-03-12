@@ -1,5 +1,6 @@
 import styles from '../styles/settings.module.css'
 import LangTag from '../components/language-tag'
+import {signOut} from 'next-auth/client'
 
 function ProfileTab(props) {
     return (
@@ -27,7 +28,7 @@ function ProfileTab(props) {
             </div>
 
             <div className={styles.profileBottom}>
-                <button className={`${styles.profileButton} ${styles.signOutButton}`}>
+                <button onClick={() => {signOut()}} className={`${styles.profileButton} ${styles.signOutButton}`}>
                     <span className="material-icons">exit_to_app</span>
                     Sign out
                 </button>
