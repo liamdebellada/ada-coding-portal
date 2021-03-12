@@ -227,3 +227,17 @@
     display: flex;
     justify-content: space-between;
 }
+
+
+.tagSearchResults {
+    background: #2e2940;
+    max-width: 20rem;
+    min-width: 15rem;
+    border-radius: 1.6rem;
+    margin-top: 1rem;
+    height: 7.5rem;
+    padding: 1rem;
+    overflow-y: scroll;
+    scrollbar-width: none;
+
+}

@@ -10,10 +10,10 @@ function ProfileTab(props) {
                 <text className={styles.userName}>{props.session.name}</text>
                 <div className={styles.tagContainer}>
                     <LangTag langName="python"/>
-                    <LangTag langName="C"/>
-                    <LangTag langName="C"/>
-                    <LangTag langName="C"/>
-                    <LangTag langName="C"/>
+                    <LangTag langName="dart"/>
+                    <LangTag langName="bash"/>
+                    <LangTag langName="go"/>
+                    <LangTag langName="lua"/>
                     <LangTag langName="C"/>
                 </div>
             </div>
@@ -25,6 +25,9 @@ function ProfileTab(props) {
                 <textarea placeholder="Type your bio here!" className={styles.bioArea}></textarea>
                 <text className={styles.labelText}>Language tags</text>
                 <input placeholder="Search language tags..." className={styles.tagSearch}/>
+                <div className={styles.tagSearchResults}>
+                    Show all results here.
+                </div>
             </div>
 
             <div className={styles.profileBottom}>
