@@ -63,6 +63,7 @@
 .componentContainer {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .pictureContainer {
@@ -199,4 +200,17 @@
     padding: 0.5rem;
     border-radius: 1.6rem;
     background: #594d95;
+}
+
+
+.profileSave {
+    width: 5rem;
+    margin-left: auto;
+    align-self: flex-end;
+    margin-top: auto;
+    border: none;
+    color: white;
+    border-radius: 1.6rem;
+    padding: 0.5rem;
+    background: #7663c2;
 }

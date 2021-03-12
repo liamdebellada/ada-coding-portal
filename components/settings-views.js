@@ -25,6 +25,10 @@ function ProfileTab(props) {
                 <text className={styles.labelText}>Language tags</text>
                 <input placeholder="Search language tags..." className={styles.tagSearch}/>
             </div>
+
+            <button className={styles.profileSave}>
+                Save
+            </button>
         </div>
     )
 }
