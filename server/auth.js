@@ -33,4 +33,24 @@ const auth = async (req,res,next) => {
 }
 
 
-module.exports = auth
+const userAuth = async (req,res,next) => {
+    let auth = req.get('authorization')
+    if (!auth) {
+        return res.status(403).send('Not Authorized')
+    } else {
+        let gt = auth.split(" ")[1]
+        try {
+            var user = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${gt}`)
+        } catch {
+            return res.status(403).send('Not Authorized')
+        }
+        if (user.status == 200) {
+            req.googleAccount = user.data;
+            next();
+        } else {
+            return res.status(500).send('Internal server issue')
+        }
+    }
+}
+
+module.exports = {auth, userAuth}

@@ -230,6 +230,9 @@
 
 
 .tagSearchResults {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     background: #2e2940;
     max-width: 20rem;
     min-width: 15rem;
@@ -240,4 +243,15 @@
     overflow-y: scroll;
     scrollbar-width: none;
 
+}
+
+.tagList {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tagListIcon {
+    height: 1rem;
+    width: 1rem;
 }

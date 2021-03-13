@@ -1,11 +1,42 @@
 import {getSession} from 'next-auth/client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../styles/settings.module.css'
 import {ProfileTab, NotificationsTab, ContentTab, HelpTab} from '../components/settings-views'
+import axios from 'axios'
 
 export default function settings(props) {
+    const [changes] = useState([])
+    const [change, createChange] = useState(null)
+
+    const saveSettings = () => { //call this inside of the components :)
+        if (!changes.length < 1) {
+            axios.post('http://fbbsvr.ddns.net:5192/api/users/updateSettings', {
+                changes
+            }, {
+                headers: {
+                    'authorization': `Bearer ${props.session.accessToken}`
+                }
+            }).then(success => {
+                console.log(success)
+            }).catch(error => {
+                console.log(error) //unauthorised.
+            })
+        }
+    }
+
+    useEffect(() => {
+        if (change != null) {
+            let toUpdate = changes.findIndex((() => Object.keys(change)[0]))
+            if (toUpdate < 0) {
+                changes.push(change) //create instance of object to be changed
+            } else {
+                changes[toUpdate][Object.keys(change)[0]] = Object.values(change)[0]; //update existing instance by index
+            }
+        }
+    }, [change])
+
     const tabIndex = [
-        {adjustment: 0, component: <ProfileTab {...props}/>}, 
+        {adjustment: 0, component: <ProfileTab save={saveSettings} createChange={createChange} {...props}/>}, 
         {adjustment: 4, component: <NotificationsTab {...props}/>},
         {adjustment: 8, component: <ContentTab {...props}/>},
         {adjustment: 12, component: <HelpTab {...props}/>}

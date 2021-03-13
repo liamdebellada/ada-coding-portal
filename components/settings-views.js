@@ -1,8 +1,19 @@
 import styles from '../styles/settings.module.css'
 import LangTag from '../components/language-tag'
 import {signOut} from 'next-auth/client'
+import {useState} from 'react'
+import { recordChange } from '../utils/settingsManager'
 
 function ProfileTab(props) {
+    const TAGS = ["c", "python", "bash", "dart"]
+    const [results, setResults] = useState(TAGS)
+    const filterTags = (query) => {
+        const inputRegex = RegExp(query.split('').join('.*'))
+        var results = TAGS.filter((key) => {
+            return inputRegex.exec(key)
+        })
+        setResults(results)
+    }
     return (
         <div className={styles.componentContainer}>
             <div className={styles.profileBasic}>
@@ -22,11 +33,16 @@ function ProfileTab(props) {
             </div>
             <div className={styles.settingsArea}>
                 <text className={styles.labelText}>Biography</text>
-                <textarea placeholder="Type your bio here!" className={styles.bioArea}></textarea>
+                <textarea onChange={(event) => recordChange(props.createChange, {"bio": event.target.value})} placeholder="Type your bio here!" className={styles.bioArea}></textarea>
                 <text className={styles.labelText}>Language tags</text>
-                <input placeholder="Search language tags..." className={styles.tagSearch}/>
+                <input onChange={(event) => filterTags(event.target.value)} placeholder="Search language tags..." className={styles.tagSearch}/>
                 <div className={styles.tagSearchResults}>
-                    Show all results here.
+                    {results.map((tag, key) => (
+                        <div className={styles.tagList} key={key}>
+                            <img className={styles.tagListIcon} src={`icons/${tag.toLowerCase()}.svg`}/>
+                            <text>{tag}</text>
+                        </div>
+                    ))}
                 </div>
             </div>
 
@@ -36,7 +52,7 @@ function ProfileTab(props) {
                     Sign out
                 </button>
 
-                <button className={styles.profileButton}>
+                <button onClick={() => props.save()} className={styles.profileButton}>
                     Save
                 </button>
             </div>

@@ -77,6 +77,10 @@ const profiles = new mongoose.Schema({
     admin: {
         type: Boolean,
         required: true
+    },
+    settings: {
+        type: Array,
+        required: false
     }
 })
 
