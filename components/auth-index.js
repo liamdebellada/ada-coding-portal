@@ -1,7 +1,8 @@
 import styles from '../styles/index.module.css'
 import Submission from '../components/submission-preview'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import challengeStyles from '../styles/challenges.module.css'
 
 const vanishValue = 200
 
@@ -86,20 +87,38 @@ function RightSideDefault() {
   )
 }
 
-function RightSideOther() {
+function RightSideOther(props) {
   return (
     <div>
-      <text style={{color: "white"}}>Other content :)</text>
+      <div className={`${styles.rightHeader} ${styles.spacedHeader}`}>
+        <span onClick={() => props.func(-1)} className={`material-icons noselect ${styles.challengeMiniBack}`}>arrow_back</span>
+        <img className={styles.inlineLanguageIcon} src="icons/python.svg"/>
+        <text className={styles.rightHeaderText}>Challenge title</text>
+      </div>
     </div>
   )
 }
 
-export default function authIndex(props) {
-    const [[page, direction], setPage] = useState([0, 0]);
-    const paginate = (newDirection) => {
-      console.log(page)
-      setPage([page + newDirection, newDirection]);
+export default function authIndex() {
+    const [direction, setDirection] = useState(0);
+    const [currentChallenge, setCurrentChallenge] = useState(0);
+    
+    const paginate = (newDirection, key) => {
+      setCurrentChallenge(key)
+      if (direction <= 0) {
+        console.log("request data")
+      }
+      if (newDirection == 1 && direction == 1) {
+        if (key != currentChallenge) {
+          console.log("re-request data")
+        }
+      } else {
+        setDirection(newDirection)
+      }
     };
+
+    //useEffect(() => console.log(direction), [direction])
+
     return (
       <div className={styles.mainContent}>
           <div className={styles.leftContent}>
@@ -118,8 +137,8 @@ export default function authIndex(props) {
               </div>
             </div>
             <div className={styles.codePreviews}>
-              <Submission func={paginate}/>
-              <Submission/>
+              <Submission ckey={1} func={paginate}/>
+              <Submission ckey={2} func={paginate}/>
               <Submission/>
             </div>
           </div>
@@ -127,8 +146,8 @@ export default function authIndex(props) {
           <div className={styles.rightContent}>
             <AnimatePresence initial={false} custom={direction}>
             <motion.div
-              style={{ position: "absolute", zIndex: -1, display: "flex", flexDirection: "column", gap: "1.4rem" }}
-              key={page}
+              style={{ position: "absolute", zIndex: -1, display: "flex", flexDirection: "column", gap: "1.4rem", marginRight: "2rem" }}
+              key={currentChallenge}
               custom={direction}
               variants={variants}
               initial="enter"
@@ -139,7 +158,7 @@ export default function authIndex(props) {
                 opacity: { duration: 0.2 }
               }}
             >
-                {page % 2 == 0 ? <RightSideDefault/> : <RightSideOther/>}
+                {direction <= 0 ? <RightSideDefault/> : <RightSideOther data={currentChallenge} func={paginate}/>}
             </motion.div>
             </AnimatePresence>
           </div>

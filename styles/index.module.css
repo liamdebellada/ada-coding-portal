@@ -55,6 +55,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    color: white;
 }
 
 .rightHeaderText {
@@ -179,4 +180,17 @@
     border: none;
     background-color: #342e49;
     color: white;
+}
+
+.inlineLanguageIcon {
+    height: 2rem;
+    width: 2rem;
+}
+
+.challengeMiniBack {
+    font-size: 2rem;
+}
+
+.spacedHeader {
+    gap: 1.5rem;
 }
