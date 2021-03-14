@@ -22,13 +22,14 @@ router.post('/updateSettings', async (req, res) => {
                 .then(r => console.log(r))
                 .catch(error => console.log(error))
             }
+        } else {
+            return res.send("No user data for bearer.")
         }
-    }).catch(error => {
-        console.log(error)
-        console.log("error")
+    }).catch(() => {
+        return res.send('Error making change to settings.')
     })
 
-    res.send("DONE")
+    return res.send("Done")
 })
 
 module.exports = router;

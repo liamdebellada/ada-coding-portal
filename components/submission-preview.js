@@ -13,9 +13,9 @@ const code = `def binarySearch(elem, intArr):
             return None
     print(binarySearch(13, (1,3,4,5,13,20,25,40,42,44,53)))`
 
-export default function submission() {
+export default function submission(props) {
     return (
-        <div className={styles.container}>
+        <div onClick={() => props.func(1)} className={styles.container}>
             <div className={styles.codeContainer}>
                 <div className={styles.scroll}>
                     <pre className={styles.codePreserve}>

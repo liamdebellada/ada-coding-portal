@@ -4,7 +4,6 @@ import AuthIndex from '../components/auth-index'
 import Index from '../components/index'
 
 function Home(props) {
-  console.log(props.session)
   if (props.session) {    
     return (
       <AuthIndex {...props}/>
