@@ -50,7 +50,7 @@ export default function settings(props) {
 
     return (
         <div className={styles.settingsContainer}>
-            <div className={styles.leftSide}>
+            <div className={`${styles.leftSide} noselect`}>
                 <div className={styles.backSlider} style={{marginTop: `${sliderPos}rem`}}/>
                 <div className={styles.tab} onClick={() => handleTabChange(0)}>
                     <span className={`material-icons ${styles.tabIcon}`}>face</span>

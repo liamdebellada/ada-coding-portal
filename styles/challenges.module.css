@@ -1,0 +1,93 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    color: white;
+}
+
+.challengeHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.publisher {
+    display: flex;
+    align-items: center;
+    background-color: #342e49;
+    width: fit-content;
+    gap: 0.3rem;
+    padding: 0.4rem 0.8rem 0.4rem 0.8rem;
+    border-radius: 1.6rem;
+    font-size: 1rem;
+}
+
+.profileIconTop {
+    height: 2rem;
+    width: 2rem;
+}
+
+.headerInfo {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.profileIconList {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.whiteBtn {
+    background: white !important;
+    color:#342e49 !important;
+    gap: 1rem;
+}
+
+.challengeBody {
+    width: 100%;
+    height: 25rem;
+    border-radius: 1.6rem;
+    background-color: #3d3756;
+    padding: 1rem;
+}
+
+.challengeSub {
+    background: #342e49;
+    border-radius: 1.3rem;
+    height: 100%;
+    padding: 1.3rem;
+}
+
+.challengeBody h1 {
+    font-weight: 400;
+    margin: 0;
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.dateContainer {
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 0.3rem;
+}
+
+.colouredDate {
+    background-color: #342e49;
+    padding: 0.4rem 0.8rem 0.4rem 0.8rem;
+    border-radius: 1.6rem;
+}
+
+.leaveButton {
+    display: flex;
+    align-items: center;
+    border-radius: 1.6rem;
+    border: 2px solid #b9585d;
+    padding: 0.4rem 0.8rem 0.4rem 0.8rem;
+    gap: 1rem;
+}

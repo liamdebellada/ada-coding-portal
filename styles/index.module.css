@@ -23,6 +23,7 @@
     gap: 1.4rem;
     max-width: 700px;
     flex-direction: column;
+    position: relative;
 }
 
 .leftHeaderContainer {
@@ -192,5 +193,6 @@
 }
 
 .spacedHeader {
+    justify-content: unset !important;
     gap: 1.5rem;
 }

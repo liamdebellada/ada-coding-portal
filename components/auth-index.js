@@ -2,7 +2,7 @@ import styles from '../styles/index.module.css'
 import Submission from '../components/submission-preview'
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import challengeStyles from '../styles/challenges.module.css'
+import ChallengeView from "../components/challenge";
 
 const vanishValue = 200
 
@@ -89,13 +89,14 @@ function RightSideDefault() {
 
 function RightSideOther(props) {
   return (
-    <div>
+    <>
       <div className={`${styles.rightHeader} ${styles.spacedHeader}`}>
         <span onClick={() => props.func(-1)} className={`material-icons noselect ${styles.challengeMiniBack}`}>arrow_back</span>
         <img className={styles.inlineLanguageIcon} src="icons/python.svg"/>
         <text className={styles.rightHeaderText}>Challenge title</text>
       </div>
-    </div>
+      <ChallengeView/>
+    </>
   )
 }
 
@@ -138,7 +139,7 @@ export default function authIndex() {
             </div>
             <div className={styles.codePreviews}>
               <Submission ckey={1} func={paginate}/>
-              <Submission ckey={2} func={paginate}/>
+              <Submission ckey={6} func={paginate}/>
               <Submission/>
             </div>
           </div>
@@ -146,7 +147,7 @@ export default function authIndex() {
           <div className={styles.rightContent}>
             <AnimatePresence initial={false} custom={direction}>
             <motion.div
-              style={{ position: "absolute", zIndex: -1, display: "flex", flexDirection: "column", gap: "1.4rem", marginRight: "2rem" }}
+              style={{ width: "100%", position: "absolute", zIndex: -1, display: "flex", flexDirection: "column", gap: "1.4rem", marginRight: "2rem" }}
               key={currentChallenge}
               custom={direction}
               variants={variants}
