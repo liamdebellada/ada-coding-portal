@@ -52,7 +52,8 @@
 .middleOption {
     transition: all 0.2s ease-in-out;
     border-radius: 1.3rem;
-    padding: 0.5rem;
+    /* padding: 0.5rem; */
+    padding: 0.4rem 0.8rem 0.4rem 0.8rem;
     display: flex;
     align-items: center;
     gap: 0.6rem;

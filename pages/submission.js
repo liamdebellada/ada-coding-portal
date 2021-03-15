@@ -1,5 +1,6 @@
+import ChallengeView from '../components/challenge'
 export default function submission() {
     return (
-        <text>working</text>
+        <ChallengeView/>
     )
 }
