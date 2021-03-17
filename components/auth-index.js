@@ -1,6 +1,6 @@
 import styles from '../styles/index.module.css'
 import Submission from '../components/submission-preview'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ChallengeView from "../components/challenge";
 
@@ -88,6 +88,7 @@ function RightSideDefault() {
 }
 
 function RightSideOther(props) {
+  console.log("rendering right side")
   return (
     <>
       <div className={`${styles.rightHeader} ${styles.spacedHeader}`}>
@@ -107,11 +108,11 @@ export default function authIndex() {
     const paginate = (newDirection, key) => {
       setCurrentChallenge(key)
       if (direction <= 0) {
-        console.log("request data")
+        //console.log("request data")
       }
       if (newDirection == 1 && direction == 1) {
         if (key != currentChallenge) {
-          console.log("re-request data")
+          //console.log("re-request data")
         }
       } else {
         setDirection(newDirection)

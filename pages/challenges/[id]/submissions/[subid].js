@@ -1,19 +1,39 @@
-import axios from 'axios'
+import {getSession} from 'next-auth/client'
+import styles from '../../../../styles/submissionEditor.module.css'
+import Editor from '@monaco-editor/react'
+
 export default function submission(props) {
     return (
-        <text>{JSON.stringify(props.submission)}</text>
+        <div className={styles.container}>
+            <div className={styles.centerContainer}>
+                <div className={styles.sideTree}>
+                    <div className={styles.sideTreeHeader}>
+                        <img className={styles.challengeLanguageImage} src="/python-white.svg"/>
+                        <text className={styles.challengeTitle}>Challenge title - Goes here!</text>
+                        <div className={styles.underline}/>
+                    </div>
+
+                    <div className={styles.sideTreeMain}>
+                    </div>
+                </div>
+                <div className={styles.ideContainer}>
+                    <Editor className={styles.ide}
+                    defaultLanguage="cpp"
+                    theme="vs-dark"
+                    width="100%"
+                    />
+                </div>
+            </div>
+        </div>
     )
 }
 
 export async function getServerSideProps(context) {
-    let submission = await axios.get(`http://fbbsvr.ddns.net:5192/api/getSubmission/${context.query.subid}`)
-    if (submission.code || submission.data.length == 0 || !submission.data) {
-        context.res.writeHead(302, {location: '/'})
-        context.res.end()
-    }
+    var s = await getSession(context)
     return {
         props: {
-            submission: submission.data
+            session: s,
+            title: "submission"
         }
     }
 }
