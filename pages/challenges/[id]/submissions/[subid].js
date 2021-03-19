@@ -95,7 +95,6 @@ if __name__ == "__main__":
 export default function submission(props) {
     function handleEditorWillMount(monaco) {
         monaco.editor.defineTheme("nucleus", themeData)
-        //monaco.editor.setTheme('nucleus')
     }
     
     return (
