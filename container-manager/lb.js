@@ -3,11 +3,12 @@ const fs = require('fs');
 
 var docker = new Docker();
 var image = 'krlmlr/debian-ssh:wheezy';
+var user = "";
 
 // Create a new container
 
 exports.createContainer = function () {
-    const sshKey = fs.readFileSync('/home/bruno/.ssh/id_rsa.pub', 'utf-8');
+    const sshKey = fs.readFileSync(`/home/${user}/.ssh/id_rsa.pub`, 'utf-8');
 
     docker.createContainer({
         Image: image,
