@@ -1,7 +1,7 @@
 import {getSession} from 'next-auth/client'
 import styles from '../../../../styles/submissionEditor.module.css'
 import Editor from '@monaco-editor/react'
-
+import axios from 'axios'
 import themeData from '../../../../styles/editortheme.json'
 
 const placeholdercode = `class Node: #very simple node class
@@ -112,7 +112,7 @@ export default function submission(props) {
                 </div>
                 <div className={styles.ideContainer}>
                     <Editor className={styles.ide}
-                    defaultLanguage="javascript"
+                    defaultLanguage="python"
                     width="100%"
                     value={placeholdercode}
                     theme="nucleus"
