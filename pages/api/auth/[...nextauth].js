@@ -31,20 +31,22 @@ export default NextAuth({
       return state
     },
     async jwt(token, user) {
-      const refreshTime = Date(token.authTime + 60 * 60000);
-      if (refreshTime - new Date().getTime() > 0) {
-        await axios.post(`https://oauth2.googleapis.com/token?client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&refresh_token=${token.refreshToken}&grant_type=refresh_token`, {})
+      var currentTime = new Date().getTime() //ms
+
+
+      if (token.expiry - currentTime < 0) {
+          await axios.post(`https://oauth2.googleapis.com/token?client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&refresh_token=${token.refreshToken}&grant_type=refresh_token`, {})
           .then(tokenResponse => {
-            console.log(tokenResponse.data.access_token)
-            token.accessToken = tokenResponse.data.access_token
+            token.accessToken = tokenResponse.data.access_token //update access token
+            token.expiry = currentTime + 3600000 //update refresh time to be 1h ahead of current time
           }).catch(error => console.log(error))
       }
 
       if (user) { //only ran on first login
         token.accessToken = user.accessToken
         token.refreshToken = user.refreshToken
+        token.expiry = new Date().getTime() + 3600000 //login time + 1h = first refresh time
       }
-    
       return token
     }
   }
