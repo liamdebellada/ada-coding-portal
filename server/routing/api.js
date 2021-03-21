@@ -23,26 +23,6 @@ router.get('/getSubmission/:id', async (req, res) => {
     res.send(submission)
 })
 
-
-router.post('/registerCheck', async (req, res) => {
-    var exists = await models.profiles.model.find({"account.email" : req.body.email})
-    if (!!exists.length) {
-        return res.send('done')
-    } else {
-        await models.profiles.model.create({
-            account: req.body,
-            rankData: {},
-            Submissions: {},
-            url: `/${req.body.name.toLowerCase().replace(" ", "_")}`,
-            admin: false
-        }).then(() => {
-            return res.send('done')
-        }).catch(() => {
-            return res.status(500).send('error')
-        })
-    }
-})
-
 router.post('/isUser', async (req,res) => {
     await models.profiles.model.find({url: `/${req.body.tag}`}).then(data => {
         if (data.length > 0) {

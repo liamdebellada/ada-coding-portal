@@ -45,8 +45,16 @@ const userAuth = async (req,res,next) => {
             return res.status(403).send('Not Authorized')
         }
         if (user.status == 200) {
-            req.googleAccount = user.data;
-            next();
+            //check if user document exists
+            let authorised = await models.profiles.model.countDocuments({"account.id" : user.data.id}) == 1 ? true : false
+
+            if (authorised) {
+                req.googleAccount = user.data;
+                next();
+            } else {
+                return res.status(403).send('Not Authorized')
+            }
+
         } else {
             return res.status(500).send('Internal server issue')
         }

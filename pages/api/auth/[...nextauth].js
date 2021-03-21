@@ -18,14 +18,17 @@ export default NextAuth({
       return user
     },
     async signIn(user, account, profile) {
-      var state = await axios.post('http://fbbsvr.ddns.net:5192/api/registerCheck', user)
-        .then(response => {
+      var state = await axios.post('http://fbbsvr.ddns.net:5192/api/users/registerCheck', {}, {
+          headers: {
+              'authorization': `Bearer ${account.accessToken}`
+          }
+      }).then(response => {
           if (response.status == 200) {
             return true
           } else {
             return false
           }
-        }).catch(() => false)
+      }).catch(() => false)
       user.accessToken = account.accessToken
       user.refreshToken = account.refreshToken
       return state

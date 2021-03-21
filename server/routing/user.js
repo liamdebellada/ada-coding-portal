@@ -32,4 +32,29 @@ router.post('/updateSettings', async (req, res) => {
     return res.send("Done")
 })
 
+
+router.get('/test', async (req, res) => {
+    res.send('working')
+})
+
+
+router.post('/registerCheck', async (req, res) => {
+    var exists = await models.profiles.model.countDocuments({"account.id" : req.googleAccount.id}) == 1 ? true : false
+    if (exists) {
+        return res.send('done')
+    } else {
+        await models.profiles.model.create({
+            account: req.googleAccount,
+            rankData: {},
+            Submissions: {},
+            url: `/${req.googleAccount.name.toLowerCase().replace(" ", "_")}`,
+            admin: false
+        }).then(() => {
+            return res.send('done')
+        }).catch(() => {
+            return res.status(500).send('error')
+        })
+    }
+})
+
 module.exports = router;
