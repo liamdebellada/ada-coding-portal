@@ -1,10 +1,8 @@
-import {getSession} from 'next-auth/client'
-import getDataFromUrl from '../utils/apiHandler'
 import AuthIndex from '../components/auth-index'
 import Index from '../components/index'
 
 function Home(props) {
-  if (props.session) {    
+  if (props.globalProps.session) {    
     return (
       <AuthIndex {...props}/>
     )
@@ -15,18 +13,10 @@ function Home(props) {
   }
 }
 
-export async function getServerSideProps(context) {
-  var s = await getSession(context)
-  if (s) {
-    var staticContent = await getDataFromUrl('http://fbbsvr.ddns.net:5192/api/content/data/challenges')
-  } else {
-    var staticContent = []
-  }
+export async function getServerSideProps() {
   return {
     props: {
-      title : "Ada Nucleus",
-      session: s,
-      challenges: staticContent
+      title : "Ada Nucleus"
     }
   }
 }

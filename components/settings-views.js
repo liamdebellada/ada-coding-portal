@@ -17,8 +17,8 @@ function ProfileTab(props) {
     return (
         <div className={styles.componentContainer}>
             <div className={styles.profileBasic}>
-                <img className={styles.pictureContainer} src={props.session.picture}/>
-                <text className={styles.userName}>{props.session.name}</text>
+                <img className={styles.pictureContainer} src={props.globalProps.session.picture}/>
+                <text className={styles.userName}>{props.globalProps.session.name}</text>
                 <div className={styles.tagContainer}>
                     <LangTag langName="python"/>
                     <LangTag langName="dart"/>

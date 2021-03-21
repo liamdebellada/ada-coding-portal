@@ -1,4 +1,3 @@
-import {getSession} from 'next-auth/client'
 import { useEffect, useState } from 'react'
 import styles from '../styles/settings.module.css'
 import {ProfileTab, NotificationsTab, ContentTab, HelpTab} from '../components/settings-views'
@@ -14,7 +13,7 @@ export default function settings(props) {
                 changes
             }, {
                 headers: {
-                    'authorization': `Bearer ${props.session.accessToken}`
+                    'authorization': `Bearer ${props.globalProps.session.accessToken}`
                 }
             }).then(success => {
                 console.log(success)
@@ -76,14 +75,4 @@ export default function settings(props) {
             </div>
         </div>
     )
-}
-
-
-export async function getServerSideProps(context) {
-    var s = await getSession(context)
-    return {
-        props: {
-            session: s
-        }
-    }
 }

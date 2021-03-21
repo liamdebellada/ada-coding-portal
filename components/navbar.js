@@ -1,9 +1,8 @@
 import styles from '../styles/navbar.module.css'
-import {signIn, signOut} from 'next-auth/client'
 import Router from 'next/router'
 
 function navbar(props) {
-    if (props.session) {
+    if (props.globalProps.session) {
     return (
         <div className={`${styles.nav} ${styles.sticky}`}>
             <div className={styles.leftNav}>
@@ -27,8 +26,8 @@ function navbar(props) {
             </div>
             <div className={styles.rightNav}>
                 <div className={`${styles.rightNavContainer}`}>
-                    <img className={styles.navProfilePic} src={props.session.picture}/>
-                    <text className={styles.navUserNameText}>{props.session.name}</text>
+                    <img className={styles.navProfilePic} src={props.globalProps.session.picture}/>
+                    <text className={styles.navUserNameText}>{props.globalProps.session.name}</text>
                 </div>
             </div>
         </div>

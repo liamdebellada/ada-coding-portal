@@ -1,7 +1,7 @@
 import styles from '../styles/landing.module.css'
 import OrbitAda from './orbit-logo'
 import {signIn} from 'next-auth/client'
-export default function index(props) {
+export default function index() {
     return (
         <div className={styles.container}>
             <div className={styles.firstContainer}>

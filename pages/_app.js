@@ -8,27 +8,31 @@ import { AnimatePresence, motion } from "framer-motion"
 
 export default class MyApp extends App {
   static async getInitialProps({ctx}) {
-    var s = await getSession(ctx)
-    if (ctx.pathname != "/" && !s) {
-      ctx.res.writeHead(302, {location: '/'})
-      ctx.res.end()
-    }
-    return {}
+      var s = await getSession(ctx)
+      if (ctx.pathname != "/" && !s) {
+          ctx.res.writeHead(302, {location: '/'})
+          ctx.res.end()
+      }
+      return {
+          props: { //set global auth props here :)
+              session: s
+          }
+      }
   }
 
   render() {
-    const { Component, pageProps, router } = this.props
-    return (
-      <Layout>
-        <NavBar {...pageProps}/>
-        <AnimatePresence key={router.route}>
-          <motion.div exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
-            <Component {...pageProps} key={router.route}/>
-          </motion.div>        
-        </AnimatePresence>
-          
-      </Layout>
-    ) 
+      const { Component, pageProps, router } = this.props
+      return (
+        <Layout>
+          <NavBar globalProps={this.props.props} {...pageProps}/>
+          <AnimatePresence key={router.route}>
+            <motion.div exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
+              <Component {...pageProps} key={router.route} globalProps={this.props.props}/>
+            </motion.div>        
+          </AnimatePresence>
+            
+        </Layout>
+      ) 
   }
 }
 
