@@ -5,11 +5,12 @@ import App from 'next/app'
 import { getSession } from 'next-auth/client'
 import { AnimatePresence, motion } from "framer-motion"
 
+const allowedPaths = ["/", "/auth/error"]
 
 export default class MyApp extends App {
   static async getInitialProps({ctx}) {
       var s = await getSession(ctx)
-      if (ctx.pathname != "/" && !s) {
+      if (!allowedPaths.includes(ctx.pathname) && !s) {
           ctx.res.writeHead(302, {location: '/'})
           ctx.res.end()
       }

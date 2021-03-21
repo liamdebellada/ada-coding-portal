@@ -11,6 +11,10 @@ export default NextAuth({
     }),
   ],
 
+  pages: {
+    error: '/auth/error'
+  },
+
   secret: process.env.SECRET,
 
   callbacks: {
@@ -33,7 +37,6 @@ export default NextAuth({
     },
     async jwt(token, user) {
       var currentTime = new Date().getTime() //ms
-
 
       if (token.expiry - currentTime < 0) {
           await axios.post(`https://oauth2.googleapis.com/token?client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&refresh_token=${token.refreshToken}&grant_type=refresh_token`, {})
