@@ -3,6 +3,7 @@ const express = require('express')
 const rateLimit = require('express-rate-limit')
 const bodyparser = require('body-parser')
 const cors = require('cors')
+require('dotenv').config({path: '../.env'});
 
 var jsonParser = bodyparser.json()
 
@@ -31,6 +32,7 @@ const ApiRL = rateLimit({
     statusCode: 429,
     message: {problem: "tmr", error: "Woah slow down, your making to many requests."}
 })
+
 
 app.all('*', ApiRL)
 app.use(cors())

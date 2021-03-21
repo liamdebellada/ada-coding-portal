@@ -2,6 +2,7 @@ const express = require('express')
 var router = express.Router()
 const models = require('../schemas')
 const axios = require('axios')
+const fs = require('fs')
 
 router.get('/getChallenges/:id', async (req, res) => {
     // console.log(req.params)
@@ -56,19 +57,26 @@ router.post('/registerCheck', async (req, res) => {
             if (exists) {
                 return res.send('done')
             } else {
+                //setup empty userspace directory
+                var userDirectory = `${process.env.USERSPACE_DIR}/${user.data.name.toLowerCase().replace(" ", "_")}`
+                fs.mkdirSync(userDirectory)
+
+                //create document for new user
                 await models.profiles.model.create({
                     account: user.data,
                     rankData: {},
                     Submissions: {},
                     url: `/${user.data.name.toLowerCase().replace(" ", "_")}`,
-                    admin: false
+                    admin: false,
+                    userSpaceDirectory: userDirectory
                 }).then(() => {
                     return res.send('done')
                 }).catch(() => {
                     return res.status(500).send('error')
                 })
             }
-        } catch {
+        } catch(e) {
+            console.log(e)
             return res.status(500).send("Internal error")
         }
     } else {

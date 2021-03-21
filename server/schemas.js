@@ -81,6 +81,10 @@ const profiles = new mongoose.Schema({
     settings: {
         type: Array,
         required: false
+    },
+    userSpaceDirectory: {
+        type: String,
+        required: true
     }
 })
 
