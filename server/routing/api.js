@@ -1,7 +1,7 @@
 const express = require('express')
 var router = express.Router()
 const models = require('../schemas')
-const crypto = require('crypto')
+const axios = require('axios')
 
 router.get('/getChallenges/:id', async (req, res) => {
     // console.log(req.params)
@@ -42,6 +42,41 @@ router.post('/createUpvote', async (req, res) => {
 router.post('/createView', async (req, res) => {
     var response = await models.submissionsModel.updateOne({_id: req.body.id}, {$inc: {views: 1}}).then(res => res).catch(err => err)
     res.send(response)
+})
+
+
+router.post('/registerCheck', async (req, res) => {
+    let auth = req.get('authorization')
+    if (auth) {
+        let token = auth.split(" ")[1]
+        try {
+            var user = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${token}`)
+
+            var exists = await models.profiles.model.countDocuments({"account.id" : user.data.id}) == 1 ? true : false
+            if (exists) {
+                return res.send('done')
+            } else {
+                await models.profiles.model.create({
+                    account: user.data,
+                    rankData: {},
+                    Submissions: {},
+                    url: `/${user.data.name.toLowerCase().replace(" ", "_")}`,
+                    admin: false
+                }).then(() => {
+                    return res.send('done')
+                }).catch(() => {
+                    return res.status(500).send('error')
+                })
+            }
+        } catch {
+            return res.status(500).send("Internal error")
+        }
+    } else {
+        return res.status(403).send("Not authorized")
+    }
+
+
+
 })
 
 module.exports = router
