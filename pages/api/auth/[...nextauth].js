@@ -22,18 +22,19 @@ export default NextAuth({
       return user
     },
     async signIn(user, account, profile) {
-      var state = await axios.post('http://fbbsvr.ddns.net:5192/api/registerCheck', {}, {
-          headers: {
-              'authorization': `Bearer ${account.accessToken}`
-          }
-      }).then(() => {
-          return true;
-      }).catch(() => { //catches status codes other than 200 aswell!!
-          return false
-      })
+
+      // var state = await axios.post('http://fbbsvr.ddns.net:5192/api/registerCheck', {}, {
+      //     headers: {
+      //         'authorization': `Bearer ${account.accessToken}`
+      //     }
+      // }).then(() => {
+      //     return true;
+      // }).catch(() => { //catches status codes other than 200 aswell!!
+      //     return false
+      // })
       user.accessToken = account.accessToken
       user.refreshToken = account.refreshToken
-      return state
+      return true
     },
     async jwt(token, user) {
       var currentTime = new Date().getTime() //ms
