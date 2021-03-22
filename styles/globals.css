@@ -8,6 +8,12 @@ html, body {
   height: 100%;
 }
 
+.slick-list {
+  margin: 0 -20px;}
+.slick-slide>div {
+  padding: 0 18px;
+}
+
 body {
   height: 100%;
   margin: 0;

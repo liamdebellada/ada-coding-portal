@@ -17,7 +17,7 @@ console.log('It works!')
                 <div className={styles.headerInfo}>
                     <div className={styles.publisher}>
                         <span className="material-icons">history_edu</span>
-                        Steve Rich
+                        {props.data.teacher}
                     </div>
                     <div className={styles.profileIconList}>
                         <img className={styles.profileIconTop} src="profile.svg"/>

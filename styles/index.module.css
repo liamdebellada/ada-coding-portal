@@ -7,6 +7,12 @@
     margin: 0 auto;
 }
 
+@media screen and (max-width: 1000px) {
+    .leftContent {
+        display: none !important;
+    }
+}
+
 .leftContent {
     display: flex;
     flex-direction: column;
@@ -86,16 +92,15 @@
 }
 
 .iChallenge {
+    margin-right: 100px;
     align-self: center;
-    flex-basis: 18rem;
     min-height: 18rem;
-    flex-shrink: 1;
     padding: 1rem 1.5rem 1rem 1.5rem;
 }
 
 .myChallenge {
     background-color: #3d3756;
-    border-radius: 1.6rem;
+    border-radius: 20px;
 }
 
 .upcomingChallenge {
