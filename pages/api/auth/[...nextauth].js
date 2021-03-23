@@ -23,7 +23,7 @@ export default NextAuth({
     },
     async signIn(user, account, profile) {
 
-      // var state = await axios.post('http://fbbsvr.ddns.net:5192/api/registerCheck', {}, {
+      // var state = await axios.post(`${process.env.SECRET}/api/registerCheck`, {}, {
       //     headers: {
       //         'authorization': `Bearer ${account.accessToken}`
       //     }

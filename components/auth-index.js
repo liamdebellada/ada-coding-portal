@@ -69,8 +69,8 @@ const settings = {
   dots: false,
   infinite: true,
   slidesToScroll: 1,
-  slidesToShow: 2,
   draggable: true,
+  variableWidth: true,
 };
 
 function RightSideOther(props) {

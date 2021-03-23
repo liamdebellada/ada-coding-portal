@@ -6,7 +6,7 @@ import {useEffect, useState, useReducer} from 'react'
 
 
 export default function Challenge(props) {
-    const socket = io.connect('http://fbbsvr.ddns.net:5192', { transports: ['websocket', 'polling', 'flashsocket'] })
+    const socket = io.connect(`${process.env.SECRET}`, { transports: ['websocket', 'polling', 'flashsocket'] })
     const [submissions, setSubmissions] = useState(props.data.submissions)
 
     useEffect(() => {
@@ -48,7 +48,7 @@ Proin et lorem sed lorem elementum sagittis. Curabitur vel arcu mattis, placerat
 
 export async function getServerSideProps(context) {
     var s = await getSession(context)
-    var challengeData = await axios.get(`http://fbbsvr.ddns.net:5192/api/getChallenges/${context.query.id}`)
+    var challengeData = await axios.get(`${process.env.SECRET}/api/getChallenges/${context.query.id}`)
     if (challengeData.code || !challengeData.data.challenge._id) {
         context.res.writeHead(302, {location: '/'})
         context.res.end()
