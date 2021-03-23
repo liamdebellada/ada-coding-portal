@@ -92,12 +92,15 @@
 }
 
 .iChallenge {
+    
     margin-right: 100px;
     align-self: center;
-
-    justify-content: space-between;
     min-height: 18rem;
     padding: 1rem 1.5rem 1rem 1.5rem;
+}
+
+.iChallenge:focus {
+    outline: none;
 }
 
 .myChallenge {

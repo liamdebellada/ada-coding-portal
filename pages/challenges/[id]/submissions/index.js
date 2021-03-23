@@ -12,7 +12,7 @@ export default function submission(props) {
 }
 
 export async function getServerSideProps(context) {
-    var submissions = await axios.get(`${process.env.SECRET}/api/getSubmissions/${context.query.id}`)
+    var submissions = await axios.get(`${process.env.HOST}/api/getSubmissions/${context.query.id}`)
     if (submissions.code || !submissions.data) {
         context.res.writeHead(302, {location: '/'})
         context.res.end()

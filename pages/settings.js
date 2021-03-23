@@ -9,7 +9,7 @@ export default function settings(props) {
 
     const saveSettings = () => { //call this inside of the components :)
         if (!changes.length < 1) {
-            axios.post(`${process.env.SECRET}/api/users/updateSettings`, {
+            axios.post(`${process.env.HOST}/api/users/updateSettings`, {
                 changes
             }, {
                 headers: {

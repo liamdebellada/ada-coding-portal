@@ -100,7 +100,7 @@ function HomeChallenges(props) {
 
         <Slider {...settings}>
           {challengeList.map((data, k) => (
-              <div key={k} onClick={() => props.paginate(1, props.ckey, data)} ckey={k} 
+              <div key={k} onClick={() => props.paginate(1, k, data)} ckey={k}
               func={props.paginate} className={`${styles.iChallenge} ${styles.myChallenge}`}>
 
                 <div className={styles.cardHeader}>
@@ -166,12 +166,14 @@ export default function authIndex() {
     setCurrentChallenge(key)
     setData(data);
 
+    console.log(currentChallenge)
+
     if (direction <= 0) {
       //console.log("request data")
     }
     if (newDirection == 1 && direction == 1) {
       if (key != currentChallenge) {
-        //console.log("re-request data")
+         //console.log("re-request data")
       }
     } else {
       setDirection(newDirection)
@@ -198,8 +200,9 @@ export default function authIndex() {
               </div>
         </div>
         <div className={styles.codePreviews}>
-          <Submission />
-          <Submission />
+         
+          <Submission ckey={1} func={paginate}/>
+          <Submission ckey={6} func={paginate}/>
           <Submission />
         </div>
       </div>
