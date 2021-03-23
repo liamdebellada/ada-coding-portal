@@ -15,7 +15,7 @@ const code = `def binarySearch(elem, intArr):
 
 export default function submission(props) {
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={() => props.func(1, props.ckey)}>
             <div className={styles.codeContainer}>
                 <div className={styles.scroll}>
                     <pre className={styles.codePreserve}>

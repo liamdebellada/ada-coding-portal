@@ -15,7 +15,7 @@ export default NextAuth({
     error: '/auth/error'
   },
 
-  secret: process.env.SECRET,
+  secret: process.env.HOST,
 
   callbacks: {
     async session(session, user) {
@@ -23,18 +23,23 @@ export default NextAuth({
     },
     async signIn(user, account, profile) {
 
-      // var state = await axios.post(`${process.env.SECRET}/api/registerCheck`, {}, {
-      //     headers: {
-      //         'authorization': `Bearer ${account.accessToken}`
-      //     }
-      // }).then(() => {
-      //     return true;
-      // }).catch(() => { //catches status codes other than 200 aswell!!
-      //     return false
-      // })
+      console.log(process.env.HOST);
+
+      var state = await axios.post(`${process.env.HOST}/api/registerCheck`, {}, {
+          headers: {
+              'authorization': `Bearer ${account.accessToken}`
+          }
+      }).then((data) => {
+          console.log(data);
+          return true;
+      }).catch((error) => { //catches status codes other than 200 aswell!!
+          console.log(error);
+          return false
+      })
+
       user.accessToken = account.accessToken
       user.refreshToken = account.refreshToken
-      return true
+      return state;
     },
     async jwt(token, user) {
       var currentTime = new Date().getTime() //ms
