@@ -11,6 +11,9 @@ html, body {
 .slick-list {
   margin: 0 -20px;}
 .slick-slide>div {
+  display: inline-block;
+  width: 300px;
+  height: 100%;
   padding: 0 18px;
 }
 
