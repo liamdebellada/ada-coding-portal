@@ -67,7 +67,7 @@ const profiles = new mongoose.Schema({
         required: true
     },
     Submissions: {
-        type: Object,
+        type: Array,
         required: true
     },
     url: {
