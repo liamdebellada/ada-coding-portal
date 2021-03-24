@@ -1,0 +1,36 @@
+type profiles{
+    id: ID!,
+    url: String!,
+    userSpaceDirectory: String!,
+    admin: Boolean!,
+    account: account!,
+    settings: [settings]!,
+    challenges: [userChallenges]!
+}
+
+type account{
+    id: String!,
+    email: String!,
+    verified_email: Boolean!,
+    name: String!,
+    given_name: String!,
+    family_name: String!,
+    picture: String!,
+    locale: String!,
+    hd: String!,
+}
+
+type settings{
+    biography: String!,
+    languageTags: [ID]!,
+    notifications: notifSettings!
+}
+
+type notifSettings{
+    challenges: Boolean!
+}
+
+type userChallenges{
+    id: ID!,
+    submission: ID!
+}

@@ -1,0 +1,6 @@
+    type languages{
+        _id: ID!,
+        name: String!,
+        difficulty: Int!,
+        icon: String!
+    }

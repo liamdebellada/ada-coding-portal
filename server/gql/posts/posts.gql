@@ -1,0 +1,7 @@
+type posts{
+    _id: ID!,
+    user: ID!,
+    comments: [ID]!,
+    document: ID!,
+    likes: Int!
+}

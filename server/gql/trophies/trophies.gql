@@ -1,0 +1,7 @@
+type trophies{
+    _id: ID!,
+    description: String!,
+    icon: String!,
+    name: String!,
+    rank: Int!
+}
