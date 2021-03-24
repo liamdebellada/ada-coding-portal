@@ -17,18 +17,45 @@
 .codeContainer {
     overflow:hidden;
     scrollbar-color: #595273 transparent;
+    scrollbar-width: 5px;
+    
     background-color: #342e49;
     height: 80%;
     width: 100%;
     border-radius: 1.3rem;
+    
 }
 
 .scroll {
     overflow-y: scroll;
     word-wrap: break-word;
     height: 100%;
+    
     padding: 1rem;
     padding-top: 0.5rem;
+    padding-left: 2px;
+
+    margin-right: 10px;
+    margin-left: 16px;
+
+}
+
+.scroll::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+ 
+.scroll::-webkit-scrollbar-track {
+    margin-top: 20px;
+}
+ 
+.scroll::-webkit-scrollbar-thumb {
+    background-color: #595273;
+    border-radius: 20px;
+}
+
+.scroll::-webkit-scrollbar-corner{
+    background-color: #342e49;
 }
 
 .userInfoContainer {
