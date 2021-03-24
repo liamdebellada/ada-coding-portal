@@ -35,19 +35,19 @@ const languagesDef = gql(readFileSync(__dirname.concat('/gql/languages/languages
 //static resolvers for now...
 const resolvers = { Query: {
     Profiles () {
-        return Profiles.find({}).then(data => data)
+        return Profiles.find({}).then((data: any) => data)
     },
     Posts () {
-        return Posts.find({}).then(data => data)
+        return Posts.find({}).then((data: any) => data)
     },
     Submissions () {
-        return Submissions.find({}).then(data => data)
+        return Submissions.find({}).then((data: any) => data)
     },
     Trophies () {
-        return Trophies.find({}).then(data => data)
+        return Trophies.find({}).then((data: any) => data)
     },
     Languages () {
-        return Languages.find({}).then(data => data)
+        return Languages.find({}).then((data: any) => data)
     }
 }};
 
