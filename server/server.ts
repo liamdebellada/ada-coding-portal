@@ -8,6 +8,13 @@ import {merge} from 'lodash'
 import {Challenges, Posts, Profiles, Submissions, Trophies, Languages} from './db/schemas'
 import challengeResolver from './gql/challenges/resolvers'
 
+const allResolvers : {[key: string]: any} = {};
+
+require("fs").readdirSync(require("path").join(__dirname, "/gql"))
+    .forEach(function(file: string) {
+  allResolvers[file] = require("./gql/" + file + "/resolvers.ts");
+});
+
 //connect to mongoDB
 connect('mongodb://localhost:27017/', {
     useNewUrlParser: true,
