@@ -1,11 +1,9 @@
 import {Challenges} from '../../db/schemas'
 
-const resolvers = {
+export default {
     Query: {
         findAllChallenges() {
             return Challenges.find({}).then(data => data)
         }
     }
 }
-
-export default resolvers

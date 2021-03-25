@@ -1,6 +1,6 @@
 import express from 'express';
 import { connect } from 'mongoose'
-import {readFileSync} from 'fs'
+import {readFileSync, readdirSync } from 'fs'
 import {ApolloServer, gql} from 'apollo-server-express'
 import {merge} from 'lodash'
 
@@ -45,9 +45,6 @@ const resolvers = { Query: {
     },
     Trophies () {
         return Trophies.find({}).then((data: any) => data)
-    },
-    Languages () {
-        return Languages.find({}).then((data: any) => data)
     }
 }};
 
