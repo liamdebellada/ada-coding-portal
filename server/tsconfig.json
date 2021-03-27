@@ -64,4 +64,5 @@
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
   }
+  //todo: Create path shortcuts 
 }
