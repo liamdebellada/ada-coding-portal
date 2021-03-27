@@ -49,7 +49,7 @@ exports.createNewFile = (directory, file) => { //creates a new file with a given
 
 exports.createFolder = (directory, name) => { //create a new folder with a given directory and folder name
     return new Promise((resolve, reject) => {
-        fs.mkdir(`${directory}/${name}`, (error) => {
+        fs.mkdir(`${directory}/${name}`, { recursive: true },(error) => {
             error == null ? resolve(true) : reject(error)
         })
     })

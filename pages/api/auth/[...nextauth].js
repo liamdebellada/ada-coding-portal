@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 import axios from 'axios'
+import { GraphQLClient, gql } from 'graphql-request'
 
 export default NextAuth({
   providers: [
@@ -23,19 +24,17 @@ export default NextAuth({
     },
     async signIn(user, account, profile) {
 
-      console.log(process.env.HOST);
-
-      var state = await axios.post(`${process.env.HOST}/api/registerCheck`, {}, {
-          headers: {
-              'authorization': `Bearer ${account.accessToken}`
-          }
-      }).then((data) => {
-          console.log(data);
-          return true;
-      }).catch((error) => { //catches status codes other than 200 aswell!!
-          console.log(error);
-          return false
+      const gqlClient = new GraphQLClient('http://localhost:5000/graphql', {
+        headers: {
+          authorization: "Bearer " + account.accessToken,
+        },
       })
+
+      var state = await gqlClient.request(gql`{}`).then((response) => {
+          console.log(response);
+      }).catch((error) => {
+          return error;
+      }); 
 
       user.accessToken = account.accessToken
       user.refreshToken = account.refreshToken

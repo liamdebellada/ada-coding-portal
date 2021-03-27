@@ -19,6 +19,8 @@
     "express-rate-limit": "^5.2.5",
     "framer-motion": "^3.3.0",
     "glob": "^7.1.6",
+    "graphql": "^15.5.0",
+    "graphql-request": "^3.4.0",
     "lodash": "^4.17.21",
     "mongoose": "^5.11.15",
     "next": "10.0.6",

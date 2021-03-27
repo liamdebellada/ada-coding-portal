@@ -3,10 +3,9 @@ import { connect } from 'mongoose'
 import {readFileSync, readdirSync } from 'fs'
 import {ApolloServer, gql} from 'apollo-server-express'
 import {merge} from 'lodash'
+import authHandler from './auth';
 
 //schema imports
-import challengeResolver from './gql/challenges/resolvers'
-
 const allResolvers : {[key: string]: any} = {};
 
 require("fs").readdirSync(require("path").join(__dirname, "/gql"))
@@ -45,7 +44,11 @@ const app = express()
 const server = new ApolloServer({ 
     typeDefs: [Query, challengeTypeDef, submissionsDef, profilesTypeDef, postsDef, trophiesDef, languagesDef], 
     resolvers: merge(allResolvers.challenges, allResolvers.profiles, allResolvers.posts,
-         allResolvers.submissions, allResolvers.trophies, allResolvers.languages)});
+         allResolvers.submissions, allResolvers.trophies, allResolvers.languages),
+    context: ({req}) => {
+        return authHandler(req)
+    }
+});
     
 server.applyMiddleware({app})
 app.listen(5000, () => console.log("listening..."))
