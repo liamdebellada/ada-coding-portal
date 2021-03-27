@@ -23,6 +23,7 @@ connect('mongodb://localhost:27017/', {
 const Query = gql`
     type Query {
         findAllChallenges: [challenges],
+        findChallengeByID(id: String): challenges,
         findAllProfiles: [profiles],
         findAllPosts: [posts],
         findAllSubmissions: [submissions],
