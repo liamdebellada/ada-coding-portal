@@ -58,17 +58,36 @@ function RightSideOther(props) {
   )
 }
 
-//todo: teacherName query
+function TeacherName(props){
 
-function teacherName(){
+  const [teacherName, setTeacherName] = useState([]);
+
   const getChallengeInfo = gql`
-    
+    query getTeacher($id: String!){
+      findProfileByID(id: $id) {
+        account{
+          name
+        }
+      }
+    }
   `
-    props.client.request(getChallengeInfo, { id: props.data.id }).then((data) => setChallengeInfo(Object.values(data)));
+  
+  useEffect(() => {
+    props.client.request(getChallengeInfo, { id: props.id }).then((data) => setTeacherName(Object.values(data.findProfileByID.account.name)));
+  }, []);
+
+
+  return(
+    <div>
+      {teacherName}
+    </div>
+  )
+
 }
 
 function ChallengeComponent(props) {
   const [challengeInfo, setChallengeInfo] = useState([]);
+  const [formattedTime, setFormattedTime] = useState("");
 
   const getChallengeInfo = gql`
     query getChallenge($id: String!){
@@ -82,7 +101,11 @@ function ChallengeComponent(props) {
   `
 
   useEffect(() => {
-    props.client.request(getChallengeInfo, { id: props.data.id }).then((data) => setChallengeInfo(Object.values(data)));
+    props.client.request(getChallengeInfo, { id: props.data.id }).then((data) => {
+      setChallengeInfo(Object.values(data));
+      var date = new Date(parseInt(data.findChallengeByID.due))
+      setFormattedTime(date.toLocaleDateString())
+    });
   }, []);
 
   if(challengeInfo[0] != null){
@@ -90,19 +113,19 @@ function ChallengeComponent(props) {
       <>
         <div key={props.k} onClick={() => props.paginate(1, props.k, challengeInfo[0])} ckey={props.k}
           func={props.paginate} className={`${styles.iChallenge} ${styles.myChallenge}`}>
-  
+          
           <div className={styles.cardHeader}>
             <img className={styles.languageIcon} src="/icons/swift.svg" />
             <div className={`${styles.dateContainer} ${styles.colouredDate}`}>
               <span className="material-icons">date_range</span>
-              <text>{challengeInfo[0].due}</text>
+              <text>{formattedTime}</text>
             </div>
           </div>
           <div className={styles.cardBody}>
             <text className={styles.challengeTitle}>{challengeInfo[0].title}</text>
             <div className={styles.publisher}>
               <span className="material-icons">history_edu</span>
-              {challengeInfo[0].teacher}
+              <TeacherName client={props.client} id={challengeInfo[0].teacher} />
             </div>
             <div className={styles.horizontalProfileContainer}>
               <img className={styles.iProfilePic} src="/profile.svg" />

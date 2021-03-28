@@ -9,7 +9,6 @@ export default {
             return Profiles.findOne({_id: id}).then(data => data);
         },
         findProfileByGoogleID(_: any, {id}: any){
-            console.log(id);
             return Profiles.findOne({"account.id": id}).then(data => data);
         }
     }
