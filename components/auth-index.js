@@ -6,9 +6,11 @@ import "slick-carousel/slick/slick-theme.css";
 import Submission from '../components/submission-preview'
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { GraphQLClient, gql } from 'graphql-request'
+import { getSession } from 'next-auth/client'
 
 import ChallengeView from "../components/challenge";
-import React from "react";
+import { React, useEffect } from "react";
 import Slider from "react-slick";
 
 const vanishValue = 200
@@ -34,37 +36,6 @@ const variants = {
   }
 };
 
-const challengeList = [
-  {
-    title: "Unit 4 - Test content longer and longer",
-    due: "10/11/22",
-    teacher: "Steve Rich",
-  },
-  {
-    title: "Google Api Implementation",
-    due: "13/12/22",
-    teacher: "Mark Campbell",
-  },
-  {
-    title: "Theatre booking system",
-    due: "19/12/22",
-    teacher: "Steve Rich",
-  },
-  {
-    title: "Natural History Museum",
-    due: "25/12/22",
-    teacher: "Mark Campbell",
-  },
-];
-
-const upcoming = [
-  {
-    title: "Apache on the cloud",
-    due: "04/01/23",
-    teacher: "Mark Campbell"
-  }
-]
-
 const settings = {
   dots: false,
   infinite: true,
@@ -82,12 +53,93 @@ function RightSideOther(props) {
         <img className={styles.inlineLanguageIcon} src="icons/python.svg" />
         <text className={styles.rightHeaderText}>{props.data.title}</text>
       </div>
-      <ChallengeView data = {props.data} />
+      <ChallengeView data={props.data} />
     </>
   )
 }
 
+//todo: teacherName query
+
+function teacherName(){
+  const getChallengeInfo = gql`
+    
+  `
+    props.client.request(getChallengeInfo, { id: props.data.id }).then((data) => setChallengeInfo(Object.values(data)));
+}
+
+function ChallengeComponent(props) {
+  const [challengeInfo, setChallengeInfo] = useState([]);
+
+  const getChallengeInfo = gql`
+    query getChallenge($id: String!){
+      findChallengeByID(id: $id) {
+        title
+        due
+        teacher
+      }
+    }
+  
+  `
+
+  useEffect(() => {
+    props.client.request(getChallengeInfo, { id: props.data.id }).then((data) => setChallengeInfo(Object.values(data)));
+  }, []);
+
+  if(challengeInfo[0] != null){
+    return (
+      <>
+        <div key={props.k} onClick={() => props.paginate(1, props.k, challengeInfo[0])} ckey={props.k}
+          func={props.paginate} className={`${styles.iChallenge} ${styles.myChallenge}`}>
+  
+          <div className={styles.cardHeader}>
+            <img className={styles.languageIcon} src="/icons/swift.svg" />
+            <div className={`${styles.dateContainer} ${styles.colouredDate}`}>
+              <span className="material-icons">date_range</span>
+              <text>{challengeInfo[0].due}</text>
+            </div>
+          </div>
+          <div className={styles.cardBody}>
+            <text className={styles.challengeTitle}>{challengeInfo[0].title}</text>
+            <div className={styles.publisher}>
+              <span className="material-icons">history_edu</span>
+              {challengeInfo[0].teacher}
+            </div>
+            <div className={styles.horizontalProfileContainer}>
+              <img className={styles.iProfilePic} src="/profile.svg" />
+              <img className={styles.iProfilePic} src="/profile.svg" />
+            </div>
+          </div>
+        </div>
+      </>
+    )
+  } else{
+    return (
+      <>
+        <div>Loading</div>
+      </>
+    )
+  }
+}
+
 function HomeChallenges(props) {
+
+  const gqlClient = new GraphQLClient('http://localhost:5000/graphql',
+    { headers: { authorization: "Bearer " + props.accessToken } })
+
+  const [challengeList, setChallengeList] = useState([]);
+
+  const getChallenges = gql`{
+      findProfileByGoogleID(id: "${String(props.sub)}"){
+          challenges{
+            id
+          }
+       }
+    }
+  `
+
+  useEffect(() => {
+    gqlClient.request(getChallenges).then((data) => setChallengeList(Object.values(data.findProfileByGoogleID.challenges)));
+  }, []);
 
   return (
     <>
@@ -100,31 +152,10 @@ function HomeChallenges(props) {
 
         <Slider {...settings}>
           {challengeList.map((data, k) => (
-              <div key={k} onClick={() => props.paginate(1, k, data)} ckey={k}
-              func={props.paginate} className={`${styles.iChallenge} ${styles.myChallenge}`}>
+            <ChallengeComponent client={gqlClient} data={data} k={k} paginate={props.paginate} />
 
-                <div className={styles.cardHeader}>
-                  <img className={styles.languageIcon} src="/icons/swift.svg" />
-                  <div className={`${styles.dateContainer} ${styles.colouredDate}`}>
-                    <span className="material-icons">date_range</span>
-                    <text>{data.due}</text>
-                  </div>
-                </div>
-                <div className={styles.cardBody}>
-                  <text className={styles.challengeTitle}>{data.title}</text>
-                  <div className={styles.publisher}>
-                    <span className="material-icons">history_edu</span>
-                    {data.teacher}
-                  </div>
-                  <div className={styles.horizontalProfileContainer}>
-                    <img className={styles.iProfilePic} src="/profile.svg" />
-                    <img className={styles.iProfilePic} src="/profile.svg" />
-                  </div>
-                </div>
-              </div>
-            ))}
+          ))}
         </Slider>
-
       </div>
 
       <div className={styles.rightHeader}>
@@ -144,8 +175,8 @@ function HomeChallenges(props) {
             <div className={styles.upcomingWidgets}>
               <div className={styles.publisher}>
                 <span className="material-icons">history_edu</span>
-                Steve Rich
-              </div>
+                  Steve Rich
+                </div>
               <button className={`${styles.addWidget} material-icons`}>add</button>
             </div>
           </div>
@@ -154,9 +185,10 @@ function HomeChallenges(props) {
 
     </>
   )
+
 }
 
-export default function authIndex() {
+export default function authIndex(props) {
   const [direction, setDirection] = useState(0);
   const [currentChallenge, setCurrentChallenge] = useState(0);
 
@@ -166,21 +198,15 @@ export default function authIndex() {
     setCurrentChallenge(key)
     setData(data);
 
-    console.log(currentChallenge)
-
     if (direction <= 0) {
-      //console.log("request data")
     }
     if (newDirection == 1 && direction == 1) {
       if (key != currentChallenge) {
-         //console.log("re-request data")
       }
     } else {
       setDirection(newDirection)
     }
   };
-
-  //useEffect(() => console.log(direction), [direction])
 
   return (
     <div className={styles.mainContent}>
@@ -200,9 +226,9 @@ export default function authIndex() {
               </div>
         </div>
         <div className={styles.codePreviews}>
-         
-          <Submission ckey={1} func={paginate}/>
-          <Submission ckey={6} func={paginate}/>
+
+          <Submission ckey={1} func={paginate} />
+          <Submission ckey={6} func={paginate} />
           <Submission />
         </div>
       </div>
@@ -222,10 +248,25 @@ export default function authIndex() {
               opacity: { duration: 0.2 }
             }}
           >
-            {direction <= 0 ? <HomeChallenges paginate={paginate} /> : <RightSideOther data={currentChallenge, data} func={paginate} />}
+            {direction <= 0 ? <HomeChallenges paginate={paginate} sub={props.globalProps.session.sub} accessToken={props.globalProps.session.accessToken}
+              client={props.globalProps.client} />
+              : <RightSideOther data={currentChallenge, data} func={paginate} />}
+
           </motion.div>
         </AnimatePresence>
       </div>
     </div>
   )
+}
+
+// Reference session context (will remove):
+
+export async function getServerSideProps(context) {
+  var s = await getSession(context)
+
+  return {
+    props: {
+      session: s,
+    }
+  }
 }
