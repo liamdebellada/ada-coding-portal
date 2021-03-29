@@ -24,7 +24,9 @@ const Query = gql`
     type Query {
         findAllChallenges: [challenges],
         findChallengeByID(id: String): challenges,
+        findProfileByGoogleID(id: String): profiles,
         findAllProfiles: [profiles],
+        findProfileByID(id: String): profiles,
         findAllPosts: [posts],
         findAllSubmissions: [submissions],
         findAllTrophies: [trophies],
