@@ -33,6 +33,7 @@ const Query = gql`
         findAllLanguages: [languages]
     }
 `
+
 const challengeTypeDef = gql(readFileSync(__dirname.concat('/gql/challenges/challenges.gql'), 'utf8'))
 const profilesTypeDef = gql(readFileSync(__dirname.concat('/gql/profiles/profiles.gql'), 'utf8'))
 const submissionsDef = gql(readFileSync(__dirname.concat('/gql/submissions/submissions.gql'), 'utf8'))

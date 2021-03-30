@@ -83,6 +83,12 @@
     padding: 1rem;
 }
 
+.rightHeaderButton:hover {
+    transition: all 0.3s ease-out;
+    background-color: white;
+    color: black
+}
+
 .challenges {
     display: flex;
     flex-wrap: wrap;

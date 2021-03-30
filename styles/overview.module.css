@@ -1,0 +1,14 @@
+.mainBody{
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+.rightHeader {
+    height: 2.8rem;
+    padding-bottom: 2.8rem;
+    padding-top: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
