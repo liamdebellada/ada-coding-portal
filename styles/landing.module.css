@@ -62,7 +62,7 @@
 .titleContainer {
     display: flex;
     flex-direction: column;
-    width: 15rem;
+    width: 19rem;
     margin-right: 3rem;
 }
 
@@ -90,9 +90,9 @@
     color: white;
     border: 1px solid white;
     border-radius: 0.6rem;
-    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
-    width: 6.5rem;
-    height: 2.2rem;
+    padding: 0.9rem;
+    width: 8.2rem;
+    height: 2.5rem;
 }
 
 .signInButton:hover {
@@ -108,6 +108,7 @@
 
 .signInText {
     font-size: 1.2rem;
+    padding-left: 1rem;
 }
 
 .questionButton {
@@ -132,7 +133,7 @@
     font-size: 1.2rem;
 }
 
-@media only screen and (max-width: 1066px) {
+@media only screen and (max-width: 1000px) {
     .firstContainer {
         flex-direction: column;
         align-items: left;
@@ -143,7 +144,7 @@
     }
 }
 
-@media only screen and (max-width: 956px) {
+@media only screen and (max-width: 1066px) {
     .topContent {
         flex-direction: column;
     }

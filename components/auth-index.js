@@ -1,17 +1,20 @@
-import styles from '../styles/index.module.css'
-
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
-import Submission from '../components/submission-preview'
-import { useState } from "react";
+//Packages
 import { motion, AnimatePresence } from "framer-motion";
 import { GraphQLClient, gql } from 'graphql-request'
 import { getSession } from 'next-auth/client'
-
-import ChallengeView from "../components/challenge";
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
+import Router from 'next/router';
 import Slider from "react-slick";
+
+
+//Components
+import ChallengeView from "../components/challenge";
+import Submission from '../components/submission-preview'
+
+//Styling
+import styles from '../styles/index.module.css'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const vanishValue = 200
 
@@ -53,7 +56,7 @@ function RightSideOther(props) {
         <img className={styles.inlineLanguageIcon} src="icons/python.svg" />
         <text className={styles.rightHeaderText}>{props.data.title}</text>
       </div>
-      <ChallengeView data={props.data} />
+      <ChallengeView data={props.data}/>
     </>
   )
 }
@@ -168,7 +171,8 @@ function HomeChallenges(props) {
     <>
       <div className={styles.rightHeader}>
         <text className={styles.rightHeaderText}>My Challenges</text>
-        <button className={styles.rightHeaderButton}><span className="material-icons">add</span> Join Challenge</button>
+        <button onClick={() => { Router.push(`/challenges/overview`);}} className={styles.rightHeaderButton}>
+          <span className="material-icons">add</span> Join Challenge</button>
       </div>
 
       <div>

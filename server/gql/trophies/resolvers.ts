@@ -2,7 +2,7 @@ import {Trophies} from '../../db/schemas'
 
 export default {
     Query: {
-        findAllChallenges() {
+        findAllTrophies() {
             return Trophies.find({}).then(data => data)
         }
     }

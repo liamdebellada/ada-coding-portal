@@ -3,6 +3,7 @@ import {Profiles} from '../../db/schemas'
 export default {
     Query: {
         findAllProfiles() {
+            console.log("woop");
             return Profiles.find({}).then(data => data);
         },
         findProfileByID(_: any, {id}: any) {

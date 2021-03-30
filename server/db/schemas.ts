@@ -1,30 +1,20 @@
 import { Document, Model, model, Types, Schema, Query } from "mongoose"
 
 export interface Ichallenges extends Document {
-    icon: string,
+    id: Types.ObjectId,
     title: string,
-    description: string,
-    difficulty: number,
     due: Date,
     teacher: string,
     languages: Array<Types.ObjectId>
 }
 
 const challengesSchema: Schema = new Schema({
-    icon: {
-        type: String,
+    id: {
+        type: Types.ObjectId,
         required: true
     },
     title: {
         type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    difficulty: {
-        type: Number,
         required: true
     },
     due: {
@@ -32,7 +22,7 @@ const challengesSchema: Schema = new Schema({
         required: true
     },
     teacher: {
-        type: String,
+        type: Types.ObjectId,
         required: true
     },
     languages: {

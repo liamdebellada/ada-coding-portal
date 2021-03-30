@@ -59,7 +59,7 @@
 
 
 .dot-1 {
-    animation: rotateClockwise 20s linear infinite;
+    animation: rotateClockwiseOut 6s linear infinite;
 }
 
 .dot-2 {
@@ -67,11 +67,21 @@
 }
 
 .dot-3 {
-    animation: rotateCounterClockwise 24s linear infinite;
+    animation: rotateCounterClockwiseIn 6s linear infinite;
 }
 
 .dot-4 {
-    animation: rotateClockwise 24s linear infinite;
+    animation: rotateClockwise 20s linear infinite;
+}
+
+@keyframes rotateClockwiseOut {
+    0%{
+        transform: rotate(-160deg);
+    }
+    100% {
+        transform: rotate(360deg);
+        transform: rotate(200deg);
+   }
 }
 
 @keyframes rotateClockwise {
@@ -79,8 +89,19 @@
         transform: rotate(360deg);
    }
 }
+
 @keyframes rotateCounterClockwise {
     100% {
         transform: rotate(-360deg);
+   }
+}
+
+@keyframes rotateCounterClockwiseIn {
+    0%{
+        transform: rotate(-60deg);
+    }
+    100% {
+        transform: rotate(360deg);
+        transform: rotate(300deg);
    }
 }
