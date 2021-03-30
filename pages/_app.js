@@ -36,11 +36,10 @@ export default class MyApp extends App {
         <Layout>
           <NavBar globalProps={this.props.props} {...pageProps}/>
           <AnimatePresence key={router.route}>
-            <motion.div exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
+            <motion.div className="contentParent" exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
               <Component {...pageProps} key={router.route} globalProps={this.props.props}/>
-            </motion.div>        
+            </motion.div>
           </AnimatePresence>
-            
         </Layout>
       ) 
   }

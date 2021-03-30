@@ -5,13 +5,13 @@ export default class layout extends React.Component {
     render() {
         const {children} = this.props
         return (
-            <div>
+            <div className="overallParent">
                 <Head>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
                     <title>{children[0].props.title}</title>
                 </Head>
                 <div>{children[0]}</div>
-                <div>{children[1]}</div>
+                <div className="contentParent">{children[1]}</div>
             </div>
         )
     }

@@ -56,7 +56,7 @@ function navbar(props) {
                     </div>
                 </div>
                 <div className={styles.rightNav}>
-                    <div className={`${styles.rightNavContainer}`}>
+                    <div onClick={() => Router.push(`/profiles/${props.globalProps.session.name.replace(" ", "_")}`)} className={`${styles.rightNavContainer}`}>
                         <img className={styles.navProfilePic} src={props.globalProps.session.picture} />
                         <text className={styles.navUserNameText}>{props.globalProps.session.name}</text>
                     </div>

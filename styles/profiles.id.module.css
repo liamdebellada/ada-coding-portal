@@ -1,0 +1,111 @@
+.bodyContainer {
+    background-image: url("/bubbleBack_new.svg");
+    background-repeat: no-repeat;
+    background-position-x: -2rem;
+    background-position-y: bottom;
+    background-size: 60rem 60rem;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profileContainer {
+    color: white;
+    margin-top: 5rem;
+    width: 60rem;
+    min-width: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profilePic {
+    border-radius: 50%;
+    border: 2px solid white;
+    height: 7.5rem;
+    width: 7.5rem;
+}
+
+.profileInfoContainer {
+    text-align: center;
+}
+
+.nameText {
+    font-weight: 400;
+}
+
+.bioText {
+    color: #BFBFBF;
+}
+
+.basicStatsGrid {
+    display: flex;
+    margin-top: 0.5rem;
+    justify-content: space-evenly;
+    width: 18rem;
+}
+
+.statValueText {
+    font-weight: 500;
+}
+
+.statLabelText {
+    font-size: 0.8rem;
+    color: #BFBFBF;
+}
+
+.iStat {
+    max-width: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.profileChallenge {
+    margin-top: 3rem;
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.minifiedChallenge {
+    height: 12rem;
+    width: 12rem;
+    background-color: #302B45;
+    border-radius: 1.6rem;
+    padding: 1rem;
+}
+
+.challengeIcon {
+    height: 2rem;
+}
+
+.challengeHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.challengeProgressText {
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+
+.challengeTitle {
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    max-height: 2rem;
+    text-overflow: ellipsis;
+}
+
+.statsContainer {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    width: 70%;
+    min-height: 25rem;
+    background: #302B45;
+    border-radius: 1.6rem;
+}

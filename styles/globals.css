@@ -92,5 +92,18 @@ a {
   user-select: none; 
 }
 
+.overallParent {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.contentParent {
+    min-height: 100%;
+    height: fit-content;
+}
+
 .material-icons.md-light { color: rgba(255, 255, 255, 1); }
 .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
