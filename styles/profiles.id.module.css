@@ -72,11 +72,16 @@
 }
 
 .minifiedChallenge {
+    transition: 0.2s ease-in-out;
     height: 12rem;
     width: 12rem;
     background-color: #302B45;
     border-radius: 1.6rem;
     padding: 1rem;
+}
+
+.minifiedChallenge:hover {
+    background-color: #302b45a3;
 }
 
 .challengeIcon {
@@ -108,4 +113,5 @@
     min-height: 25rem;
     background: #302B45;
     border-radius: 1.6rem;
+    padding: 1rem;
 }

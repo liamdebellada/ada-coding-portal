@@ -1,0 +1,25 @@
+.chartContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2b273e;
+    width: auto;
+    width: 100%;
+    min-height: 12rem;
+    height: fit-content;
+    border-radius: 1.6rem;
+    padding: 1rem;
+}
+
+.topSection {
+    display: flex;
+    gap: 1rem;
+}
+
+.parent {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+    width: 100%;
+}

@@ -1,4 +1,5 @@
 import styles from '../../styles/profiles.id.module.css'
+import StatsView from '../../components/profile-stats'
 
 
 const stats = [
@@ -53,16 +54,16 @@ export default function profileView(props) {
                     </p>
                 </div>
                 <div className={styles.basicStatsGrid}>
-                    {stats.map((stat) => (
-                        <div className={styles.iStat}>
+                    {stats.map((stat, key) => (
+                        <div key={key} className={styles.iStat}>
                             <text className={styles.statValueText}>{stat.value}</text>
                             <text className={styles.statLabelText}>{stat.label}</text>
                         </div>
                     ))}
                 </div>
                 <div className={styles.profileChallenge}>
-                    {challenges.map((challenge) => (
-                        <div className={styles.minifiedChallenge}>
+                    {challenges.map((challenge, key) => (
+                        <div key={key} className={`noselect ${styles.minifiedChallenge}`}>
                             <div className={styles.challengeHeader}>
                                 <img className={styles.challengeIcon} src={challenge.icon}/>
                                 <text className={styles.challengeProgressText}>{`${challenge.completion}%`}</text>
@@ -75,6 +76,7 @@ export default function profileView(props) {
                 </div>
 
                 <div className={styles.statsContainer}>
+                    <StatsView/>
                 </div>
             </div>
         </div>
