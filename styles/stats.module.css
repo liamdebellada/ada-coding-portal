@@ -5,11 +5,34 @@
     background-color: #2b273e;
     width: 100%;
     min-height: 12rem;
+    max-height: 12rem;
     height: fit-content;
     padding: 1px;
     border-radius: 1.6rem;
     position: relative;
     overflow: hidden;
+}
+
+.chartContainerSmall {
+    align-items: flex-start !important;
+    justify-content: start !important;
+    flex-direction: column;
+    padding: 1rem;
+    padding-bottom: 0.1rem;
+    gap: 0.4rem;
+}
+
+.timeStamp {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #342E49;
+    padding: 0.4rem 0.8rem 0.4rem 0.8rem;
+    border-radius: 1.6rem;
+}
+
+.timeStamp text {
+    font-size: 0.8rem !important;
 }
 
 .topSection {
@@ -24,3 +47,18 @@
     height: 100%;
     width: 100%;
 }
+
+.graphArea {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.smallCardHeader {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+

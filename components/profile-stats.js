@@ -2,7 +2,7 @@
 import styles from '../styles/stats.module.css'
 
 //graphs imports
-import {Bar} from 'react-chartjs-2'
+import {Bar, Doughnut} from 'react-chartjs-2'
 import Graph from 'react-graph-network';
 
 //data imports
@@ -30,6 +30,71 @@ const Node = ({node}) => {
                 <circle fill="url(#image)" onClick={() => console.log(node)} stroke="#4D4470" strokeWidth="0.5%" r="10"/>
             </>
         )
+    }
+}
+
+const challengeWeekStucture = {
+    labels: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+    datasets: [
+        {
+            label: 'Submissions',
+            backgroundColor: 'white',
+            data: [
+                10,
+                20,
+                15,
+                30,
+                12
+            ]
+        }
+    ],
+}
+
+const challengeWeekOptions = {
+    legend : {
+        display: false
+    },
+    scales: {
+        yAxes: [{
+            gridLines: {
+                display: false
+            },
+            ticks: {
+                beginAtZero: true,
+                fontSize: 9,
+                fontColor: '#BFBFBF'
+            }
+        }],
+        xAxes: [{
+            gridLines: {
+                display: false
+            },
+            ticks: {
+                fontSize: 9,
+                fontColor: '#BFBFBF'
+            }
+        }]
+    }
+}
+
+const trophyProgressStructure = {
+    labels: ['complete', 'incomplete'],
+    datasets: [
+        {
+            label: 'Challenges completed',
+            data: [45, 55],
+            backgroundColor: [
+                "white",
+                "#4D4470"
+            ],
+            borderWidth: 0
+        }
+    ]
+}
+
+const trophyOptions = {
+    legend: {
+        display: false
     }
 }
 
@@ -112,7 +177,6 @@ export default function stats(props) {
                     let previous = challenges[item]._id
                 }
             }
-            console.log(treeData)
             setTreeDataLoaded(true)
         }
     }, [challenges])
@@ -120,11 +184,35 @@ export default function stats(props) {
     return (
         <div className={styles.parent}>
             <div className={styles.topSection}>
-                <div className={styles.chartContainer}>
-                
+                <div className={`${styles.chartContainer} ${styles.chartContainerSmall}`}>
+                    <div className={styles.timeStamp} style={{marginLeft: 'auto'}}>
+                        <text className="material-icons">date_range</text>
+                        <text>{new Date().toLocaleString().split(',')[0]}</text>
+                    </div>
+                    <div className={styles.graphArea}>
+                        <Bar 
+                            data={challengeWeekStucture}
+                            options={challengeWeekOptions}
+                        />
+                    </div>
                 </div>
-                <div className={styles.chartContainer}>
-
+                <div className={`${styles.chartContainer} ${styles.chartContainerSmall}`}>
+                    <div className={styles.smallCardHeader}>
+                        <div className={styles.timeStamp}>
+                            <text>45 / 100</text>
+                        </div>
+                        <div className={styles.timeStamp}>
+                            <text className="material-icons">date_range</text>
+                            <text>{new Date().toLocaleString().split(',')[0]}</text>
+                        </div>
+                    </div>
+                    <div className={styles.graphArea} style={{padding: '1rem', paddingTop: 0}}>
+                        <Doughnut
+                            data={trophyProgressStructure}
+                            options={trophyOptions}
+                        />
+                    </div>
+                
                 </div>
             </div>
             <div className={styles.bottomSection}>
