@@ -11,7 +11,7 @@ export default class layout extends React.Component {
                     <title>{children[0].props.title}</title>
                 </Head>
                 <div>{children[0]}</div>
-                <div className="contentParent">{children[1]}</div>
+                <div style={{height: '100%'}}>{children[1]}</div>
             </div>
         )
     }

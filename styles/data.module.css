@@ -1,0 +1,38 @@
+.rightSidePanel {
+    height: 100%;
+    width: 23rem;
+    background: #3D3756;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    border-radius: 1.6rem 0 0 1.6rem;
+    transition: 0.2s ease width;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+.panelHeader {
+    margin-top: 2rem;
+    height: fit-content;
+    padding: 1rem;
+}
+
+.panelHeaderText {
+    margin: 0;
+    color: white;
+    font-weight: 500;
+    font-size: 1.6rem;
+}
+
+.lightHeaderText {
+    font-weight: 300;
+}
+
+.widgetContainer {
+    background: #342E49;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 1.6rem;
+}
