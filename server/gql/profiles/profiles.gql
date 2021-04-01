@@ -32,5 +32,7 @@ type notifSettings{
 
 type userChallenges{
     id: ID!,
-    submission: ID!
+    submission: ID!,
+    joined: String!,
+    completed: String
 }

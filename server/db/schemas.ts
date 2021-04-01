@@ -1,11 +1,13 @@
-import { Document, Model, model, Types, Schema, Query } from "mongoose"
+import { Document, Model, model, Types, Schema } from "mongoose"
 
 export interface Ichallenges extends Document {
     id: Types.ObjectId,
     title: string,
     due: Date,
     teacher: string,
-    languages: Array<Types.ObjectId>
+    languages: Array<Types.ObjectId>,
+    teams: Array<Object>,
+    teamSize: Number
 }
 
 const challengesSchema: Schema = new Schema({
@@ -28,6 +30,14 @@ const challengesSchema: Schema = new Schema({
     languages: {
         type: Array,
         required: true
+    },
+    teamSize: {
+        type: Number,
+        required: false
+    },
+    teams: {
+        type: Array,
+        required: false
     }
 })
 
@@ -64,7 +74,7 @@ export interface Iprofiles extends Document {
     admin: boolean,
     settings: Array<Object>,
     userSpaceDirectory: string,
-    challenges: Array<Types.ObjectId>
+    challenges: Array<Object>
 }
 
 const profilesSchema: Schema = new Schema({

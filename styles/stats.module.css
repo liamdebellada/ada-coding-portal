@@ -3,12 +3,13 @@
     justify-content: center;
     align-items: center;
     background-color: #2b273e;
-    width: auto;
     width: 100%;
     min-height: 12rem;
     height: fit-content;
+    padding: 1px;
     border-radius: 1.6rem;
-    padding: 1rem;
+    position: relative;
+    overflow: hidden;
 }
 
 .topSection {
