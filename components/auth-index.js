@@ -1,18 +1,18 @@
 //Packages
 import { motion, AnimatePresence } from "framer-motion";
 import { GraphQLClient, gql } from 'graphql-request'
-import { getSession } from 'next-auth/client'
 import { React, useEffect, useState } from "react";
 import Router from 'next/router';
 import Slider from "react-slick";
 
 
 //Components
-import ChallengeView from "../components/challenge";
+import ChallengeView from '../components/challenge';
 import Submission from '../components/submission-preview'
+import ChallengeCard from '../components/challenge-card';
 
 //Styling
-import styles from '../styles/index.module.css'
+import styles from '../styles/index.module.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -48,7 +48,6 @@ const settings = {
 };
 
 function RightSideOther(props) {
-  console.log("rendering right side")
   return (
     <>
       <div className={`${styles.rightHeader} ${styles.spacedHeader}`}>
@@ -56,131 +55,49 @@ function RightSideOther(props) {
         <img className={styles.inlineLanguageIcon} src="icons/python.svg" />
         <text className={styles.rightHeaderText}>{props.data.title}</text>
       </div>
-      <ChallengeView data={props.data}/>
+      <ChallengeView data={props.data} />
     </>
   )
-}
-
-function TeacherName(props){
-
-  const [teacherName, setTeacherName] = useState([]);
-
-  const getChallengeInfo = gql`
-    query getTeacher($id: String!){
-      findProfileByID(id: $id) {
-        account{
-          name
-        }
-      }
-    }
-  `
-  
-  useEffect(() => {
-    props.client.request(getChallengeInfo, { id: props.id }).then((data) => setTeacherName(Object.values(data.findProfileByID.account.name)));
-  }, []);
-
-
-  return(
-    <div>
-      {teacherName}
-    </div>
-  )
-
-}
-
-function ChallengeComponent(props) {
-  const [challengeInfo, setChallengeInfo] = useState([]);
-  const [formattedTime, setFormattedTime] = useState("");
-
-  const getChallengeInfo = gql`
-    query getChallenge($id: String!){
-      findChallengeByID(id: $id) {
-        title
-        due
-        teacher
-      }
-    }
-  
-  `
-
-  useEffect(() => {
-    props.client.request(getChallengeInfo, { id: props.data.id }).then((data) => {
-      setChallengeInfo(Object.values(data));
-      var date = new Date(parseInt(data.findChallengeByID.due))
-      setFormattedTime(date.toLocaleDateString())
-    });
-  }, []);
-
-  if(challengeInfo[0] != null){
-    return (
-      <>
-        <div key={props.k} onClick={() => props.paginate(1, props.k, challengeInfo[0])} ckey={props.k}
-          func={props.paginate} className={`${styles.iChallenge} ${styles.myChallenge}`}>
-          
-          <div className={styles.cardHeader}>
-            <img className={styles.languageIcon} src="/icons/swift.svg" />
-            <div className={`${styles.dateContainer} ${styles.colouredDate}`}>
-              <span className="material-icons">date_range</span>
-              <text>{formattedTime}</text>
-            </div>
-          </div>
-          <div className={styles.cardBody}>
-            <text className={styles.challengeTitle}>{challengeInfo[0].title}</text>
-            <div className={styles.publisher}>
-              <span className="material-icons">history_edu</span>
-              <TeacherName client={props.client} id={challengeInfo[0].teacher} />
-            </div>
-            <div className={styles.horizontalProfileContainer}>
-              <img className={styles.iProfilePic} src="/profile.svg" />
-              <img className={styles.iProfilePic} src="/profile.svg" />
-            </div>
-          </div>
-        </div>
-      </>
-    )
-  } else{
-    return (
-      <>
-        <div>Loading</div>
-      </>
-    )
-  }
 }
 
 function HomeChallenges(props) {
 
   const gqlClient = new GraphQLClient('http://localhost:5000/graphql',
-    { headers: { authorization: "Bearer " + props.accessToken } })
+    { headers: { authorization: "Bearer " + props.global.session.accessToken } })
 
   const [challengeList, setChallengeList] = useState([]);
 
-  const getChallenges = gql`{
-      findProfileByGoogleID(id: "${String(props.sub)}"){
-          challenges{
-            id
-          }
-       }
-    }
-  `
+  const getUserChallenges = gql`{
+      findProfileByGoogleID(id: "${String(props.global.session.sub)}"){
+           challenges{
+               title
+               due
+               teacher{
+                   account{
+                       name
+                   }
+               }
+           }
+          
+      }
+  }`
 
   useEffect(() => {
-    gqlClient.request(getChallenges).then((data) => setChallengeList(Object.values(data.findProfileByGoogleID.challenges)));
+    gqlClient.request(getUserChallenges).then((data) => setChallengeList(Object.values(data.findProfileByGoogleID.challenges)));
   }, []);
 
   return (
     <>
       <div className={styles.rightHeader}>
         <text className={styles.rightHeaderText}>My Challenges</text>
-        <button onClick={() => { Router.push(`/challenges/overview`);}} className={styles.rightHeaderButton}>
-          <span className="material-icons">add</span> Join Challenge</button>
+        <button onClick={() => { Router.push(`/challenges/overview`); }} className={styles.rightHeaderButton}>
+          <span className={"material-icons"}>add</span><text className={styles.joinText}>Join Challenge</text></button>
       </div>
 
       <div>
-
         <Slider {...settings}>
           {challengeList.map((data, k) => (
-            <ChallengeComponent client={gqlClient} data={data} k={k} paginate={props.paginate} />
-
+            <ChallengeCard data={data} index={k} paginate={props.paginate} />
           ))}
         </Slider>
       </div>
@@ -222,7 +139,7 @@ export default function authIndex(props) {
   const [data, setData] = useState(0);
 
   const paginate = (newDirection, key, data) => {
-    setCurrentChallenge(key)
+    setCurrentChallenge(key);
     setData(data);
 
     if (direction <= 0) {
@@ -237,7 +154,9 @@ export default function authIndex(props) {
 
   return (
     <div className={styles.mainContent}>
-      <div className={styles.leftContent}>
+
+      <div className={`${styles.leftContent}`}>
+
         <div className={styles.leftHeaderContainer}>
           <div className={styles.leftHeaderItem}>
             <span className="material-icons">new_releases</span>
@@ -252,11 +171,14 @@ export default function authIndex(props) {
                 Language
               </div>
         </div>
-        <div className={styles.codePreviews}>
 
-          <Submission ckey={1} func={paginate} />
-          <Submission ckey={6} func={paginate} />
-          <Submission />
+        <div style={{"overflow-y": "scroll"}} className={`${styles.codePreviews} ${styles.scroll}`}>
+        
+            <div className={styles.bottomFade}></div>
+            <Submission ckey={1} func={paginate} />
+            <Submission ckey={6} func={paginate} />
+            <Submission />
+          
         </div>
       </div>
 
@@ -275,25 +197,12 @@ export default function authIndex(props) {
               opacity: { duration: 0.2 }
             }}
           >
-            {direction <= 0 ? <HomeChallenges paginate={paginate} sub={props.globalProps.session.sub} accessToken={props.globalProps.session.accessToken}
-              client={props.globalProps.client} />
-              : <RightSideOther data={currentChallenge, data} func={paginate} />}
+            {direction <= 0 ? <HomeChallenges paginate={paginate} global={props.globalProps}/> 
+                : <RightSideOther data={currentChallenge, data} func={paginate} />}
 
           </motion.div>
         </AnimatePresence>
       </div>
     </div>
   )
-}
-
-// Reference session context (will remove):
-
-export async function getServerSideProps(context) {
-  var s = await getSession(context)
-
-  return {
-    props: {
-      session: s,
-    }
-  }
 }

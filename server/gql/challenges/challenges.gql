@@ -2,6 +2,6 @@ type challenges{
     id: ID!,
     title: String!,
     due: String!,
-    teacher: ID!,
-    languages: [ID]!
+    teacher: [profiles]!,
+    languages: [languages]!
 }

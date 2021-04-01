@@ -27,6 +27,7 @@ const Query = gql`
         findProfileByGoogleID(id: String): profiles,
         findAllProfiles: [profiles],
         findProfileByID(id: String): profiles,
+        teacher(id: String): profiles,
         findAllPosts: [posts],
         findAllSubmissions: [submissions],
         findAllTrophies: [trophies],
