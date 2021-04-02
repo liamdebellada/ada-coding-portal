@@ -22,18 +22,23 @@ export default function settings(props) {
         variableWidth: true,
     };
 
+    console.log(props.globalProps.session.accessToken);
+
     const gqlClient = new GraphQLClient('http://localhost:5000/graphql',
         { headers: { authorization: "Bearer " + props.globalProps.session.accessToken } })
 
     const [challengeInfo, setChallengeInfo] = useState([]);
-    const [formattedTime, setFormattedTime] = useState("");
 
     const getChallengeInfo = gql`
       {
         findAllChallenges{
             title
             due
-            teacher
+            teacher{
+                account{
+                    name
+                }
+            }
         }
       }
     `
@@ -41,19 +46,17 @@ export default function settings(props) {
     useEffect(() => {
         gqlClient.request(getChallengeInfo).then((data) => {
             setChallengeInfo(Object.values(data));
-            console.log(data.findAllChallenges[0].due);
-            var date = new Date(parseInt(data.findAllChallenges.due))
-            setFormattedTime(date.toLocaleDateString())
         });
     }, []);
 
     if (challengeInfo[0] != null) {
+        console.log(challengeInfo[0]);
         return (
             <div className={over.mainBody}>
                 <div className={over.rightHeader}>
                     <text className={styles.rightHeaderText}>Join Challenge</text>
                     <button onClick={() => { Router.push(`/challenges/overview`); }} className={styles.rightHeaderButton}>
-                        <span className="material-icons">add</span> Join Challenge</button>
+                        <span className="material-icons">code</span>Challenge Code</button>
                 </div>
 
                 <div>
@@ -69,7 +72,7 @@ export default function settings(props) {
     } else {
         return (
             <>
-                <div>Loading</div>
+                <div></div>
             </>
         )
     }

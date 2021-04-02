@@ -2,8 +2,15 @@ import ChallengeView from '../components/challenge'
 
 const data = {
     title: "Test",
-    teacher: "Mark Campbell",
-    due: "12/01/2023"
+    due: "12/01/2023",
+    teacher: [
+        {
+            account: {
+                name: "Mark Campbell"
+            }
+        }
+        
+    ]
 }
 
 export default function submission() {
