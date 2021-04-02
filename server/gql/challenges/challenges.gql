@@ -1,7 +1,14 @@
 type challenges{
-    id: ID!,
+    _id: ID!,
     title: String!,
     due: String!,
-    teacher: [profiles]!,
-    languages: [languages]!
+    teacher: ID!,
+    languages: [ID]!,
+    teamSize: Int,
+    teams: [team]
+}
+
+type team {
+    name: String!,
+    members: [ID]!
 }

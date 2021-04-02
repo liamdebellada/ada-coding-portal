@@ -1,7 +1,6 @@
 import styles from '../../styles/profiles.id.module.css'
 import StatsView from '../../components/profile-stats'
 
-
 const stats = [
     {
         value: 10,
@@ -45,7 +44,7 @@ export default function profileView(props) {
             `}</style>
             <div className={styles.profileContainer}>
                 <div className={styles.profilePicContainer}>
-                    <img className={styles.profilePic} src={props.globalProps.session.picture}/>
+                    <img referrerPolicy="no-referrer" className={styles.profilePic} src={props.globalProps.session.picture}/>
                 </div>
                 <div className={styles.profileInfoContainer}>
                     <h1 className={styles.nameText}>{props.globalProps.session.name}</h1>
@@ -76,7 +75,7 @@ export default function profileView(props) {
                 </div>
 
                 <div className={styles.statsContainer}>
-                    <StatsView/>
+                    <StatsView {...props}/>
                 </div>
             </div>
         </div>

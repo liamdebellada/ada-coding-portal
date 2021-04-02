@@ -1,0 +1,145 @@
+.rightSidePanel {
+    height: 100%;
+    width: 23rem;
+    background: #3D3756;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    border-radius: 1.6rem 0 0 1.6rem;
+    transition: 0.2s ease width;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+.panelHeader {
+    margin-top: 2rem;
+    height: fit-content;
+    padding: 1rem;
+}
+
+.panelHeaderText {
+    margin: 0;
+    color: white;
+    font-weight: 500;
+    font-size: 1.6rem;
+}
+
+.lightHeaderText {
+    font-weight: 300;
+}
+
+.widgetContainer {
+    background: #342E49;
+    color: white;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.objectKey {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.objectValue {
+    font-weight: 300;
+}
+
+.sameLineContent {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.searchText {
+    color: #9D9D9D;
+}
+
+.searchBar {
+    height: 2.3rem !important;
+    border: none;
+    margin-top: 0;
+}
+
+.searchResultsContainer {
+    margin-top: 0;
+    height: 100%;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.submissionResults {
+    background: #302B44;
+    padding: 1rem;
+    border-radius: 1.6rem;
+}
+
+.miniProfileContainer {
+    margin: 1rem;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.profilePic {
+    border-radius: 50%;
+    height: 8rem;
+    width: 8rem;
+    border: 2px solid white;
+}
+
+
+.basicStatsGrid {
+    display: flex;
+    margin-top: 0.5rem;
+    justify-content: space-evenly;
+    width: 18rem;
+}
+
+.statValueText {
+    font-weight: 500;
+}
+
+.statLabelText {
+    font-size: 0.8rem;
+    color: #BFBFBF;
+}
+
+.iStat {
+    max-width: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.collabGap {
+    gap: 1rem;
+}
+
+.bottomOptions {
+    margin: 1rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    align-items: flex-end;
+}
+
+.widgetButton {
+    width: 100%;
+    background: #342E49;
+    padding: 0.5rem;
+    border: none;
+    color: white;
+    border-radius: 1.6rem;
+}
