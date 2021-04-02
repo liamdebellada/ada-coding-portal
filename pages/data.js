@@ -2,7 +2,7 @@ import styles from '../styles/data.module.css'
 import Graph from 'react-graph-network';
 import {useState, useEffect} from 'react'
 import axios from 'axios'
-
+import { AnimatePresence, motion } from "framer-motion"
 
 
 export default function dataView(props) {
@@ -215,6 +215,9 @@ export default function dataView(props) {
             </div>
 
             <div style={{width: displayPanel ? '23rem' : 0}} className={styles.rightSidePanel}>
+
+            <AnimatePresence key={panelLayout}>
+            <motion.div style={{height: '100%'}} exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
                 <div className={styles.panelHeader}>
                     <h1 className={styles.panelHeaderText}>{panelData.type}<text className={styles.lightHeaderText}>{` - ${panelData.title}`}</text></h1>
                 </div>
@@ -299,6 +302,8 @@ export default function dataView(props) {
                     :
                         <div>error</div>
                 }
+            </motion.div>
+            </AnimatePresence>
             </div>
         </>
     )
