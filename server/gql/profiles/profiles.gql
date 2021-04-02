@@ -5,7 +5,7 @@ type profiles{
     admin: Boolean!,
     account: account!,
     settings: [settings]!,
-    challenges: [userChallenges]!
+    challenges: [challenges]!
 }
 
 type account{

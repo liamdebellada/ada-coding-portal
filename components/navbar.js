@@ -47,9 +47,9 @@ function navbar(props) {
                         }} />
 
                         <NavItem data={{
-                            name: "Help",
-                            icon: "help_outline",
-                            route: "/submission",
+                            name: "Settings",
+                            icon: "settings",
+                            route: "/settings",
                         }} />
 
 
