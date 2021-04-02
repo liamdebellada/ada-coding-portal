@@ -143,3 +143,9 @@
     color: white;
     border-radius: 1.6rem;
 }
+
+.animatedContainerFix {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
