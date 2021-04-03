@@ -1,9 +1,9 @@
 //Packages
 import Slider from "react-slick";
-import { React, useEffect, useState } from "react";
-import { GraphQLClient, gql } from 'graphql-request';
+import { React } from "react";
+import { useQuery, gql } from '@apollo/client';
 
-// Components
+//Components
 import Challenge from '../../components/challenge-card';
 
 //Styling
@@ -22,13 +22,6 @@ export default function settings(props) {
         variableWidth: true,
     };
 
-    console.log(props.globalProps.session.accessToken);
-
-    const gqlClient = new GraphQLClient('http://localhost:5000/graphql',
-        { headers: { authorization: "Bearer " + props.globalProps.session.accessToken } })
-
-    const [challengeInfo, setChallengeInfo] = useState([]);
-
     const getChallengeInfo = gql`
       {
         findAllChallenges{
@@ -42,16 +35,18 @@ export default function settings(props) {
         }
       }
     `
+    
+    const { loading, error, data } = useQuery(getChallengeInfo);
 
-    useEffect(() => {
-        gqlClient.request(getChallengeInfo).then((data) => {
-            setChallengeInfo(Object.values(data));
-        });
-    }, []);
+    if (loading) {
+        return <></>;
+    }
 
-    if (challengeInfo[0] != null) {
-        console.log(challengeInfo[0]);
-        return (
+    if (error) {
+        console.log(error);
+        return <p>Error</p>;
+    }
+    return (
             <div className={over.mainBody}>
                 <div className={over.rightHeader}>
                     <text className={styles.rightHeaderText}>Join Challenge</text>
@@ -61,19 +56,13 @@ export default function settings(props) {
 
                 <div>
                     <Slider {...settings}>
-                        {challengeInfo[0].map((data, k) => (
-                            <Challenge data={data} index={k} client={gqlClient} />
+                        {Object.values(data)[0].map((data, k) => (
+                            <Challenge data={data} index={k} />
                         ))}
                     </Slider>
                 </div>
 
             </div>
         )
-    } else {
-        return (
-            <>
-                <div></div>
-            </>
-        )
-    }
+    
 }

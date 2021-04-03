@@ -2,7 +2,7 @@ type challenges{
     _id: ID!,
     title: String!,
     due: String!,
-    teacher: ID!,
+    teacher: [profiles]!,
     languages: [ID]!,
     teamSize: Int,
     teams: [team]

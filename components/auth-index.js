@@ -1,15 +1,15 @@
 //Packages
 import { motion, AnimatePresence } from "framer-motion";
-import { GraphQLClient, gql } from 'graphql-request'
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import Router from 'next/router';
 import Slider from "react-slick";
-
+import { useQuery, gql } from '@apollo/client';
 
 //Components
 import ChallengeView from '../components/challenge';
 import Submission from '../components/submission-preview'
 import ChallengeCard from '../components/challenge-card';
+import ClientRender from "../components/client-render";
 
 //Styling
 import styles from '../styles/index.module.css';
@@ -62,13 +62,9 @@ function RightSideOther(props) {
 
 function HomeChallenges(props) {
 
-  const gqlClient = new GraphQLClient('http://localhost:5000/graphql',
-    { headers: { authorization: "Bearer " + props.global.session.accessToken } })
-
-  const [challengeList, setChallengeList] = useState([]);
-
-  const getUserChallenges = gql`{
-      findProfileByGoogleID(id: "${String(props.global.session.sub)}"){
+  const CHALLENGES = gql`
+  {
+     findProfileByGoogleID(id: "${String(props.global.session.sub)}"){
            challenges{
                title
                due
@@ -80,11 +76,19 @@ function HomeChallenges(props) {
            }
           
       }
-  }`
+    }
+  `;
 
-  useEffect(() => {
-    gqlClient.request(getUserChallenges).then((data) => setChallengeList(Object.values(data.findProfileByGoogleID.challenges)));
-  }, []);
+  const { loading, error, data } = useQuery(CHALLENGES);
+
+  if (loading) {
+    return <></>;
+  }
+
+  if (error) {
+    console.log(error);
+    return <p>Error</p>;
+  }
 
   return (
     <>
@@ -96,7 +100,7 @@ function HomeChallenges(props) {
 
       <div>
         <Slider {...settings}>
-          {challengeList.map((data, k) => (
+          {data.findProfileByGoogleID.challenges.map((data, k) => (
             <ChallengeCard data={data} index={k} paginate={props.paginate} />
           ))}
         </Slider>
@@ -197,7 +201,10 @@ export default function authIndex(props) {
               opacity: { duration: 0.2 }
             }}
           >
-            {direction <= 0 ? <HomeChallenges paginate={paginate} global={props.globalProps}/> 
+            {direction <= 0 ? 
+              <ClientRender className={styles.clientRenderer}>
+                <HomeChallenges paginate={paginate} global={props.globalProps}/>
+              </ClientRender> 
                 : <RightSideOther data={currentChallenge, data} func={paginate} />}
 
           </motion.div>

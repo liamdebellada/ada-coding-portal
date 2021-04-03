@@ -23,7 +23,7 @@
     position: relative;
     display: block;
     flex-direction: column;
-    
+
     width: 40%;
     max-width: 458px;
     min-width: 458px;
@@ -68,6 +68,12 @@
     max-width: 700px;
     flex-direction: column;
     position: relative;
+}
+
+.clientRenderer{
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
 }
 
 .leftHeaderContainer {
