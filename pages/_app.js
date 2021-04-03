@@ -3,6 +3,7 @@ import App from 'next/app'
 //Packages
 import { getSession } from 'next-auth/client'
 import { AnimatePresence, motion } from "framer-motion"
+import { ApolloProvider, ApolloClient, InMemoryCache, HttpLink, ApolloLink, concat } from "@apollo/client";
 
 //Styling
 import '../styles/globals.css'
@@ -22,25 +23,50 @@ export default class MyApp extends App {
           ctx.res.end()
       }
 
-      return {
-          props: {
-              session: s
+      return{
+            props: {
+              session: s,
           }
-      }
+        } 
   }
+
 
   render() {
       const { Component, pageProps, router } = this.props
+
+      const authMiddleware = new ApolloLink((operation, forward) => {
+        operation.setContext({
+          headers: {
+            authorization: "Bearer " + this.props.props.session.accessToken || null,
+          }
+        });
+      
+        return forward(operation);
+      })
+
+      const client = new ApolloClient({
+          link: ApolloLink.from([
+            authMiddleware,
+            new HttpLink({
+              uri: 'http://localhost:5000/graphql',
+              credentials: 'same-origin'
+            })
+          ]),
+          cache: new InMemoryCache()
+      });
     
       return (
-        <Layout>
-          <NavBar globalProps={this.props.props} {...pageProps}/>
-          <AnimatePresence key={router.route}>
-            <motion.div style={{height: '100%'}} exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
-              <Component {...pageProps} key={router.route} globalProps={this.props.props}/>
-            </motion.div>
-          </AnimatePresence>
-        </Layout>
+        <ApolloProvider client={client}>
+           <Layout>
+            <NavBar globalProps={this.props.props} {...pageProps}/>
+            <AnimatePresence key={router.route}>
+              <motion.div style={{height: '100%'}} exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
+                <Component {...pageProps} key={router.route} globalProps={this.props.props}/>
+              </motion.div>
+            </AnimatePresence>
+          </Layout>
+        </ApolloProvider>
+       
       ) 
   }
 }
