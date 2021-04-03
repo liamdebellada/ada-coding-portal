@@ -4,7 +4,9 @@ import Editor from '@monaco-editor/react'
 import themeData from '../../../../styles/editortheme.json'
 
 import { io } from "socket.io-client";
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
+
+import Line from '../../../../components/terminal/line'
 
 const placeholdercode = `class Node: #very simple node class
     def __init__(self, data):
@@ -99,6 +101,14 @@ export default function submission(props) {
         monaco.editor.defineTheme("nucleus", themeData)
     }
 
+    const [ terminalSize, setTerminalSize ] = useState(20);
+    const [dragging, setDragging] = useState(false);
+    const [mouseStart, setMouseStart] = useState({ y: 0 });
+
+    const [terminalHistory, setTerminalHistory] = useState([0])
+
+    const terminalWindow = useRef(null);
+    const editorWindow = useRef(null);
 
     useEffect(() => {
         const socket = io('http://localhost:5000', {
@@ -117,6 +127,37 @@ export default function submission(props) {
             console.log(data)
         })
     }, [])
+
+    useEffect(() => {
+        if (terminalHistory.length > 1) {
+
+            var next = document.getElementById((parseInt(terminalHistory[terminalHistory.length-1]) + 1).toString())
+            setTimeout(() => {
+                next.focus()
+            }, 0)
+        }
+    }, [terminalHistory])
+
+    const handleMouseDown = (e) => {
+        setDragging(true)
+        setMouseStart({y: e.clientY });
+    }
+
+    const handleMouseMove = (e) => {
+        if (dragging) {
+            document.body.style.cursor = "grab !important"
+            var computedHeight = editorWindow.current.clientHeight - (e.clientY - editorWindow.current.offsetTop)
+            setTerminalSize(() => computedHeight)
+        }
+    }
+
+    const test = {
+        "test" : "hello world"
+    }
+
+    const RecieveCommand = (command) => {
+        return test[command]
+    }
     
     return (
         <div className={styles.container}>
@@ -131,7 +172,7 @@ export default function submission(props) {
                     <div className={styles.sideTreeMain}>
                     </div>
                 </div>
-                <div className={styles.ideContainer}>
+                <div ref={editorWindow} onMouseUp={() => setDragging(false)} onMouseMove={handleMouseMove} className={styles.ideContainer}>
                     <Editor className={styles.ide}
                     defaultLanguage="python"
                     width="100%"
@@ -139,8 +180,13 @@ export default function submission(props) {
                     theme="nucleus"
                     beforeMount={handleEditorWillMount}
                     />
-                    <div className={styles.terminalContainer}>
-
+                    <div ref={terminalWindow} style={{height:`${terminalSize}px`}} className={styles.terminalContainer}>
+                        <div onMouseDown={handleMouseDown} className={styles.dragBar}/>
+                        <div className={styles.terminalParent}>
+                            {terminalHistory.map((v,k) => (
+                                <Line cmdCallback={RecieveCommand} index={k} update={setTerminalHistory} key={k}/>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
