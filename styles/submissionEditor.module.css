@@ -61,4 +61,13 @@
     padding-left: 0rem;
     padding-bottom: 0rem;
     color: white;
+    position: relative;
+}
+
+.terminalContainer {
+    background: white;
+    height: 2rem;
+    width: 100%;
+    z-index: 0;
+    position: absolute;
 }

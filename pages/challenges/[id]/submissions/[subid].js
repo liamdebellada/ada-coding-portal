@@ -1,8 +1,10 @@
 import {getSession} from 'next-auth/client'
 import styles from '../../../../styles/submissionEditor.module.css'
 import Editor from '@monaco-editor/react'
-import axios from 'axios'
 import themeData from '../../../../styles/editortheme.json'
+
+import { io } from "socket.io-client";
+import { useEffect } from 'react';
 
 const placeholdercode = `class Node: #very simple node class
     def __init__(self, data):
@@ -96,6 +98,25 @@ export default function submission(props) {
     function handleEditorWillMount(monaco) {
         monaco.editor.defineTheme("nucleus", themeData)
     }
+
+
+    useEffect(() => {
+        const socket = io('http://localhost:5000', {
+            extraHeaders: {
+                'Authorization' : `Bearer ${props.globalProps.session.accessToken}`
+            }
+        })
+
+        socket.on("connect_error", (err) => {
+            alert(err.message)
+        });
+
+        socket.emit("setupContainer", {"test" : "test"})
+
+        socket.on("containerInfo", (data) => {
+            console.log(data)
+        })
+    }, [])
     
     return (
         <div className={styles.container}>
@@ -118,6 +139,9 @@ export default function submission(props) {
                     theme="nucleus"
                     beforeMount={handleEditorWillMount}
                     />
+                    <div className={styles.terminalContainer}>
+
+                    </div>
                 </div>
             </div>
         </div>
