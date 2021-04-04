@@ -67,10 +67,8 @@ const io = new Server(http, {
     }
 })
 
-
-
 interface userExtention extends Socket {
-    request: Socket["request"] & {user: any}
+    request: Socket["request"] & {user: any, sshInfo: any}
 }
 
 io.on("connection", (socket: userExtention) => {

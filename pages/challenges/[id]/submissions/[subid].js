@@ -2,11 +2,10 @@ import {getSession} from 'next-auth/client'
 import styles from '../../../../styles/submissionEditor.module.css'
 import Editor from '@monaco-editor/react'
 import themeData from '../../../../styles/editortheme.json'
+import dynamic from 'next/dynamic'
 
 import { io } from "socket.io-client";
 import { useEffect, useState, useRef } from 'react';
-
-import Line from '../../../../components/terminal/line'
 
 const placeholdercode = `class Node: #very simple node class
     def __init__(self, data):
@@ -96,20 +95,45 @@ if __name__ == "__main__":
 
     list.outputNodes()`
 
+const DynamicTerminal = dynamic(async () => {
+    const Terminal = await import('xterm-for-react')
+    return ({ forwardedRef, ...props }) => <Terminal.XTerm ref={forwardedRef} {...props} />;
+
+}, {
+    ssr: false
+})
+
+
 export default function submission(props) {
+    //configure vs-monaco theme
     function handleEditorWillMount(monaco) {
         monaco.editor.defineTheme("nucleus", themeData)
     }
 
+    //states & functions for resizable area
     const [ terminalSize, setTerminalSize ] = useState(20);
     const [dragging, setDragging] = useState(false);
-    const [mouseStart, setMouseStart] = useState({ y: 0 });
+    const [globalSocket, setGlobalSocket] = useState(null)
+    
+    const handleMouseDown = (e) => {
+        setDragging(true)
+    }
 
-    const [terminalHistory, setTerminalHistory] = useState([0])
+    const handleMouseMove = (e) => {
+        if (dragging) {
+            document.body.style.cursor = "grab !important"
+            var computedHeight = editorWindow.current.clientHeight - (e.clientY - editorWindow.current.offsetTop)
+            if (computedHeight >= 20) {
+                setTerminalSize(() => computedHeight)
+            }
+        }
+    }
 
-    const terminalWindow = useRef(null);
+    //refs to editor and xterm 
     const editorWindow = useRef(null);
+    const xtermInstance = useRef()
 
+    //Mount socket connections
     useEffect(() => {
         const socket = io('http://localhost:5000', {
             extraHeaders: {
@@ -117,46 +141,48 @@ export default function submission(props) {
             }
         })
 
+        setGlobalSocket(socket)
+
         socket.on("connect_error", (err) => {
             alert(err.message)
         });
 
-        socket.emit("setupContainer", {"test" : "test"})
+        socket.emit("setupContainer", {})
 
         socket.on("containerInfo", (data) => {
-            console.log(data)
+            //client recieves connection info for container
+            xtermInstance.current.terminal.writeln(`Starting your container:${data.port}`)
+            setTimeout(() => {
+                xtermInstance.current.terminal.setOption('fontSize', 13)
+                socket.emit('connectContainer', {})
+            }, 1000)
         })
+
+        socket.on('commandResponse', (data) => {
+            xtermInstance.current.terminal.write(data)
+        })
+
+        
     }, [])
 
-    useEffect(() => {
-        if (terminalHistory.length > 1) {
-
-            var next = document.getElementById((parseInt(terminalHistory[terminalHistory.length-1]) + 1).toString())
-            setTimeout(() => {
-                next.focus()
-            }, 0)
-        }
-    }, [terminalHistory])
-
-    const handleMouseDown = (e) => {
-        setDragging(true)
-        setMouseStart({y: e.clientY });
+    const [curLine, setCurrentLine] = useState("")
+    const handleTerminalInput = (key) => {
     }
 
-    const handleMouseMove = (e) => {
-        if (dragging) {
-            document.body.style.cursor = "grab !important"
-            var computedHeight = editorWindow.current.clientHeight - (e.clientY - editorWindow.current.offsetTop)
-            setTerminalSize(() => computedHeight)
-        }
-    }
 
-    const test = {
-        "test" : "hello world"
-    }
-
-    const RecieveCommand = (command) => {
-        return test[command]
+    const handleKeyInput = (key) => {
+        globalSocket.emit('interactWithContainer', key.key)
+        // setCurrentLine(curLine => curLine += key.key)
+        // if (key.domEvent.keyCode == 13) {
+        //     console.log("sending:", curLine)
+        //     globalSocket.emit('interactWithContainer', curLine)
+        // } else {
+        //     xtermInstance.current.terminal.write(key.key, () => {
+        //         if (key.domEvent.keyCode == 8) {
+        //             xtermInstance.current.terminal.write('\b \b')
+        //         }
+        //     })
+        // }
     }
     
     return (
@@ -180,13 +206,9 @@ export default function submission(props) {
                     theme="nucleus"
                     beforeMount={handleEditorWillMount}
                     />
-                    <div ref={terminalWindow} style={{height:`${terminalSize}px`}} className={styles.terminalContainer}>
+                    <div style={{height:`${terminalSize}px`}} className={styles.terminalContainer}>
                         <div onMouseDown={handleMouseDown} className={styles.dragBar}/>
-                        <div className={styles.terminalParent}>
-                            {terminalHistory.map((v,k) => (
-                                <Line cmdCallback={RecieveCommand} index={k} update={setTerminalHistory} key={k}/>
-                            ))}
-                        </div>
+                        <DynamicTerminal options={{'theme': { background: '#342E49' }}} forwardedRef={xtermInstance} onKey={handleKeyInput} customKeyEventHandler={handleTerminalInput}/>
                     </div>
                 </div>
             </div>
@@ -195,10 +217,8 @@ export default function submission(props) {
 }
 
 export async function getServerSideProps(context) {
-    var s = await getSession(context)
     return {
         props: {
-            session: s,
             title: "submission"
         }
     }
