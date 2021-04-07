@@ -1,8 +1,9 @@
-import {getSession} from 'next-auth/client'
 import styles from '../../../../styles/submissionEditor.module.css'
 import Editor from '@monaco-editor/react'
 import themeData from '../../../../styles/editortheme.json'
 import dynamic from 'next/dynamic'
+
+
 
 import { io } from "socket.io-client";
 import { useEffect, useState, useRef } from 'react';
@@ -97,18 +98,22 @@ if __name__ == "__main__":
 
 const DynamicTerminal = dynamic(async () => {
     const Terminal = await import('xterm-for-react')
-    return ({ forwardedRef, ...props }) => <Terminal.XTerm ref={forwardedRef} {...props} />;
+    const plugin = await import('xterm-addon-fit')
+    const FitAddon = new plugin.FitAddon()
+    return ({ forwardedRef, ...props }) => <Terminal.XTerm addons={[FitAddon]} ref={forwardedRef} {...props} />;
 
 }, {
     ssr: false
 })
-
 
 export default function submission(props) {
     //configure vs-monaco theme
     function handleEditorWillMount(monaco) {
         monaco.editor.defineTheme("nucleus", themeData)
     }
+
+    //colour states for reactive widgets
+    const [connected, setConnected] = useState(false)
 
     //states & functions for resizable area
     const [ terminalSize, setTerminalSize ] = useState(20);
@@ -118,6 +123,13 @@ export default function submission(props) {
     const handleMouseDown = (e) => {
         setDragging(true)
     }
+
+    useEffect(() => {
+        if (dragging) {
+            xtermInstance.current.terminal._addonManager._addons[0].instance.fit()
+            globalSocket.emit('resizeContainer', {rows: xtermInstance.current.terminal.rows, cols: xtermInstance.current.terminal.cols})
+        }
+    }, [dragging])
 
     const handleMouseMove = (e) => {
         if (dragging) {
@@ -150,40 +162,33 @@ export default function submission(props) {
         socket.emit("setupContainer", {})
 
         socket.on("containerInfo", (data) => {
-            //client recieves connection info for container
-            xtermInstance.current.terminal.writeln(`Starting your container:${data.port}`)
+            xtermInstance.current.terminal.writeln(`Starting your container: ${data.port}`)
+            if (!data.error) {
+                console.log("setting connected")
+                setConnected(true)
+            }
             setTimeout(() => {
-                xtermInstance.current.terminal.setOption('fontSize', 13)
                 socket.emit('connectContainer', {})
+                setTimeout(() => {
+                    //set initial terminal size
+                    xtermInstance.current.terminal._addonManager._addons[0].instance.fit()
+                }, 500)
             }, 1000)
         })
 
         socket.on('commandResponse', (data) => {
             xtermInstance.current.terminal.write(data)
         })
-
-        
     }, [])
 
-    const [curLine, setCurrentLine] = useState("")
-    const handleTerminalInput = (key) => {
+    const requestContainerRestart = () => {
+        globalSocket.emit('regenContainer')
     }
-
 
     const handleKeyInput = (key) => {
         globalSocket.emit('interactWithContainer', key.key)
-        // setCurrentLine(curLine => curLine += key.key)
-        // if (key.domEvent.keyCode == 13) {
-        //     console.log("sending:", curLine)
-        //     globalSocket.emit('interactWithContainer', curLine)
-        // } else {
-        //     xtermInstance.current.terminal.write(key.key, () => {
-        //         if (key.domEvent.keyCode == 8) {
-        //             xtermInstance.current.terminal.write('\b \b')
-        //         }
-        //     })
-        // }
     }
+
     
     return (
         <div className={styles.container}>
@@ -193,6 +198,7 @@ export default function submission(props) {
                         <img className={styles.challengeLanguageImage} src="/python-white.svg"/>
                         <text className={styles.challengeTitle}>Challenge title - Goes here!</text>
                         <div className={styles.underline}/>
+                        <button onClick={() => xtermInstance.current.terminal._addonManager._addons[0].instance.fit()}/>
                     </div>
 
                     <div className={styles.sideTreeMain}>
@@ -208,7 +214,12 @@ export default function submission(props) {
                     />
                     <div style={{height:`${terminalSize}px`}} className={styles.terminalContainer}>
                         <div onMouseDown={handleMouseDown} className={styles.dragBar}/>
-                        <DynamicTerminal options={{'theme': { background: '#342E49' }}} forwardedRef={xtermInstance} onKey={handleKeyInput} customKeyEventHandler={handleTerminalInput}/>
+                        <div className={styles.terminalLegend}>
+                            <span onClick={requestContainerRestart} className="material-icons">restart_alt</span>
+                            <span className="material-icons">dangerous</span>
+                            <div styles={{background: connected ? '#8AB77A' : 'red'}} className={styles.statusCircle}/>
+                        </div>
+                        <DynamicTerminal options={{'cursorBlink': true, 'fontSize' : 13, 'lineHeight' : 1,'theme': { background: '#342E49', width: 100, height: 100 }}} forwardedRef={xtermInstance} onKey={handleKeyInput}/>
                     </div>
                 </div>
             </div>
