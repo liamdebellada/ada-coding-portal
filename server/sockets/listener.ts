@@ -9,7 +9,7 @@ interface containerInfo {
 module.exports = function(socket: any) {
     var conn = new sshClient();
     socket.on('setupContainer', (data: object) => {
-        createContainer(socket.request.user.account.id).then((data: containerInfo) => {
+        createContainer(socket.request.user.account.id, socket.request.user.userSpaceDirectory).then((data: containerInfo) => {
             socket.request.sshInfo = data;
             socket.emit("containerInfo", data)
         }).catch((error: any) => {
@@ -27,7 +27,7 @@ module.exports = function(socket: any) {
                             socket.emit("containerInfo", containerObj)
                         } else {
                             removeContainer(container[0].Id).then((data: any) => {
-                                createContainer(socket.request.user.account.id).then((data: containerInfo) => {
+                                createContainer(socket.request.user.account.id, socket.request.user.userSpaceDirectory).then((data: containerInfo) => {
                                     socket.request.sshInfo = data;
                                     socket.emit("containerInfo", data)
                                 }).catch(() => {
@@ -52,14 +52,22 @@ module.exports = function(socket: any) {
     })
 
     socket.on('connectContainer', (data: any) => {
+        console.log(socket.request.sshInfo)
         conn.on('ready', () => {
-            console.log("connected")
             conn.shell(function(err: Error, stream: any) {
                 if (err)
                     return socket.emit('data', '\r\n*** SSH SHELL ERROR: ' + err.message + ' ***\r\n');
+
+                stream.write('cd challenges\r')
+
+                socket.on('resizeContainer', function(data: any) {
+                    stream.setWindow(data.rows, data.cols)
+                })
+                
                 socket.on('interactWithContainer', function(data: any) {
                     stream.write(data);
                 });
+
                 stream.on('data', function(d: any) {
                     socket.emit('commandResponse', d.toString('binary'));
                 }).on('close', function() {
@@ -74,6 +82,11 @@ module.exports = function(socket: any) {
                 port: socket.request.sshInfo.port,
                 privateKey: require('fs').readFileSync('/home/liamdebell/.ssh/id_rsa')
         })
+    })
+
+
+    socket.on('regenContainer', () => {
+
     })
 
     // socket.request.sshSession.on('ready', () => {
