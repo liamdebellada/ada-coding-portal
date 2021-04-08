@@ -45,9 +45,11 @@ module.exports = function(socket: any) {
 
     socket.on('disconnect', () => {
         findContainerByID(socket.request.user.account.id).then((container: any) => {
-            stopContainer(container[0].Id).then(() => {
-                removeContainer(container[0].Id).catch()
-            }).catch()
+            if (container[0]) {
+                stopContainer(container[0].Id).then(() => {
+                    removeContainer(container[0].Id).catch()
+                }).catch()
+            }
         }).catch()
     })
 
@@ -60,12 +62,15 @@ module.exports = function(socket: any) {
 
                 stream.write('cd challenges\r')
 
+                //handle resize by rows and cols (event fired by height adjustment)
                 socket.on('resizeContainer', function(data: any) {
                     stream.setWindow(data.rows, data.cols)
                 })
                 
                 socket.on('interactWithContainer', function(data: any) {
-                    stream.write(data);
+                    if (stream.writable) {
+                        stream.write(data);
+                    }
                 });
 
                 stream.on('data', function(d: any) {
@@ -75,7 +80,7 @@ module.exports = function(socket: any) {
                 });
             });
         }).on('error', function(err: Error) {
-            console.log(err)
+            return
         }).connect({
                 host: socket.request.sshInfo.address,
                 username: socket.request.sshInfo.user,
@@ -85,8 +90,20 @@ module.exports = function(socket: any) {
     })
 
 
-    socket.on('regenContainer', () => {
-
+    socket.on('stopContainer', () => {
+        findContainerByID(socket.request.user.account.id).then((container: any) => {
+            stopContainer(container[0].Id).then(() => {
+                removeContainer(container[0].Id).then(() => {
+                    socket.emit('containerInfo', {"message" : "Container removed."})
+                }).catch(() => {
+                    socket.emit('containerInfo', {"error" : "There was a problem removing your container."})
+                })
+            }).catch(() => {
+                socket.emit('containerInfo', {"error" : "There was a problem stopping your container."})
+            })
+        }).catch(() => {
+            socket.emit('containerInfo', {"error" : "There are no containers to stop."})
+        })
     })
 
     // socket.request.sshSession.on('ready', () => {

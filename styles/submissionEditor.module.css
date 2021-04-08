@@ -109,3 +109,11 @@
     border-radius: 1rem;
     margin-left: auto;
 }
+
+.terminal {
+    height: 100% !important;
+}
+
+.xterm {
+    height: 100% !important;
+}

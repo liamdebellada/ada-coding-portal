@@ -147,7 +147,7 @@ export default function submission(props) {
 
     //Mount socket connections
     useEffect(() => {
-        const socket = io('http://localhost:5000', {
+        const socket = io('http://192.168.1.116:5000', {
             extraHeaders: {
                 'Authorization' : `Bearer ${props.globalProps.session.accessToken}`
             }
@@ -162,6 +162,7 @@ export default function submission(props) {
         socket.emit("setupContainer", {})
 
         socket.on("containerInfo", (data) => {
+            console.log(data)
             xtermInstance.current.terminal.writeln(`Starting your container: ${data.port}`)
             if (!data.error) {
                 console.log("setting connected")
@@ -185,6 +186,10 @@ export default function submission(props) {
         globalSocket.emit('regenContainer')
     }
 
+    const requestContainerStop = () => {
+        globalSocket.emit('stopContainer')        
+    }
+
     const handleKeyInput = (key) => {
         globalSocket.emit('interactWithContainer', key.key)
     }
@@ -198,7 +203,6 @@ export default function submission(props) {
                         <img className={styles.challengeLanguageImage} src="/python-white.svg"/>
                         <text className={styles.challengeTitle}>Challenge title - Goes here!</text>
                         <div className={styles.underline}/>
-                        <button onClick={() => xtermInstance.current.terminal._addonManager._addons[0].instance.fit()}/>
                     </div>
 
                     <div className={styles.sideTreeMain}>
@@ -216,10 +220,10 @@ export default function submission(props) {
                         <div onMouseDown={handleMouseDown} className={styles.dragBar}/>
                         <div className={styles.terminalLegend}>
                             <span onClick={requestContainerRestart} className="material-icons">restart_alt</span>
-                            <span className="material-icons">dangerous</span>
+                            <span onClick={requestContainerStop} className="material-icons">dangerous</span>
                             <div styles={{background: connected ? '#8AB77A' : 'red'}} className={styles.statusCircle}/>
                         </div>
-                        <DynamicTerminal options={{'cursorBlink': true, 'fontSize' : 13, 'lineHeight' : 1,'theme': { background: '#342E49', width: 100, height: 100 }}} forwardedRef={xtermInstance} onKey={handleKeyInput}/>
+                        <DynamicTerminal options={{'cursorBlink': true, 'fontSize' : 13, 'lineHeight' : 1,'theme': { background: '#342E49', width: 100, height: '100%' }}} forwardedRef={xtermInstance} onKey={handleKeyInput}/>
                     </div>
                 </div>
             </div>
