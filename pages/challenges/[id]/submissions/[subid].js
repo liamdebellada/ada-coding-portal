@@ -147,7 +147,7 @@ export default function submission(props) {
 
     //Mount socket connections
     useEffect(() => {
-        const socket = io('http://192.168.1.116:5000', {
+        const socket = io('http://localhost:5000', {
             extraHeaders: {
                 'Authorization' : `Bearer ${props.globalProps.session.accessToken}`
             }
@@ -163,23 +163,26 @@ export default function submission(props) {
 
         socket.on("containerInfo", (data) => {
             console.log(data)
-            xtermInstance.current.terminal.writeln(`Starting your container: ${data.port}`)
-            if (!data.error) {
-                console.log("setting connected")
+            if (!data.message) {
+                xtermInstance.current.terminal.writeln(`Starting your container: ${data.port}`)
                 setConnected(true)
+            } else {
+                if (data.terminated) {
+                    console.log("terminated.")
+                    setConnected(false)
+                }
+                xtermInstance.current.terminal.writeln(data.message)
             }
+
             setTimeout(() => {
                 socket.emit('connectContainer', {})
-                setTimeout(() => {
-                    //set initial terminal size
-                    xtermInstance.current.terminal._addonManager._addons[0].instance.fit()
-                }, 500)
             }, 1000)
         })
 
         socket.on('commandResponse', (data) => {
             xtermInstance.current.terminal.write(data)
         })
+
     }, [])
 
     const requestContainerRestart = () => {
@@ -219,9 +222,9 @@ export default function submission(props) {
                     <div style={{height:`${terminalSize}px`}} className={styles.terminalContainer}>
                         <div onMouseDown={handleMouseDown} className={styles.dragBar}/>
                         <div className={styles.terminalLegend}>
-                            <span onClick={requestContainerRestart} className="material-icons">restart_alt</span>
-                            <span onClick={requestContainerStop} className="material-icons">dangerous</span>
-                            <div styles={{background: connected ? '#8AB77A' : 'red'}} className={styles.statusCircle}/>
+                            <span onClick={requestContainerRestart} className="material-icons noselect">restart_alt</span>
+                            <span onClick={requestContainerStop} className="material-icons noselect">dangerous</span>
+                            <div style={{background: connected ? '#8AB77A' : '#b95151'}} className={styles.statusCircle}/>
                         </div>
                         <DynamicTerminal options={{'cursorBlink': true, 'fontSize' : 13, 'lineHeight' : 1,'theme': { background: '#342E49', width: 100, height: '100%' }}} forwardedRef={xtermInstance} onKey={handleKeyInput}/>
                     </div>
@@ -231,7 +234,7 @@ export default function submission(props) {
     )
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
     return {
         props: {
             title: "submission"
