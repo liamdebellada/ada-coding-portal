@@ -95,7 +95,7 @@ module.exports = function(socket: any) {
                 });
             });
         }).on('error', function(err: Error) {
-            return
+            return;
         }).connect({
                 host: socket.request.sshInfo.address,
                 username: socket.request.sshInfo.user,
@@ -109,6 +109,30 @@ module.exports = function(socket: any) {
             stopContainer(container[0].Id).then(() => {
                 removeContainer(container[0].Id).then(() => {
                     socket.emit('containerInfo', {"message" : "Container removed."})
+                }).catch(() => {
+                    socket.emit('containerInfo', {"error" : "There was a problem removing your container."})
+                })
+            }).catch(() => {
+                socket.emit('containerInfo', {"error" : "There was a problem stopping your container."})
+            })
+        }).catch(() => {
+            socket.emit('containerInfo', {"error" : "There are no containers to stop."})
+        })
+    })
+
+    socket.on('regenContainer', () => {
+        conn.end(); //end previous ssh session.
+        conn = new sshClient(); //over-write session with new session to prevent redundant connections.
+        findContainerByID(socket.request.user.account.id).then((container: any) => {
+            stopContainer(container[0].Id).then(() => {
+                removeContainer(container[0].Id).then(() => {
+                    var socketOwner = parseUrlOwnership(socket.handshake.headers.referer, socket.request.user)
+                    createContainer(socket.request.user.account.id, socket.request.user.userSpaceDirectory, socketOwner).then((data: containerInfo) => {
+                        socket.request.sshInfo = data;
+                        socket.emit("containerInfo", data)
+                    }).catch(() => {
+                        socket.emit("containerInfo", {"error" : "Unable to create new container"})
+                    })
                 }).catch(() => {
                     socket.emit('containerInfo', {"error" : "There was a problem removing your container."})
                 })
