@@ -4,6 +4,8 @@ import {readFileSync, readdirSync } from 'fs'
 import {ApolloServer, gql} from 'apollo-server-express'
 import {merge} from 'lodash'
 import authHandler from './auth';
+import { Server, Socket } from "socket.io";
+import authSocket from './sockets/auth'
 
 //schema imports
 const allResolvers : {[key: string]: any} = {};
@@ -54,6 +56,35 @@ const server = new ApolloServer({
         return authHandler(req)
     }
 });
-    
+
 server.applyMiddleware({app})
-app.listen(5000, () => console.log("listening..."))
+const http = app.listen(5000, () => console.log("listening..."))
+
+const io = new Server(http, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"]
+    }
+})
+
+interface userExtention extends Socket {
+    request: Socket["request"] & {user: any, sshInfo: any}
+}
+
+io.on("connection", (socket: userExtention) => {
+    require('./sockets/listener')(socket)
+})
+
+io.use((socket: Socket, next) => {
+    if (socket.handshake.headers.authorization) {
+        let token: string = socket.handshake.headers.authorization.split(" ")[1]
+        authSocket(token, next).then((data) => { //called after auth is ran. Data can be our user or undefined.
+            if (data) {
+                (socket as any).request.user = data;
+                next()
+            }
+        })
+    } else {
+        next(new Error("Authorisation missing."))
+    }
+})

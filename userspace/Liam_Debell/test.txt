@@ -1,0 +1,6 @@
+echo hello world
+hello world
+hello from the other side
+hello mumma
+hi
+test

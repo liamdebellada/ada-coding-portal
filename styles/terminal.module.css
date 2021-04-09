@@ -1,0 +1,9 @@
+.terminalInput {
+    width: 100%;
+    resize: none;
+    height: 1rem;
+    margin-left: 0.5rem;}
+
+.terminalRow {
+    display: flex;
+}
