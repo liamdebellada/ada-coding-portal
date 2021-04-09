@@ -7,9 +7,10 @@ var user = "liamdebell";
 
 // Create a new container
 
-exports.createContainer = function (id: string, dir: string) {
+exports.createContainer = function (id: string, dir: string, socketOwner: boolean) {
     const sshKey = fs.readFileSync(`/home/${user}/.ssh/id_rsa.pub`, 'utf-8');
     const port = Math.floor(Math.random() * (65535 - 0) + 0).toString()
+    const rw = socketOwner ? 'Z' : 'ro'
     return new Promise((resolve, reject) => {
         docker.createContainer({
             Image: image,
@@ -23,7 +24,7 @@ exports.createContainer = function (id: string, dir: string) {
                         HostPort: port,
                     }],
                 },
-                Binds: [`${dir}:/root/challenges`]
+                Binds: [`${dir}:/root/challenges:${rw}`]
             },
             Env: [`SSH_KEY=${sshKey}`]
         }, function (error: Error, container: any) {

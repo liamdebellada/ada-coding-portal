@@ -1,15 +1,31 @@
 const { createContainer, findContainerByID, removeContainer, stopContainer } = require('../container-manager/lb')
 const sshClient = require('ssh2').Client 
+
 interface containerInfo {
     user: string,
     port: number,
     address: string
 }
 
+interface challenge {
+    id: string,
+    submission: string
+}
+
+const parseUrlOwnership = (url: string, userProfile: any) => {
+    let values = url.split('/')
+    let id = values[values.length - 1]
+    let challenges = userProfile.challenges.filter((challenge: challenge) => {
+        return challenge.submission == id;
+    })
+    return challenges.length == 1 ? true : false
+}
+
 module.exports = function(socket: any) {
     var conn = new sshClient();
     socket.on('setupContainer', (data: object) => {
-        createContainer(socket.request.user.account.id, socket.request.user.userSpaceDirectory).then((data: containerInfo) => {
+        var socketOwner = parseUrlOwnership(socket.handshake.headers.referer, socket.request.user)
+        createContainer(socket.request.user.account.id, socket.request.user.userSpaceDirectory, socketOwner).then((data: containerInfo) => {
             socket.request.sshInfo = data;
             socket.emit("containerInfo", data)
         }).catch((error: any) => {
@@ -27,7 +43,7 @@ module.exports = function(socket: any) {
                             socket.emit("containerInfo", containerObj)
                         } else {
                             removeContainer(container[0].Id).then((data: any) => {
-                                createContainer(socket.request.user.account.id, socket.request.user.userSpaceDirectory).then((data: containerInfo) => {
+                                createContainer(socket.request.user.account.id, socket.request.user.userSpaceDirectory, socketOwner).then((data: containerInfo) => {
                                     socket.request.sshInfo = data;
                                     socket.emit("containerInfo", data)
                                 }).catch(() => {
@@ -54,7 +70,6 @@ module.exports = function(socket: any) {
     })
 
     socket.on('connectContainer', (data: any) => {
-        console.log(socket.request.sshInfo)
         conn.on('ready', () => {
             conn.shell(function(err: Error, stream: any) {
                 if (err)
@@ -89,7 +104,6 @@ module.exports = function(socket: any) {
         })
     })
 
-
     socket.on('stopContainer', () => {
         findContainerByID(socket.request.user.account.id).then((container: any) => {
             stopContainer(container[0].Id).then(() => {
@@ -105,13 +119,4 @@ module.exports = function(socket: any) {
             socket.emit('containerInfo', {"error" : "There are no containers to stop."})
         })
     })
-
-    // socket.request.sshSession.on('ready', () => {
-    //     socket.emit('containerInfo', {type:"connected"})
-    // }).connect({
-    //     host: socket.request.sshInfo.address,
-    //     username: socket.request.sshInfo.user,
-    //     port: socket.request.sshInfo.port,
-    //     privateKey: require('fs').readFileSync('/home/liamdebell/.ssh/id_rsa')
-    // })
 }
