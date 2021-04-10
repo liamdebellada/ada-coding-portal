@@ -15,9 +15,15 @@ export default function(req: any) {
             .then((data: Iprofiles | null) => {
                 if (data) {
                     if(data.admin == true){
-                        return {admin: true}
+                        return {
+                            user: data,
+                            admin: true
+                        }
                     } else{
-                        return {admin: false}
+                        return {
+                            user: data,
+                            admin: false
+                        }
                     }
                 } else{
                     throw new AuthenticationError('Data not received');
@@ -31,9 +37,12 @@ export default function(req: any) {
                     settings: [],
                     userSpaceDirectory: `${USERSPACE_DIR}/${result.data.name.replace(" ", "_")}`,
                     challenges: []
-                }).then(() => {
+                }).then((data) => {
                     createFolder(USERSPACE_DIR, result.data.name.replace(" ", "_"))
-                    return {admin: false}
+                    return {
+                        user: data,
+                        admin: false
+                    }
                 }).catch(() => {
                     throw new AuthenticationError("Cannot create user!");
                 })

@@ -1,7 +1,6 @@
 type submissions{
     id: ID!,
     challenge: ID!,
-    directory: String!,
     submitted: Boolean!,
     user: ID!
 }

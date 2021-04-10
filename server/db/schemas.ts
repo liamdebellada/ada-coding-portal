@@ -47,7 +47,6 @@ const challengesSchema: Schema = new Schema({
 
 export interface Isubmissions extends Document {
     challenge: Types.ObjectId,
-    directory: string,
     submitted: boolean,
     user: Types.ObjectId
 }
@@ -56,10 +55,6 @@ const submissionsSchema: Schema = new Schema({
     challenge: {
         type: Types.ObjectId,
         required: true
-    },
-    directory: {
-        type: String,
-        required: true,
     },
     submitted: {
         type: Boolean,

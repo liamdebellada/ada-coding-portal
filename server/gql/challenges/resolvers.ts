@@ -1,6 +1,5 @@
-import {Submissions, Challenges} from '../../db/schemas';
+import {Submissions, Challenges, Profiles} from '../../db/schemas';
 import { Types } from 'mongoose'
-import {Profiles} from '../../db/schemas';
 
 export default {
     Query: {
@@ -45,6 +44,29 @@ export default {
             return Challenges.find({languages: Types.ObjectId(id)}).then(data => data)
         }
 
+    },
+
+    Mutation: {
+        /* 
+            Creates new submissions doc.
+            Inserts new object into challenges array for user.
+        */
+        joinChallenge(_: any, {challengeID}: any, {user}: any) {
+            Submissions.create({
+                challenge: Types.ObjectId(challengeID),
+                submitted: false,
+                user: Types.ObjectId(user._id)
+            }).then(data => {
+                Profiles.updateOne({_id: user._id}, { $push: { challenges: {
+                    id: Types.ObjectId(challengeID),
+                    submission: Types.ObjectId(data._id)
+                } } }).catch(() => new Error('Could not subscribe to challenge.'))
+            }).catch(() => {
+                throw new Error("Could not subscribe to challenge.")
+            })
+
+            return "done"
+        }
     },
 
     profiles: {
