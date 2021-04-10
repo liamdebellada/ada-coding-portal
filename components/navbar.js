@@ -3,7 +3,6 @@ import styles from '../styles/navbar.module.css'
 import Router from 'next/router'
 
 function navbar(props) {
-
     const [activePage, setActivePage] = useState("Home")
 
     function NavItem(props) {

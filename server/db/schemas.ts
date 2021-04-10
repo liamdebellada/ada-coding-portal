@@ -19,6 +19,10 @@ const challengesSchema: Schema = new Schema({
         type: String,
         required: true
     },
+    created: {
+        type: Date,
+        required: true
+    },
     due: {
         type: Date,
         required: true

@@ -1,4 +1,5 @@
-import {Challenges} from '../../db/schemas';
+import {Submissions, Challenges} from '../../db/schemas';
+import { Types } from 'mongoose'
 import {Profiles} from '../../db/schemas';
 
 export default {
@@ -19,6 +20,30 @@ export default {
         findChallengeByID(_: any, {id}: any) {
             return Challenges.findOne({_id: id}).then(data => data);
         },
+
+        findPopularChallenges() { //query sumbissions by id and aggregate the challenge ID's by frequency.
+            return Submissions.aggregate([
+                {
+                    $unwind : "$challenge"
+                },
+                {
+                    $sortByCount : "$challenge"
+                },
+                {
+                    $lookup: {
+                        from: "challenges",
+                        localField: "_id",
+                        foreignField: "_id",
+                        as: "challenge"
+                    } 
+                }
+            ]).then(data => {
+                return data
+            })
+        },
+        findChallengesByLanguage(_: any, {id}: any) {
+            return Challenges.find({languages: Types.ObjectId(id)}).then(data => data)
+        }
 
     },
 

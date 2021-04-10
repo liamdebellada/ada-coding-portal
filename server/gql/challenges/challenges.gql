@@ -12,3 +12,9 @@ type team {
     name: String!,
     members: [ID]!
 }
+
+type popularChallenges {
+    _id: ID,
+    count: Int,
+    challenge: [challenges]
+}

@@ -33,7 +33,9 @@ const Query = gql`
         findAllPosts: [posts],
         findAllSubmissions: [submissions],
         findAllTrophies: [trophies],
-        findAllLanguages: [languages]
+        findAllLanguages: [languages],
+        findPopularChallenges: [popularChallenges],
+        findChallengesByLanguage(id: String): [challenges]
     }
 `
 
