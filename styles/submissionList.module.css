@@ -232,3 +232,83 @@ scrollbar-width: none;
     width: 100%;
     max-width: 20rem;
 }
+
+@media only screen and (max-width: 1060px) {
+    .submissionList {
+        grid-row: unset;
+        grid-column: 1;
+    }
+
+    .fillHeight {
+        min-width: 100%;
+        padding: 1rem;
+    }
+}
+
+
+@media only screen and (max-width: 530px) {
+    .slHeader {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .titleContainer {
+        width: 150px;
+    }
+}
+
+
+@media only screen and (max-width: 500px) {
+    .titleContainer {
+        width: 100px;
+    }
+
+    .sectionData {
+        gap: 0.1rem;
+    }
+}
+
+
+@media only screen and (max-width: 890px) {
+    .bRow {
+        grid-row: unset;
+        grid-column: 1;
+    }
+    .badgesMain {
+        overflow-y: scroll;
+    }
+}
+
+
+@media only screen and (max-width: 460px) {
+    .bRow {
+        padding: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+
+@media only screen and (max-width: 420px) {
+    .badgeIconContainer {
+        height: 75px;
+        width: auto;
+    }
+
+    .bBadge {
+        flex-direction: column;
+    }
+
+    .bTitle {
+        text-align: center;
+    }
+
+    .bDescription {
+        text-align: center;
+    }
+
+    .bInfo {
+        width: 100%;
+        align-items: center;
+    }
+}
