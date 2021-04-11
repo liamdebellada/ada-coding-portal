@@ -1,0 +1,19 @@
+.parent {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    color: white;
+}
+
+.tab {
+    transition: 0.15s ease-in-out background;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 1.6rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.selected {
+    background: #3D3756;
+}

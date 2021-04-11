@@ -61,7 +61,6 @@ function RightSideOther(props) {
 }
 
 function HomeChallenges(props) {
-
   const CHALLENGES = gql`
   {
      findProfileByGoogleID(id: "${String(props.global.session.sub)}"){
@@ -88,6 +87,10 @@ function HomeChallenges(props) {
   if (error) {
     console.log(error);
     return <p>Error</p>;
+  }
+
+  if (data) {
+    console.log(data)
   }
 
   return (
@@ -171,7 +174,7 @@ export default function authIndex(props) {
                 Last Month
               </div>
           <div className={styles.leftHeaderItem}>
-            <span className="material-icons">code_off</span>
+            <span className="material-icons">code</span>
                 Language
               </div>
         </div>
