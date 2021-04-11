@@ -85,3 +85,45 @@
     height: 5rem;
     width: 5rem;
 }
+
+
+@media only screen and (max-width: 960px) {
+    .navUserNameText {
+        display: none;
+    }
+}
+@media only screen and (max-width: 830px) {
+    .leftNav {
+        display: none;
+    }
+    .middleNav {
+        width: fit-content;
+    }
+}
+
+
+@media only screen and (max-width: 640px) {
+    .iconText {
+        display: none;
+    }
+
+    .selectedOption .iconText {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .nav {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .middleOptions {
+        gap: 0.5rem;
+    }
+    .navProfilePic {
+        display: none;
+    }
+}

@@ -8,16 +8,16 @@ function navbar(props) {
     function NavItem(props) {
         return (
             <div>
-                <div className={`${styles.middleOption} 
-                ${activePage == props.data.name ? `${styles.selectedOption}` : ""} noselect`}
-
-                    onClick={() => {
-                        Router.push(`${props.data.route}`);
-                        setActivePage(props.data.name);
-                    }}>
+                <div className={`${styles.middleOption} ${activePage == props.data.name ? `${styles.selectedOption}` : ""} noselect`}
+                onClick={() => {
+                    Router.push(`${props.data.route}`);
+                    setActivePage(props.data.name);
+                }}>
 
                     <span className="material-icons">{props.data.icon}</span>
-                    {props.data.name}
+                    <div className={styles.iconText}>
+                        {props.data.name}
+                    </div>
                 </div>
 
             </div>

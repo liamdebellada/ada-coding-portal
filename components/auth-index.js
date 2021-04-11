@@ -89,10 +89,6 @@ function HomeChallenges(props) {
     return <p>Error</p>;
   }
 
-  if (data) {
-    console.log(data)
-  }
-
   return (
     <>
       <div className={styles.rightHeader}>
@@ -146,6 +142,7 @@ export default function authIndex(props) {
   const [data, setData] = useState(0);
 
   const paginate = (newDirection, key, data) => {
+    console.log(newDirection, key, data)
     setCurrentChallenge(key);
     setData(data);
 
