@@ -1,0 +1,138 @@
+.subContainer {
+    background: #342E49;
+    border-radius: 1.6rem;
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    grid-row: 1;
+    overflow-y:hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grid {
+    display: grid;
+    grid-gap: 2rem;
+    grid-auto-columns: 1fr;
+    height: 100%;
+}
+
+.row {
+    grid-row: 1;
+}
+
+.contentMain {
+    margin-top: 1rem;
+    overflow-y: hidden;
+    height:100%;
+}
+
+.spacedHorizontal {
+    display: flex;
+    gap: 1rem;
+}
+
+.searchArea {
+    background: #302B44;
+    border: none;
+    border-radius: 1.6rem;
+    padding: 0.3rem 1rem 0.3rem 1rem;
+    color: white;
+    width: 300px;
+}
+
+.addButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1rem;
+    width: 1rem;
+    background: #302B44;
+    border: none;
+    padding: 1rem;
+    border-radius: 50%;
+    color: white;
+    font-size: 0.6rem;
+}
+
+.editorArea {
+    background: #302B44;
+    border-radius: 1.6rem;
+    padding: 1.5rem;
+    padding-top: 0;
+    overflow: auto;
+    height: 100%;
+}
+
+.vCenterEditor {
+    overflow-y: hidden;
+}
+
+.listItem {
+    background: #302B44;
+    border-radius: 1.6rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    width: auto;
+    min-width: 450px;
+    gap: 1rem;
+}
+
+.listImage {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.listWrapper {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.editorHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: #302B44;
+    padding-top: 1rem;
+}
+
+.editorTitle {
+    font-size: 1.2rem;
+}
+
+.submitButton {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    background: #3D3756;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.scrollableForm {
+    overflow-y: auto;
+    padding-bottom: 1rem;
+}
+
+
+.editorArea::-webkit-scrollbar {
+    display: none;
+}
+  
+.editorArea {
+-ms-overflow-style: none;
+scrollbar-width: none; 
+}

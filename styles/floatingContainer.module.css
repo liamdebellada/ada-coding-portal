@@ -1,0 +1,35 @@
+.parent {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 4rem;
+}
+
+
+.fillHeight {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    max-width: 75vw;
+    min-width: 1017px;
+}
+
+
+.main {
+    background: #3D3756;
+    display: grid;
+    grid-gap: 2rem;
+    flex: 1 1 auto;
+    border-radius: 1.6rem;
+    overflow: hidden;
+    padding: 1.5rem;
+    height: 0;
+}
+
+.header {
+    margin-bottom: 1rem;
+}
