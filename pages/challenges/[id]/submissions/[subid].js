@@ -200,33 +200,35 @@ export default function submission(props) {
     
     return (
         <div className={styles.container}>
-            <div className={styles.centerContainer}>
-                <div className={styles.sideTree}>
-                    <div className={styles.sideTreeHeader}>
-                        <img className={styles.challengeLanguageImage} src="/python-white.svg"/>
-                        <text className={styles.challengeTitle}>Challenge title - Goes here!</text>
-                        <div className={styles.underline}/>
-                    </div>
-
-                    <div className={styles.sideTreeMain}>
-                    </div>
-                </div>
-                <div ref={editorWindow} onMouseUp={() => setDragging(false)} onMouseMove={handleMouseMove} className={styles.ideContainer}>
-                    <Editor className={styles.ide}
-                    defaultLanguage="python"
-                    width="100%"
-                    value={placeholdercode}
-                    theme="nucleus"
-                    beforeMount={handleEditorWillMount}
-                    />
-                    <div style={{height:`${terminalSize}px`}} className={styles.terminalContainer}>
-                        <div onMouseDown={handleMouseDown} className={styles.dragBar}/>
-                        <div className={styles.terminalLegend}>
-                            <span onClick={requestContainerRestart} className="material-icons noselect">restart_alt</span>
-                            <span onClick={requestContainerStop} className="material-icons noselect">dangerous</span>
-                            <div style={{background: connected ? '#8AB77A' : '#b95151'}} className={styles.statusCircle}/>
+            <div className={styles.contentCenterer}>
+                <div className={styles.centerContainer}>
+                    <div className={styles.sideTree}>
+                        <div className={styles.sideTreeHeader}>
+                            <img className={styles.challengeLanguageImage} src="/python-white.svg"/>
+                            <text className={styles.challengeTitle}>Challenge title - Goes here!</text>
+                            <div className={styles.underline}/>
                         </div>
-                        <DynamicTerminal options={{'cursorBlink': true, 'fontSize' : 13, 'lineHeight' : 1,'theme': { background: '#342E49', width: 100, height: '100%' }}} forwardedRef={xtermInstance} onKey={handleKeyInput}/>
+
+                        <div className={styles.sideTreeMain}>
+                        </div>
+                    </div>
+                    <div ref={editorWindow} onMouseUp={() => setDragging(false)} onMouseMove={handleMouseMove} className={styles.ideContainer}>
+                        <Editor className={styles.ide}
+                        defaultLanguage="python"
+                        width="100%"
+                        value={placeholdercode}
+                        theme="nucleus"
+                        beforeMount={handleEditorWillMount}
+                        />
+                        <div style={{height:`${terminalSize}px`}} className={styles.terminalContainer}>
+                            <div onMouseDown={handleMouseDown} className={styles.dragBar}/>
+                            <div className={styles.terminalLegend}>
+                                <span onClick={requestContainerRestart} className="material-icons noselect">restart_alt</span>
+                                <span onClick={requestContainerStop} className="material-icons noselect">dangerous</span>
+                                <div style={{background: connected ? '#8AB77A' : '#b95151'}} className={styles.statusCircle}/>
+                            </div>
+                            <DynamicTerminal options={{'cursorBlink': true, 'fontSize' : 13, 'lineHeight' : 1,'theme': { background: '#342E49', width: 100, height: '100%' }}} forwardedRef={xtermInstance} onKey={handleKeyInput}/>
+                        </div>
                     </div>
                 </div>
             </div>

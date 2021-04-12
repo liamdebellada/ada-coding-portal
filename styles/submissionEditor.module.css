@@ -1,7 +1,15 @@
 .container {
     display: flex;
     justify-content: center;
-    padding: 2.5rem;
+    height: 100%;
+    padding-bottom: 2rem;
+}
+
+.contentCenterer {
+    width: 100%;
+    max-width: 75vw;
+    min-width: 1017px;
+    height: 100%;
 }
 
 .centerContainer {
@@ -9,7 +17,7 @@
     border-radius: 1.6rem;
     max-width: 100%;
     min-width: 90%;
-    height: 43rem;
+    height: 100%;
     display: flex;
     overflow: hidden;
 }
@@ -116,4 +124,11 @@
 
 .xterm {
     height: 100% !important;
+}
+
+
+@media only screen and (max-width: 1060px) {
+    .contentCenterer {
+        min-width: auto;
+    }
 }

@@ -51,6 +51,14 @@ function navbar(props) {
                             route: "/settings",
                         }} />
 
+                        {props.globalProps.session.admin == true && 
+                            <NavItem data={{
+                                name: "Admin",
+                                icon: "shield",
+                                route: "/admin",
+                            }} />
+                        }
+
 
                     </div>
                 </div>

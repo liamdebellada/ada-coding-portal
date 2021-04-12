@@ -311,4 +311,8 @@ scrollbar-width: none;
         width: 100%;
         align-items: center;
     }
+
+    .submissionList {
+        gap: 1rem;
+    }
 }

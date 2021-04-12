@@ -176,7 +176,7 @@ export default function authIndex(props) {
               </div>
         </div>
 
-        <div style={{"overflow-y": "scroll"}} className={`${styles.codePreviews} ${styles.scroll}`}>
+        <div style={{"overflowY": "scroll"}} className={`${styles.codePreviews} ${styles.scroll}`}>
         
             <div className={styles.bottomFade}></div>
             <Submission ckey={1} func={paginate} />

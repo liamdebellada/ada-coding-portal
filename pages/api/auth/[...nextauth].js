@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 import axios from 'axios'
-import { GraphQLClient, gql } from 'graphql-request'
 
 export default NextAuth({
   providers: [
@@ -22,23 +21,30 @@ export default NextAuth({
     async session(session, user) {
       return user
     },
-    async signIn(user, account, profile) {
-
-      const gqlClient = new GraphQLClient('http://localhost:5000/graphql', {
-        headers: {
-          authorization: "Bearer " + account.accessToken,
-        },
+    async signIn(user, account) {
+      const admin = await axios.post('http://localhost:5000/graphql', {
+          query : `
+          {
+              findProfileByGoogleID(id: "${user.id}") {
+                  admin
+              }
+          }
+          `
+      }, {
+          headers : {
+              authorization: `Bearer ${account.accessToken}`
+          }
+      }).then((data) => {
+          return data.data.data.findProfileByGoogleID.admin
+      }).catch((error) => {
+          console.log(error.response.data.errors)
+          return false
       })
 
-      var state = await gqlClient.request(gql`{}`).then((response) => {
-          console.log(response);
-      }).catch((error) => {
-          return error;
-      }); 
-
+      user.admin = admin
       user.accessToken = account.accessToken
       user.refreshToken = account.refreshToken
-      return state;
+      return true;
     },
     async jwt(token, user) {
       var currentTime = new Date().getTime() //ms
@@ -54,6 +60,7 @@ export default NextAuth({
       if (user) { //only ran on first login
         token.accessToken = user.accessToken
         token.refreshToken = user.refreshToken
+        token.admin = user.admin
         token.expiry = new Date().getTime() + 3600000 //login time + 1h = first refresh time
       }
       return token
