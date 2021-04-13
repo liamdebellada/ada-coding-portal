@@ -7,7 +7,6 @@ const USERSPACE_DIR = '/home/liamdebell/Projects/updated/ada-coding-portal/users
 
 export default function(req: any) {
     let auth = req.get('authorization')
-    console.log(auth)
     if (auth) {
         let gt = auth.split(" ")[1]
         return axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${gt}`)

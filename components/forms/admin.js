@@ -20,6 +20,7 @@ const ChallengesForm = (props) => {
         <Formik
             innerRef={props.forwardedRef}
             initialValues={props.options}
+            enableReinitialize={true}
             onSubmit={(values, { setSubmitting }) => {
                 console.log("submitting")
                 console.log(values)
@@ -53,8 +54,8 @@ const ChallengesForm = (props) => {
                     <FastField name="languages" multiple={true}>
                     {({ field, form, meta }) => {
                         return (
-                            <select size={props.options.languages.length} className={styles.selectInput} {...field} multiple>
-                                {props.options.languages.map((lang) => (
+                            <select className={styles.selectInput} {...field} multiple>
+                                {props.options && props.options.languages && props.options.languages.map((lang) => (
                                     <option key={lang} value={lang}>{lang}</option>
                                 ))}
                             </select>
@@ -69,5 +70,81 @@ const ChallengesForm = (props) => {
     )
 }
 
+const BadgesForm = (props) => {
+    return (
+        <Formik
+            innerRef={props.forwardedRef}
+            initialValues={props.options}
+            enableReinitialize={true}
+            onSubmit={(values, { setSubmitting }) => {
+                console.log("submitting badeges")
+                console.log(values)
+            }}
+        >
+       {({ values, isSubmitting }) => {
+           return (
+                <Form className={styles.formLayout}>
+                    <div className={styles.formItem}>
+                        <label>Name</label>
+                        <Field type="text" name="name" component={StyledInput}/>
+                        <ErrorMessage name="name" component="div" />
+                    </div>
+                    <div className={styles.formItem}>
+                        <label>Description</label>
+                        <Field type="text" name="description" component={StyledTA}/>
+                        <ErrorMessage name="description" component="div" />
+                    </div>
+                    <div className={styles.formItem}>
+                        <label>Icon</label>
+                        <Field type="text" name="icon" component={StyledInput}/>
+                        <ErrorMessage name="icon" component="div" />
+                    </div>
+                    <div className={styles.formItem}>
+                        <label>Rank</label>
+                        <Field type="text" name="rank" component={StyledInput}/>
+                        <ErrorMessage name="rank" component="div" />
+                    </div>
+                </Form>
+           )
+       }}
+       </Formik>
+    )
+}
 
-export { ChallengesForm }
+const LanguagesForm = (props) => {
+    return (
+        <Formik
+            innerRef={props.forwardedRef}
+            initialValues={props.options}
+            enableReinitialize={true}
+            onSubmit={(values, { setSubmitting }) => {
+                console.log("submitting langs")
+                console.log(values)
+            }}
+        >
+       {({ values, isSubmitting }) => {
+           return (
+                <Form className={styles.formLayout}>
+                    <div className={styles.formItem}>
+                        <label>Name</label>
+                        <Field type="text" name="name" component={StyledInput}/>
+                        <ErrorMessage name="name" component="div" />
+                    </div>
+                    <div className={styles.formItem}>
+                        <label>Difficulty</label>
+                        <Field type="text" name="difficulty" component={StyledInput}/>
+                        <ErrorMessage name="difficulty" component="div" />
+                    </div>
+                    <div className={styles.formItem}>
+                        <label>Icon</label>
+                        <Field type="text" name="icon" component={StyledInput}/>
+                        <ErrorMessage name="icon" component="div" />
+                    </div>
+                </Form>
+           )
+       }}
+       </Formik>
+    )
+}
+
+export { ChallengesForm, BadgesForm, LanguagesForm }

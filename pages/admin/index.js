@@ -1,45 +1,173 @@
 //ui
 import FloatingContainer from '../../components/layout/floatingContainer'
 import SwitchTab from '../../components/ui/switchTab'
-import { ChallengesForm } from '../../components/forms/admin'
+import { ChallengesForm, BadgesForm, LanguagesForm } from '../../components/forms/admin'
 
 //react
 import {useState, useRef, useEffect} from 'react'
 
 //gql
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useLazyQuery, gql } from '@apollo/client';
 
 //styling
+import { AnimatePresence, motion } from "framer-motion"
 import styles from '../../styles/adminPanel.module.css'
 
-const ContentComp = () => {
+const ListItem = (props) => {
+    return (
+        <div onClick={() => props.update(props.item)} className={styles.listItem}>
+            <img className={styles.listImage} src="/python-white.svg"/>
+            <div>{props.item.title || props.item.name}</div>
+        </div>
+    )
+}
 
+const ContentComp = (props) => {
+    //query structure for tabbing.
+    const minQuery = [
+        {
+            query : 
+            gql`
+            {
+                findAllChallenges {
+                    _id
+                    title
+                }
+            }
+            `,
+            key: 'findAllChallenges'
+        },
+        {
+            query : 
+            gql`
+            {
+                findAllTrophies {
+                    _id
+                    name
+                }
+            }
+            `,
+            key: 'findAllTrophies'
+        },
+        {
+            query : 
+            gql`
+            {
+                findAllLanguages {
+                    _id
+                    name
+                }
+            }
+            `,
+            key: 'findAllLanguages'
+        }
+    ]
+
+    //query structure for forms
+    const maxQuery = [
+        {
+            query : 
+            gql`
+                query challengeSection ($id: String!) {
+                    findChallengeByID(id: $id) {
+                        _id
+                        title
+                        due
+                        languages
+                        teamSize
+                    }
+                }
+            `,
+            key: 'findChallengeByID'
+        },
+        {
+            query : 
+            gql`
+                query badgeSelection ($id: String!) {
+                    findTrophyByID(id: $id) {
+                        _id
+                        name
+                        icon
+                        description
+                        rank
+                    }
+                }
+            `,
+            key: 'findAllTrophies'
+        },
+        {
+            query : 
+            gql`
+                query languageSelection ($id: String!) {
+                    findLanguageByID(id: $id) {
+                        _id
+                        name
+                        difficulty
+                        icon
+                    }
+                }
+            `,
+            key: 'findAllLanguages'
+        }
+    ]
+
+    //form setup
     const formRef = useRef()
-
-    const UpdateEditorArea = () => {
-        console.log("updating content")
-    }
-
-    const dataForForm = {
-        title: 'Unit 4 - Booking system challenge',
-        description: 'large content',
-        due: '2021-10-04',
-        languages: [
-            'IDvalue1',
-            'IDvalue2'
-        ],
-        teamSize: 1
-    }
+    const [formData, setFormData] = useState({})
     
+    //gql query onload.
+    const {loading, error, data} = useQuery(minQuery[props.dataIndex].query)
+    const [getFormData] = useLazyQuery(maxQuery[props.dataIndex].query, {
+        onCompleted: (data) => {
+            setFormData(data[Object.keys(data)[0]])
+        }
+    })    
+
+    //callback for updating form values
+    const UpdateEditorArea = ({_id}) => {
+        getFormData({ variables: { id: _id } })
+    }
+
+    //Searching functionality
+    const [listItems, setListItems] = useState([])
+    const didMountRef = useRef(false);
+
+    const filterList = (query) => {
+        const inputRegex = RegExp(query.split('').join('.*'))
+        console.log(props.dataIndex)
+        var results = data[minQuery[props.dataIndex].key].filter((key) => {
+            return inputRegex.exec(key.title || key.name)
+        })
+        setListItems(results)
+    }
+
+    useEffect(() => {if (data) setListItems(data[minQuery[props.dataIndex].key])}, [data])
+
+    useEffect(() => {
+        if (didMountRef.current) {
+            filterList(props.searchValue)
+        } else {
+            didMountRef.current = true
+        }
+    }, [props.searchValue])
 
     return (
         <div className={styles.grid}>
-            <div style={{width: 'max-content'}} className={styles.row}>
+            <div style={{width: 'max-content', overflowY: 'scroll'}} className={`${styles.row} ${styles.listRow}`}>
  
-            <div className={styles.listWrapper}>
-                <ListItem update={UpdateEditorArea}/>
-                <ListItem update={UpdateEditorArea}/>
-            </div>
+            <AnimatePresence key={props.dataIndex}>
+            <motion.div className={styles.animatedContainerFix} exit={{opacity: 0}} initial={{opacity: 0}} animate={{opacity: 1}}>
+                <div className={styles.listWrapper}>
+                    {!loading && !error &&
+                    <>
+                        {listItems.map((item, k) => (
+                            <ListItem key={k} update={UpdateEditorArea} item={item}/>
+                        ))}
+                    </>
+                    }
+                </div>
+            </motion.div>
+            </AnimatePresence>
 
             </div>
             <div className={`${styles.vCenterEditor} ${styles.row}`}>
@@ -52,19 +180,18 @@ const ContentComp = () => {
                         <button onClick={() => formRef.current.handleSubmit()} className={`material-icons ${styles.submitButton}`}>save_alt</button>
                     </div>
                     <div className={styles.scrollableForm}>
-                        <ChallengesForm forwardedRef={formRef} options={dataForForm}/>
+                        {props.dataIndex == 0 && 
+                            <ChallengesForm forwardedRef={formRef} options={formData}/>
+                        }
+                        {props.dataIndex == 1 &&
+                            <BadgesForm forwardedRef={formRef} options={formData}/>
+                        }
+                        {props.dataIndex == 2 &&
+                            <LanguagesForm forwardedRef={formRef} options={formData}/>
+                        }
                     </div>
                 </div>
             </div>
-        </div>
-    )
-}
-
-const ListItem = (props) => {
-    return (
-        <div onClick={props.update} className={styles.listItem}>
-            <img className={styles.listImage} src="/python-white.svg"/>
-            <div>{"value"}</div>
         </div>
     )
 }
@@ -108,18 +235,7 @@ export default function adminHome() {
         "Search languages"
     ]
 
-    let query = gql`
-    {
-        findAllChallenges {
-            title
-        }
-    }
-    `
-    const {loading, error, data} = useQuery(query)
-
-    useEffect(() => {
-        console.log(data)
-    }, [data])
+    const [searchText, setSearchText] = useState(null)
 
     return (
         <FloatingContainer switch={setView} switchTabOptions={switchable}>
@@ -127,8 +243,8 @@ export default function adminHome() {
                 view == 0 &&
                 <div className={styles.subContainer}>
                     <div className={styles.header}>
-                        <div className={styles.spacedHorizontal}>
-                            <input placeholder={placeholders[contentView]} className={styles.searchArea}/>
+                        <div className={`${styles.spacedHorizontal} ${styles.widgetContainer}`}>
+                            <input onChange={(v) => setSearchText(v.target.value)} placeholder={placeholders[contentView]} className={styles.searchArea}/>
                             <button className={styles.addButton}><span className="material-icons">add</span></button>
                         </div>
                         <SwitchTab switcher={setContentView} options={contentSwitch}/>
@@ -136,15 +252,15 @@ export default function adminHome() {
                     <div className={styles.contentMain}>
                         {
                             contentView == 0 &&
-                            <ContentComp tabIndex={contentView}/>
+                            <ContentComp searchValue={searchText} dataIndex={contentView}/>
                         }
                         {
                             contentView == 1 &&
-                            <ContentComp tabIndex={contentView}/>
+                            <ContentComp searchValue={searchText} dataIndex={contentView}/>
                         }
                         {
                             contentView == 2 &&
-                            <ContentComp tabIndex={contentView}/>
+                            <ContentComp searchValue={searchText} dataIndex={contentView}/>
                         }
                     </div>
                 </div>

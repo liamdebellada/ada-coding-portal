@@ -43,7 +43,7 @@
     border-radius: 1.6rem;
     padding: 0.3rem 1rem 0.3rem 1rem;
     color: white;
-    width: 300px;
+    width: 100%;
 }
 
 .addButton {
@@ -74,14 +74,21 @@
 }
 
 .listItem {
+    transition: 0.2s ease-in-out background;
     background: #302B44;
     border-radius: 1.6rem;
-    padding: 0.5rem 1rem 0.5rem 1rem;
+    padding: 1rem;
+    height: auto;
     display: flex;
     align-items: center;
     width: auto;
     min-width: 450px;
     gap: 1rem;
+}
+
+.listItem:hover {
+    background: #3D3756;
+    cursor: pointer;
 }
 
 .listImage {
@@ -135,4 +142,17 @@
 .editorArea {
 -ms-overflow-style: none;
 scrollbar-width: none; 
+}
+
+.widgetContainer {
+    width: 450px;
+}
+
+.listRow::-webkit-scrollbar {
+    display: none;
+}
+
+.listRow {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
