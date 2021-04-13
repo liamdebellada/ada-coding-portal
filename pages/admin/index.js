@@ -23,126 +23,112 @@ const ListItem = (props) => {
 }
 
 const ContentComp = (props) => {
-    //query structure for tabbing.
-    const minQuery = [
-        {
-            query : 
-            gql`
-            {
-                findAllChallenges {
-                    _id
-                    title
-                }
-            }
-            `,
-            key: 'findAllChallenges'
-        },
-        {
-            query : 
-            gql`
-            {
-                findAllTrophies {
-                    _id
-                    name
-                }
-            }
-            `,
-            key: 'findAllTrophies'
-        },
-        {
-            query : 
-            gql`
-            {
-                findAllLanguages {
-                    _id
-                    name
-                }
-            }
-            `,
-            key: 'findAllLanguages'
-        }
-    ]
-
-    //query structure for forms
-    const maxQuery = [
-        {
-            query : 
-            gql`
-                query challengeSection ($id: String!) {
-                    findChallengeByID(id: $id) {
-                        _id
-                        title
-                        due
-                        languages
-                        teamSize
-                    }
-                }
-            `,
-            key: 'findChallengeByID'
-        },
-        {
-            query : 
-            gql`
-                query badgeSelection ($id: String!) {
-                    findTrophyByID(id: $id) {
-                        _id
-                        name
-                        icon
-                        description
-                        rank
-                    }
-                }
-            `,
-            key: 'findAllTrophies'
-        },
-        {
-            query : 
-            gql`
-                query languageSelection ($id: String!) {
-                    findLanguageByID(id: $id) {
-                        _id
-                        name
-                        difficulty
-                        icon
-                    }
-                }
-            `,
-            key: 'findAllLanguages'
-        }
-    ]
-
-    //form setup
-    const formRef = useRef()
+    const didMountRef = useRef(false);
+    const formRef = useRef();
     const [formData, setFormData] = useState({})
-    
-    //gql query onload.
-    const {loading, error, data} = useQuery(minQuery[props.dataIndex].query)
-    const [getFormData] = useLazyQuery(maxQuery[props.dataIndex].query, {
-        onCompleted: (data) => {
-            setFormData(data[Object.keys(data)[0]])
-        }
-    })    
 
-    //callback for updating form values
-    const UpdateEditorArea = ({_id}) => {
-        getFormData({ variables: { id: _id } })
+    //Updates
+    const onRequestComplete = (data) => {
+        setFormData(data[Object.keys(data)[0]])
     }
+
+    const UpdateEditorArea = ({_id}) => {
+        switch(props.dataIndex) {
+            case 0:
+                getChallenge({variables: {id: _id}})
+                break;
+            case 1:
+                getBadge({variables: {id: _id}})
+                break;
+            case 2:
+                getLanguage({variables: {id: _id}})
+                break;
+        }
+    }
+
+    //gql content queries
+    const [getChallenge] = useLazyQuery(gql`
+        query challengeSection ($id: String!) {
+            findChallengeByID(id: $id) {
+                _id
+                title
+                due
+                languages
+                teamSize
+            }
+        }
+    `, {onCompleted: onRequestComplete})
+
+    const [getBadge] = useLazyQuery(gql`
+        query badgeSelection ($id: String!) {
+            findTrophyByID(id: $id) {
+                _id
+                name
+                icon
+                description
+                rank
+            }
+        }
+    `, {onCompleted: onRequestComplete})
+
+    const [getLanguage] = useLazyQuery(gql`
+        query languageSelection ($id: String!) {
+            findLanguageByID(id: $id) {
+                _id
+                name
+                difficulty
+                icon
+            }
+        }
+    `, {onCompleted: onRequestComplete})
+
+    //query structure for tabbing.
+    const listQueries = [
+        gql`
+        {
+            findAllChallenges {
+                _id
+                title
+            }
+        }
+        `,
+        gql`
+        {
+            findAllTrophies {
+                _id
+                name
+            }
+        }
+        `,
+        gql`
+        {
+            findAllLanguages {
+                _id
+                name
+            }
+        }
+        `
+    ]
+    const { loading, error, data } = useQuery(listQueries[props.dataIndex])
+
+    //set intial list values
+    useEffect(() => {
+        if (data) {
+            setListItems(data[Object.keys(data)[0]])
+        }
+    }, [data])
 
     //Searching functionality
     const [listItems, setListItems] = useState([])
-    const didMountRef = useRef(false);
-
     const filterList = (query) => {
         const inputRegex = RegExp(query.split('').join('.*'))
-        console.log(props.dataIndex)
-        var results = data[minQuery[props.dataIndex].key].filter((key) => {
+        var results = data[Object.keys(data)[0]].filter((key) => {
             return inputRegex.exec(key.title || key.name)
         })
         setListItems(results)
     }
 
-    useEffect(() => {if (data) setListItems(data[minQuery[props.dataIndex].key])}, [data])
-
+    //handle input
     useEffect(() => {
         if (didMountRef.current) {
             filterList(props.searchValue)
@@ -150,6 +136,7 @@ const ContentComp = (props) => {
             didMountRef.current = true
         }
     }, [props.searchValue])
+
 
     return (
         <div className={styles.grid}>
@@ -175,9 +162,9 @@ const ContentComp = (props) => {
                     <div className={styles.editorHeader}>
                         <div className={styles.spacedHorizontal}>
                             <img src="/python-white.svg"/>
-                            <div className={styles.editorTitle}>{"Quite a long title"}</div>
+                            <div className={styles.editorTitle}>{formData.name || formData.title}</div>
                         </div>
-                        <button onClick={() => formRef.current.handleSubmit()} className={`material-icons ${styles.submitButton}`}>save_alt</button>
+                        <button onClick={() => formRef.current.handleSubmit()} className={`material-icons ${styles.submitButton}`}>file_download</button>
                     </div>
                     <div className={styles.scrollableForm}>
                         {props.dataIndex == 0 && 
@@ -197,57 +184,64 @@ const ContentComp = (props) => {
 }
 
 export default function adminHome() {
+
+    //tab configurations
+    const tabConfig = {
+        layoutTabs: [
+            {
+                text: 'Content',
+                icon: 'library_books'
+            },
+            {
+                text: 'Users',
+                icon: 'person'
+            }
+        ],
+        contentTabs: [
+            {
+                text: 'Challenges',
+                icon: 'library_books'
+            },
+            {
+                text: 'Badge',
+                icon: 'local_police'
+            },
+            {
+                text: 'Languages',
+                icon: 'code'
+            }
+        ],
+        placeholders: [
+            "Search challenges",
+            "Search badges",
+            "Search languages"
+        ]
+    }
     
-    //layout
+    //tab states
     const [view, setView] = useState(0)    
-    const switchable = [
-        {
-            text: 'Content',
-            icon: 'library_books'
-        },
-        {
-            text: 'Users',
-            icon: 'person'
-        }
-    ]
-
-    //content
     const [contentView, setContentView] = useState(0)
-    const contentSwitch = [
-        {
-            text: 'Challenges',
-            icon: 'library_books'
-        },
-        {
-            text: 'Badge',
-            icon: 'local_police'
-        },
-        {
-            text: 'Languages',
-            icon: 'code'
-        }
-    ]
 
-    //switchableValues
-    const placeholders = [
-        "Search challenges",
-        "Search badges",
-        "Search languages"
-    ]
-
+    //search state
     const [searchText, setSearchText] = useState(null)
 
+    /*
+    note: 
+    I am conditionally rendering like this in order to provide more flexibility
+    for adding additional content to specific tabs outside of the
+    content component.
+    */
     return (
-        <FloatingContainer switch={setView} switchTabOptions={switchable}>
+        <FloatingContainer switch={setView} switchTabOptions={tabConfig.layoutTabs}>
             {
                 view == 0 &&
                 <div className={styles.subContainer}>
                     <div className={styles.header}>
                         <div className={`${styles.spacedHorizontal} ${styles.widgetContainer}`}>
-                            <input onChange={(v) => setSearchText(v.target.value)} placeholder={placeholders[contentView]} className={styles.searchArea}/>
+                            <input onChange={(v) => setSearchText(v.target.value)} placeholder={tabConfig.placeholders[contentView]} className={styles.searchArea}/>
                             <button className={styles.addButton}><span className="material-icons">add</span></button>
                         </div>
-                        <SwitchTab switcher={setContentView} options={contentSwitch}/>
+                        <SwitchTab switcher={setContentView} options={tabConfig.contentTabs}/>
                     </div>
                     <div className={styles.contentMain}>
                         {

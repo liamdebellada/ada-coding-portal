@@ -7,7 +7,8 @@ export interface Ichallenges extends Document {
     teacher: string,
     languages: Array<Types.ObjectId>,
     teams: Array<Object>,
-    teamSize: Number
+    teamSize: Number,
+    description: string
 }
 
 const challengesSchema: Schema = new Schema({
@@ -37,11 +38,15 @@ const challengesSchema: Schema = new Schema({
     },
     teamSize: {
         type: Number,
-        required: false
+        required: true
     },
     teams: {
         type: Array,
-        required: false
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
     }
 })
 

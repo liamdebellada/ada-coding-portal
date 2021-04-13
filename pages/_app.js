@@ -48,7 +48,7 @@ export default class MyApp extends App {
           link: ApolloLink.from([
             authMiddleware,
             new HttpLink({
-              uri: 'http://localhost:5000/graphql',
+              uri: 'http://192.168.1.116:5000/graphql',
               credentials: 'same-origin'
             })
           ]),
