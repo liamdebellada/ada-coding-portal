@@ -22,7 +22,6 @@ const ChallengesForm = (props) => {
             initialValues={props.options}
             enableReinitialize={true}
             onSubmit={(values, { setSubmitting }) => {
-                console.log("submitting")
                 console.log(values)
             }}
         >
@@ -41,8 +40,8 @@ const ChallengesForm = (props) => {
                 </div>
                 <div className={styles.formItem}>
                     <label>Due</label>
-                    <Field type="date" name="due" component={StyledInput}/>
-                    <ErrorMessage name="due" component="div" />
+                    <Field type="date" name="formattedDate" component={StyledInput}/>
+                    <ErrorMessage name="formattedDate" component="div" />
                 </div>
                 <div className={styles.formItem}>
                     <label>Team size</label>

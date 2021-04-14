@@ -57,7 +57,9 @@ const ContentComp = (props) => {
                 teamSize
             }
         }
-    `, {onCompleted: onRequestComplete})
+    `, {onCompleted: (data) => {
+        setFormData(Object.assign({formattedDate: new Date(parseInt(data.findChallengeByID.due)).toISOString().split('T')[0]}, data.findChallengeByID))
+    }})
 
     const [getBadge] = useLazyQuery(gql`
         query badgeSelection ($id: String!) {
