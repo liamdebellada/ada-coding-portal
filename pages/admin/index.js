@@ -53,6 +53,7 @@ const ContentComp = (props) => {
                 _id
                 title
                 due
+                description
                 languages
                 teamSize
             }
