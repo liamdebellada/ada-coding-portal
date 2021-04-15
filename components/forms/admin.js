@@ -1,4 +1,8 @@
 import { Formik, Form, Field, ErrorMessage, FastField} from 'formik';
+import * as Yup from 'yup'
+
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css"
 import styles from '../../styles/adminForm.module.css'
 
 const StyledInput = ({ field, form, ...props }) => {
@@ -15,17 +19,26 @@ const StyledTA = ({ field, form, ...props }) => {
     )
 }
 
+const challengeSchema = Yup.object().shape({
+    title: Yup.string().required('Required.'),
+    description: Yup.string().required('Required.'),
+    due: Yup.date().required('Required!'),
+    teamSize: Yup.number().required('Required!'),
+    languages: Yup.array().required('Required!')
+})
+
 const ChallengesForm = (props) => {
     return (
         <Formik
             innerRef={props.forwardedRef}
             initialValues={props.options}
-            enableReinitialize={true}
+            enableReinitialize={true}       
+            validationSchema={challengeSchema}
             onSubmit={(values, { setSubmitting }) => {
                 console.log(values)
             }}
         >
-       {({ values, isSubmitting }) => {
+       {({ values, isSubmitting, setFieldValue }) => {
            return (
             <Form className={styles.formLayout}>
                 <div className={styles.formItem}>
@@ -40,8 +53,14 @@ const ChallengesForm = (props) => {
                 </div>
                 <div className={styles.formItem}>
                     <label>Due</label>
-                    <Field type="date" name="formattedDate" component={StyledInput}/>
-                    <ErrorMessage name="formattedDate" component="div" />
+                    <DatePicker
+                      selected={values.due}
+                      className={`${styles.textInput} ${styles.lengthy}`}
+                      dateFormat="yyyy-MM-dd"
+                      name="due"
+                      onChange={date => setFieldValue('due', date)}
+                    />
+                    <ErrorMessage name="due" component="div" />
                 </div>
                 <div className={styles.formItem}>
                     <label>Team size</label>

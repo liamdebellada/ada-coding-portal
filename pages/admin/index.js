@@ -58,7 +58,9 @@ const ContentComp = (props) => {
             }
         }
     `, {onCompleted: (data) => {
-        setFormData(Object.assign({formattedDate: new Date(parseInt(data.findChallengeByID.due)).toISOString().split('T')[0]}, data.findChallengeByID))
+        var c = JSON.parse(JSON.stringify(data))
+        c.findChallengeByID.due = new Date(parseInt(data.findChallengeByID.due))
+        setFormData(c[Object.keys(c)[0]])
     }})
 
     const [getBadge] = useLazyQuery(gql`
@@ -138,7 +140,6 @@ const ContentComp = (props) => {
             didMountRef.current = true
         }
     }, [props.searchValue])
-
 
     return (
         <div className={styles.grid}>
