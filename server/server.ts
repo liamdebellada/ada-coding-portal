@@ -38,10 +38,13 @@ const Query = gql`
         findChallengesByLanguage(id: String): [challenges],
         findSubmissionsForUser: [submissions],
         findTrophyByID(id: String): trophies,
-        findLanguageByID(id: String): languages
+        findLanguageByID(id: String): languages,
     },
     type Mutation {
-        joinChallenge(challenge: String): String
+        joinChallenge(challenge: String): String,
+        updateChallenge(challengeObject: String): String,
+        updateBadge(badgeObject: String): String,
+        updateLanguage(languageObject: String): String
     }
 `
 

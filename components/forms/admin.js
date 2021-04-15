@@ -5,6 +5,8 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import styles from '../../styles/adminForm.module.css'
 
+import { gql, useMutation } from '@apollo/client';
+
 const StyledInput = ({ field, form, ...props }) => {
     return (
         <input {...field} {...props} className={styles.textInput} />
@@ -28,6 +30,16 @@ const challengeSchema = Yup.object().shape({
 })
 
 const ChallengesForm = (props) => {
+
+    const [updateChallenge, {error, data}] = useMutation(gql`
+
+        mutation updateChallenge(
+            $c: String
+        ) {
+            updateChallenge(challengeObject: $c)
+        }
+    `);
+
     return (
         <Formik
             innerRef={props.forwardedRef}
@@ -35,10 +47,10 @@ const ChallengesForm = (props) => {
             enableReinitialize={true}       
             validationSchema={challengeSchema}
             onSubmit={(values, { setSubmitting }) => {
-                console.log(values)
+                updateChallenge({variables: {c: JSON.stringify(values)}})
             }}
         >
-       {({ values, isSubmitting, setFieldValue }) => {
+       {({ values, setFieldValue }) => {
            return (
             <Form className={styles.formLayout}>
                 <div className={styles.formItem}>
@@ -89,14 +101,20 @@ const ChallengesForm = (props) => {
 }
 
 const BadgesForm = (props) => {
+
+    const [updateBadge, {data}] = useMutation(gql`
+        mutation updateBadge($b: String) {
+            updateBadge(badgeObject: $b)
+        }
+    `)
+
     return (
         <Formik
             innerRef={props.forwardedRef}
             initialValues={props.options}
             enableReinitialize={true}
             onSubmit={(values, { setSubmitting }) => {
-                console.log("submitting badeges")
-                console.log(values)
+                updateBadge({variables: {b: JSON.stringify(values)}})
             }}
         >
        {({ values, isSubmitting }) => {
@@ -130,14 +148,20 @@ const BadgesForm = (props) => {
 }
 
 const LanguagesForm = (props) => {
+
+    const [updateLanguage, {data}] = useMutation(gql`
+        mutation updateLanguage($l: String) {
+            updateLanguage(languageObject: $l)
+        }
+    `)
+
     return (
         <Formik
             innerRef={props.forwardedRef}
             initialValues={props.options}
             enableReinitialize={true}
             onSubmit={(values, { setSubmitting }) => {
-                console.log("submitting langs")
-                console.log(values)
+                updateLanguage({variables: {l: JSON.stringify(values)}})
             }}
         >
        {({ values, isSubmitting }) => {

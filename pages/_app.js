@@ -52,7 +52,17 @@ export default class MyApp extends App {
               credentials: 'same-origin'
             })
           ]),
-          cache: new InMemoryCache()
+          cache: new InMemoryCache(),
+          defaultOptions: {
+            watchQuery: {
+              fetchPolicy: 'no-cache',
+              errorPolicy: 'ignore',
+            },
+            query: {
+              fetchPolicy: 'no-cache',
+              errorPolicy: 'all',
+            }
+          }
       });
     
       return (

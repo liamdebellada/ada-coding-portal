@@ -1,5 +1,6 @@
 import {Submissions, Challenges, Profiles} from '../../db/schemas';
 import { Types } from 'mongoose'
+import { AuthenticationError } from 'apollo-server-errors';
 
 export default {
     Query: {
@@ -66,6 +67,18 @@ export default {
             })
 
             return "done"
+        },
+        updateChallenge(_: any, {challengeObject}: any, {admin}: any) {
+            challengeObject = JSON.parse(challengeObject)
+            if (admin) {
+                return Challenges.updateOne({_id: challengeObject._id}, challengeObject).then((data) => {
+                    return 'done'
+                }).catch(() => {
+                    throw new Error('Failed to create challenge.')
+                })
+            } else {
+                throw new AuthenticationError('Not Authorized.')
+            }
         }
     },
 
