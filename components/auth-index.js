@@ -10,6 +10,7 @@ import ChallengeView from '../components/challenge';
 import Submission from '../components/submission-preview'
 import ChallengeCard from '../components/challenge-card';
 import ClientRender from "../components/client-render";
+import LoadingIndicator from '../components/ui/loadingIndicator'
 
 //Styling
 import styles from '../styles/index.module.css';
@@ -81,7 +82,7 @@ function HomeChallenges(props) {
   const { loading, error, data } = useQuery(CHALLENGES);
 
   if (loading) {
-    return <></>;
+    return <LoadingIndicator/>
   }
 
   if (error) {
@@ -99,7 +100,7 @@ function HomeChallenges(props) {
 
       <div>
         <Slider {...settings}>
-          {data.findProfileByGoogleID.challenges.map((data, k) => (
+          {data && data.findProfileByGoogleID.challenges.map((data, k) => (
             <ChallengeCard data={data} index={k} paginate={props.paginate} />
           ))}
         </Slider>

@@ -1,0 +1,23 @@
+.loading {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+
+.bar {
+    height: 1rem;
+    width: 0.5rem;
+    background: #63598a;
+    animation: modulate 0.7s ease-in infinite;
+}
+
+@keyframes modulate {
+    0% {
+        height: 1rem;
+    }
+    50% {
+        height: 2rem;
+    }
+}
