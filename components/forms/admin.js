@@ -108,11 +108,19 @@ const BadgesForm = (props) => {
         }
     `)
 
+    const badgesSchema = Yup.object().shape({
+        name: Yup.string().required('Required.'),
+        description: Yup.string().required('Required.'),
+        icon: Yup.string().required('Required!'),
+        rank: Yup.number().required('Required!')    
+    })
+
     return (
         <Formik
             innerRef={props.forwardedRef}
             initialValues={props.options}
             enableReinitialize={true}
+            validationSchema={badgesSchema}
             onSubmit={(values, { setSubmitting }) => {
                 updateBadge({variables: {b: JSON.stringify(values)}})
             }}
@@ -155,11 +163,19 @@ const LanguagesForm = (props) => {
         }
     `)
 
+
+    const languagesSchema = Yup.object().shape({
+        name: Yup.string().required('Required.'),
+        difficulty: Yup.number().required('Required.'),
+        icon: Yup.string().required('Required!')
+    })
+
     return (
         <Formik
             innerRef={props.forwardedRef}
             initialValues={props.options}
             enableReinitialize={true}
+            validationSchema={languagesSchema}
             onSubmit={(values, { setSubmitting }) => {
                 updateLanguage({variables: {l: JSON.stringify(values)}})
             }}

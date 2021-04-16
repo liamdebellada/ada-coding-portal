@@ -3,7 +3,7 @@ import App from 'next/app'
 //Packages
 import { getSession } from 'next-auth/client'
 import { AnimatePresence, motion } from "framer-motion"
-import { ApolloProvider, ApolloClient, InMemoryCache, HttpLink, ApolloLink, concat } from "@apollo/client";
+import { ApolloProvider, ApolloClient, InMemoryCache, HttpLink, ApolloLink } from "@apollo/client";
 
 //Styling
 import '../styles/globals.css'

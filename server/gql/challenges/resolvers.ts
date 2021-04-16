@@ -79,6 +79,17 @@ export default {
             } else {
                 throw new AuthenticationError('Not Authorized.')
             }
+        },
+        createChallenge(_:any, {challengeObject}: any, {admin}: any) {
+            if (admin) {
+                Challenges.create(challengeObject).then((challenge) => {
+                    return challenge;
+                }).catch(() => {
+                    throw new Error('Unable to create challenge.')
+                })
+            } else {
+                throw new AuthenticationError('Not Authorized.')
+            }
         }
     },
 

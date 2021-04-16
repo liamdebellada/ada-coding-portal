@@ -86,8 +86,7 @@ function HomeChallenges(props) {
   }
 
   if (error) {
-    console.log(error);
-    return <p>Error</p>;
+    return <LoadingIndicator/>
   }
 
   return (

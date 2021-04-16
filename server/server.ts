@@ -44,7 +44,8 @@ const Query = gql`
         joinChallenge(challenge: String): String,
         updateChallenge(challengeObject: String): String,
         updateBadge(badgeObject: String): String,
-        updateLanguage(languageObject: String): String
+        updateLanguage(languageObject: String): String,
+        createChallenge(challengeObject: String): challenges
     }
 `
 
