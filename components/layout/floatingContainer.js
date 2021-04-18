@@ -11,7 +11,7 @@ export default function adminHome(props) {
                         <SwitchTab switcher={props.switch} options={props.switchTabOptions}/>
                     </div>
                 }
-                <div className={styles.main}>
+                <div style={{padding: props.usePadding ? '1.5rem' : '0'}} className={styles.main}>
                     {props.children}
                 </div>
             </div>

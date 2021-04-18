@@ -3,7 +3,7 @@ import Editor from '@monaco-editor/react'
 import themeData from '../../../../styles/editortheme.json'
 import dynamic from 'next/dynamic'
 
-
+import FloatingContainer from '../../../../components/layout/floatingContainer'
 
 import { io } from "socket.io-client";
 import { useEffect, useState, useRef } from 'react';
@@ -126,8 +126,11 @@ export default function submission(props) {
 
     useEffect(() => {
         if (dragging) {
-            xtermInstance.current.terminal._addonManager._addons[0].instance.fit()
             globalSocket.emit('resizeContainer', {rows: xtermInstance.current.terminal.rows, cols: xtermInstance.current.terminal.cols})
+        } else {
+            if (xtermInstance.current) {
+                xtermInstance.current.terminal._addonManager._addons[0].instance.fit()
+            }
         }
     }, [dragging])
 
@@ -147,7 +150,7 @@ export default function submission(props) {
 
     //Mount socket connections
     useEffect(() => {
-        const socket = io('http://localhost:5000', {
+        const socket = io('http://192.168.1.116:5000', {
             extraHeaders: {
                 'Authorization' : `Bearer ${props.globalProps.session.accessToken}`
             }
@@ -182,7 +185,6 @@ export default function submission(props) {
         socket.on('commandResponse', (data) => {
             xtermInstance.current.terminal.write(data)
         })
-
     }, [])
 
     const requestContainerRestart = () => {
@@ -199,40 +201,38 @@ export default function submission(props) {
 
     
     return (
-        <div className={styles.container}>
-            <div className={styles.contentCenterer}>
-                <div className={styles.centerContainer}>
-                    <div className={styles.sideTree}>
-                        <div className={styles.sideTreeHeader}>
-                            <img className={styles.challengeLanguageImage} src="/python-white.svg"/>
-                            <text className={styles.challengeTitle}>Challenge title - Goes here!</text>
-                            <div className={styles.underline}/>
-                        </div>
-
-                        <div className={styles.sideTreeMain}>
-                        </div>
+        <FloatingContainer>
+            <div className={styles.centerContainer}>
+                <div className={styles.sideTree}>
+                    <div className={styles.sideTreeHeader}>
+                        <img className={styles.challengeLanguageImage} src="/python-white.svg"/>
+                        <text className={styles.challengeTitle}>Challenge title - Goes here!</text>
+                        <div className={styles.underline}/>
                     </div>
-                    <div ref={editorWindow} onMouseUp={() => setDragging(false)} onMouseMove={handleMouseMove} className={styles.ideContainer}>
-                        <Editor className={styles.ide}
-                        defaultLanguage="python"
-                        width="100%"
-                        value={placeholdercode}
-                        theme="nucleus"
-                        beforeMount={handleEditorWillMount}
-                        />
-                        <div style={{height:`${terminalSize}px`}} className={styles.terminalContainer}>
+
+                    <div className={styles.sideTreeMain}>
+                    </div>
+                </div>
+                <div style={{overflow: 'hidden'}} ref={editorWindow} onMouseUp={() => setDragging(false)} onMouseMove={handleMouseMove} className={styles.ideContainer}>
+                    <Editor className={styles.ide}
+                    defaultLanguage="python"
+                    value={placeholdercode}
+                    theme="nucleus"
+                    beforeMount={handleEditorWillMount}
+                    />
+                    <div style={{height:`${terminalSize}px`}} className={styles.terminalContainer}>
                             <div onMouseDown={handleMouseDown} className={styles.dragBar}/>
                             <div className={styles.terminalLegend}>
                                 <span onClick={requestContainerRestart} className="material-icons noselect">restart_alt</span>
                                 <span onClick={requestContainerStop} className="material-icons noselect">dangerous</span>
                                 <div style={{background: connected ? '#8AB77A' : '#b95151'}} className={styles.statusCircle}/>
                             </div>
-                            <DynamicTerminal options={{'cursorBlink': true, 'fontSize' : 13, 'lineHeight' : 1,'theme': { background: '#342E49', width: 100, height: '100%' }}} forwardedRef={xtermInstance} onKey={handleKeyInput}/>
-                        </div>
+                        <DynamicTerminal className={styles.tc} options={{'cursorBlink': true, 'fontSize' : 13, 'lineHeight' : 1,'theme': { background: '#342E49', width: 100, height: '100%' }}} forwardedRef={xtermInstance} onKey={handleKeyInput}/>
                     </div>
                 </div>
             </div>
-        </div>
+        </FloatingContainer>
+ 
     )
 }
 

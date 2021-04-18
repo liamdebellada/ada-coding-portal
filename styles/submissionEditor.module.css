@@ -78,11 +78,14 @@
     z-index: 0;
     position: absolute;
     bottom: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
 }
 
 .dragBar {
     height: 22px;
     background: #3D3756;
+    width:100%;
 }
 
 .terminalParent {
@@ -118,14 +121,9 @@
     margin-left: auto;
 }
 
-.terminal {
-    height: 100% !important;
+.xterm-viewport {
+    overflow-y:hidden;
 }
-
-.xterm {
-    height: 100% !important;
-}
-
 
 @media only screen and (max-width: 1060px) {
     .contentCenterer {

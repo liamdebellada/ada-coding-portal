@@ -3,6 +3,7 @@ import Graph from 'react-graph-network';
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import { AnimatePresence, motion } from "framer-motion"
+import LoadingIndicator from '../components/ui/loadingIndicator'
 
 
 export default function dataView(props) {

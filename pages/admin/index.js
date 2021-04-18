@@ -236,7 +236,7 @@ export default function adminHome() {
     content component.
     */
     return (
-        <FloatingContainer switch={setView} switchTabOptions={tabConfig.layoutTabs}>
+        <FloatingContainer usePadding={true} switch={setView} switchTabOptions={tabConfig.layoutTabs}>
             {
                 view == 0 &&
                 <div className={styles.subContainer}>
