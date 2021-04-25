@@ -2,7 +2,7 @@ const Docker = require('dockerode');
 const fs = require('fs');
 
 var docker = new Docker();
-var image = 'krlmlr/debian-ssh:wheezy';
+var image = 'mmumshad/ubuntu-ssh-enabled';
 var user = "liamdebell";
 
 // Create a new container
@@ -25,8 +25,7 @@ exports.createContainer = function (id: string, dir: string, socketOwner: boolea
                     }],
                 },
                 Binds: [`${dir}:/root/challenges:${rw}`]
-            },
-            Env: [`SSH_KEY=${sshKey}`]
+            }
         }, function (error: Error, container: any) {
             if (error) {
                 reject(error)

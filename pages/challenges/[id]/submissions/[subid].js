@@ -150,7 +150,7 @@ export default function submission(props) {
 
     //Mount socket connections
     useEffect(() => {
-        const socket = io('http://192.168.1.116:5000', {
+        const socket = io('http://minkapp.ddns.net:5000', {
             extraHeaders: {
                 'Authorization' : `Bearer ${props.globalProps.session.accessToken}`
             }

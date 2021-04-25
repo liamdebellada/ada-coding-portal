@@ -100,7 +100,7 @@ module.exports = function(socket: any) {
                 host: socket.request.sshInfo.address,
                 username: socket.request.sshInfo.user,
                 port: socket.request.sshInfo.port,
-                privateKey: require('fs').readFileSync('/home/liamdebell/.ssh/id_rsa')
+                password: 'Passw0rd'
         })
     })
 
