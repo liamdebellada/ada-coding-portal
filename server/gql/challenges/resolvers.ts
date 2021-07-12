@@ -94,16 +94,14 @@ export default {
     },
 
     profiles: {
-
         challenges(parent: any){
             //todo: make this neater:
             var ids = parent.challenges.map(function(i:any) {
-                return i.id;
-              });
+                return i
+            });
 
             return Challenges.find({_id: { $in: ids }}).then(data => data);
         },
-
     },
 
     challenges: {

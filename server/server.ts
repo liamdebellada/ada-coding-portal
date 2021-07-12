@@ -16,7 +16,7 @@ require("fs").readdirSync(require("path").join(__dirname, "/gql"))
 });
 
 //connect to mongoDB
-connect('mongodb://localhost:27017/', {
+connect('mongodb://localhost:27017/nucleus', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log("connected to mongoose"))
@@ -74,7 +74,7 @@ const http = app.listen(5000, () => console.log("listening..."))
 
 const io = new Server(http, {
     cors: {
-        origin: "http://minkapp.ddns.net:3000",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"]
     }
 })

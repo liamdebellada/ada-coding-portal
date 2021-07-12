@@ -93,7 +93,7 @@ function HomeChallenges(props) {
     <>
       <div className={styles.rightHeader}>
         <text className={styles.rightHeaderText}>My Challenges</text>
-        <button onClick={() => { Router.push(`/challenges/overview`); }} className={styles.rightHeaderButton}>
+        <button onClick={() => { Router.push(`/challenges`); }} className={styles.rightHeaderButton}>
           <span className={"material-icons"}>add</span><text className={styles.joinText}>Join Challenge</text></button>
       </div>
 

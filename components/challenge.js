@@ -1,5 +1,6 @@
 import styles from '../styles/challenges.module.css'
 import ReactMarkdown from 'react-markdown';
+import Router from 'next/router'
 
 export default function challenge(props) {
 const md = 
@@ -27,7 +28,7 @@ console.log('It works!')
                 </div>
                 
                 <div className={styles.headerInfo}>
-                    <div className={`${styles.publisher} ${styles.whiteBtn}`}>
+                    <div onClick={() => Router.push('/challenges/1/submissions/1')} className={`${styles.publisher} ${styles.whiteBtn}`}>
                         <span className="material-icons">work</span>
                         Your work
                     </div>
